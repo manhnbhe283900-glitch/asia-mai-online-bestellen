@@ -347,4 +347,95 @@ adminRender=function(){
  '<h3>Startseite · 3 Werbebanner</h3>'+banners.map((x,i)=>'<div class="order"><b>Banner '+(i+1)+'</b>'+['title','subtitle','image'].map(k=>'<label>'+({title:'Überschrift',subtitle:'Untertitel',image:'Bild-URL (https://)'}[k])+'</label><input id="bn'+i+k+'" value="'+safe(x[k]||'')+'">').join('')+'</div>').join('')+'<button onclick="saveBanners()">Banner speichern</button>';
 };
 menuV3();
+</script>
+<style id="asia-v8-style">
+.v8-cat-list{display:grid;gap:9px;margin:16px 0 24px}
+.v8-cat{background:white;border:1px solid #dce7df;border-radius:12px;overflow:hidden}
+.v8-cat-head{display:flex;align-items:center;gap:8px;padding:12px 14px}
+.v8-cat-head .v8-drag{cursor:grab;touch-action:none;color:#6b7f74;border:0;background:#f0f5f1;border-radius:7px;padding:8px;font-size:18px;user-select:none}
+.v8-cat-head .v8-drag:active{cursor:grabbing}
+.v8-cat-head .v8-toggle{flex:1;text-align:left;background:transparent;border:0;color:#183b2b;font-weight:700;padding:7px 2px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.v8-cat-head .v8-count{font-weight:400;color:#718177;font-size:12px}
+.v8-cat-body{padding:0 14px 14px;border-top:1px solid #e7eee9}
+.v8-cat-body[hidden]{display:none}
+.v8-cat-body .order{margin:8px 0}
+.v8-cat-head .v8-controls{display:flex;align-items:center;gap:5px}
+.v8-cat-head .v8-controls button{font-size:12px;padding:6px 9px}
+.v8-cat.v8-dragging{opacity:.45}
+.v8-cat.v8-over{outline:2px solid #13764b;outline-offset:1px}
+.v8-toast{position:fixed;right:22px;bottom:22px;z-index:99999;background:#163d2a;color:white;padding:13px 17px;border-radius:12px;box-shadow:0 12px 35px #0003;max-width:min(90vw,380px);font-weight:600}
+@media(max-width:680px){.v8-cat-head{flex-wrap:wrap}.v8-cat-head .v8-controls{width:100%;justify-content:flex-end}.v8-cat-head .v8-toggle{min-width:70%}}
+</style>
+<script id="asia-v8">
+/* Category accordion and persistent ordering. Native drag/drop plus up/down controls. */
+const v8Expanded=new Set();
+let v8DragIndex=null,v8Pointer=null,v8ToastTimer=null;
+function v8Toast(msg){
+ let el=document.getElementById('v8-toast');
+ if(!el){el=document.createElement('div');el.id='v8-toast';el.className='v8-toast';el.setAttribute('role','status');el.setAttribute('aria-live','polite');document.body.appendChild(el)}
+ el.textContent=msg;el.hidden=false;
+ clearTimeout(v8ToastTimer);v8ToastTimer=setTimeout(()=>{el.hidden=true},3300);
+}
+function v8MoveCategory(from,to){
+ from=Number(from);to=Number(to);
+ if(!Number.isInteger(from)||!Number.isInteger(to)||from===to||from<0||to<0||from>=menuCategories.length||to>=menuCategories.length)return;
+ const [cat]=menuCategories.splice(from,1);menuCategories.splice(to,0,cat);
+ persistMenu();adminRender();v8Toast('Reihenfolge gespeichert – Speisekarte aktualisiert.');
+}
+function v8ToggleCategory(i){
+ const name=menuCategories[i];if(!name)return;
+ if(v8Expanded.has(name))v8Expanded.delete(name);else v8Expanded.add(name);
+ const body=document.getElementById('v8-cat-body-'+i),btn=document.getElementById('v8-cat-toggle-'+i);
+ if(body){body.hidden=!v8Expanded.has(name);btn?.setAttribute('aria-expanded',String(!body.hidden));const arrow=btn?.querySelector('.v8-arrow');if(arrow)arrow.textContent=body.hidden?'▾':'▴'}
+}
+function v8CategoryMarkup(){
+ return '<h3>Kategorien <span class="v8-count">('+menuCategories.length+')</span></h3><p class="muted">Kategorie anklicken, um Artikel zu sehen. Mit ⠿ ziehen oder mit ↑ ↓ sortieren. Die Reihenfolge gilt auch für die Speisekarte.</p><div class="v8-cat-list" id="v8-cat-list">'+menuCategories.map((c,i)=>{
+ const count=dishes.filter(d=>d.cat===c).length,opened=v8Expanded.has(c);
+ return '<div class="v8-cat" data-index="'+i+'" ondragover="v8DragOver(event,'+i+')" ondrop="v8Drop(event,'+i+')" ondragleave="this.classList.remove(\'v8-over\')">'+
+ '<div class="v8-cat-head"><button type="button" class="v8-drag" title="Kategorie ziehen" aria-label="Kategorie verschieben" draggable="true" ondragstart="v8DragStart(event,'+i+')" ondragend="v8DragEnd()" onpointerdown="v8PointerStart(event,'+i+')" onpointerup="v8PointerEnd(event)" onpointercancel="v8Pointer=null">⠿</button>'+
+ '<button type="button" class="v8-toggle" id="v8-cat-toggle-'+i+'" aria-expanded="'+opened+'" onclick="v8ToggleCategory('+i+')"><span>'+safe(c)+' <span class="v8-count">('+count+')</span></span><span class="v8-arrow">'+(opened?'▴':'▾')+'</span></button>'+
+ '<div class="v8-controls"><button type="button" class="secondary compact" title="Nach oben" aria-label="Nach oben" '+(i===0?'disabled':'')+' onclick="v8MoveCategory('+i+','+(i-1)+')">↑</button><button type="button" class="secondary compact" title="Nach unten" aria-label="Nach unten" '+(i===menuCategories.length-1?'disabled':'')+' onclick="v8MoveCategory('+i+','+(i+1)+')">↓</button></div></div>'+
+ '<div class="v8-cat-body" id="v8-cat-body-'+i+'" '+(opened?'':'hidden')+'><div class="row" style="padding-top:12px"><button class="secondary compact" onclick="adminRenameCategory('+i+')">Umbenennen</button><button class="danger compact" onclick="adminRemoveCategory('+i+')">Löschen</button><button class="compact" onclick="adminEditDish(null);document.getElementById(\'ed-cat\').value=menuCategories['+i+']">+ Artikel</button></div>'+
+ (dishes.filter(d=>d.cat===c).map(d=>'<div class="order"><div class="row"><div><b>'+safe(d.name)+'</b><p class="muted">'+(d.options?'Varianten: '+(d.variants||[]).length:money(d.price))+(d.available===false?' · Nicht verfügbar':'')+'</p></div><div class="row"><button class="secondary compact" onclick="adminEditDish('+d.id+')">Bearbeiten</button><button class="danger compact" onclick="adminDeleteDish('+d.id+')">Löschen</button></div></div></div>').join('')||'<p class="muted">Noch keine Artikel in dieser Kategorie.</p>')+'</div></div>';
+ }).join('')+'</div>';
+}
+function v8DragStart(e,i){v8DragIndex=i;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(i));e.currentTarget.closest('.v8-cat')?.classList.add('v8-dragging')}
+function v8DragOver(e,i){if(v8DragIndex===null)return;e.preventDefault();e.dataTransfer.dropEffect='move';document.querySelectorAll('.v8-cat').forEach(x=>x.classList.toggle('v8-over',Number(x.dataset.index)===i))}
+function v8Drop(e,i){e.preventDefault();const from=v8DragIndex;v8DragEnd();if(from!==null)v8MoveCategory(from,i)}
+function v8DragEnd(){v8DragIndex=null;document.querySelectorAll('.v8-cat').forEach(x=>x.classList.remove('v8-over','v8-dragging'))}
+function v8PointerStart(e,i){if(e.pointerType==='mouse')return;v8Pointer={i,x:e.clientX,y:e.clientY};}
+function v8PointerEnd(e){if(!v8Pointer)return;const start=v8Pointer;v8Pointer=null;if(Math.abs(e.clientY-start.y)<18)return;const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.v8-cat');if(target){const to=Number(target.dataset.index);v8MoveCategory(start.i,to)}}
+const v8PrevAdmin=adminRender;
+adminRender=function(){
+ v8PrevAdmin();
+ if(adminTab!=='Speisekarte')return;
+ const b=document.getElementById('adminbody');if(!b)return;
+ const html=b.innerHTML;
+ const start=html.indexOf('<div class="v7-category-group">');
+ const end=html.indexOf('<h3>Startseite');
+ const h=html.indexOf('<h2>Speisekarte');
+ if(start<0||end<0||h<0)return;
+ const intro='<h2>Speisekarte verwalten</h2><p class="muted">Kategorien sortieren und aufklappen, Artikel bearbeiten oder hinzufügen.</p><div class="row"><button onclick="adminAddCategory()">+ Kategorie hinzufügen</button><button onclick="adminEditDish(null)" '+(!menuCategories.length?'disabled':'')+'>+ Neuer Artikel</button></div>';
+ b.innerHTML=intro+v8CategoryMarkup()+html.slice(end);
+};
+const v8OldAddCategory=adminAddCategory;
+adminAddCategory=function(){
+ const old=[...menuCategories];v8OldAddCategory();
+ const added=menuCategories.find(x=>!old.includes(x));if(added){v8Expanded.add(added);v8Toast('Kategorie „'+added+'“ erfolgreich erstellt.')}
+};
+const v8OldSaveDish=adminSaveDish;
+adminSaveDish=function(){
+ const old=editingDish!==null;
+ const name=document.getElementById('ed-name')?.value.trim();
+ const before=dishes.length;
+ v8OldSaveDish();
+ const saved=dishes.find(x=>x.name===name);
+ if(saved&&(!old?dishes.length>before:true)){
+ v8Expanded.add(saved.cat);
+ v8Toast(old?'Artikel erfolgreich gespeichert.':'Artikel „'+saved.name+'“ erfolgreich erstellt.');
+ if(adminTab==='Speisekarte')adminRender();
+ }
+};
+const v8OldRenameCategory=adminRenameCategory;
+adminRenameCategory=function(i){const old=menuCategories[i];v8OldRenameCategory(i);if(old!==menuCategories[i]){v8Expanded.delete(old);v8Expanded.add(menuCategories[i]);v8Toast('Kategorie erfolgreich umbenannt.')}}
 </script></body></html>
