@@ -63,7 +63,7 @@ function beginOrder(which){
  page('menu');const old=orderEntry&&orderEntry.mode===which?orderEntry:{};
  const pickup=which==='Abholung';
  const escapeValue=v=>safe(v||'');
- const html='<div class="order-entry-header"><button class="entry-back" onclick="closeOrderEntry()" aria-label="Zurück">←</button><h2>'+(pickup?'Abholung':'Lieferung')+'</h2><span style="width:38px"></span></div>'+
+ const html='<div class="order-entry-header"><button class="entry-back" onclick="closeOrderEntry();page('shop')" aria-label="Zurück zur Startseite">←</button><h2>'+(pickup?'Abholung':'Lieferung')+'</h2><span style="width:38px"></span></div>'+
  '<form class="entry-body" onsubmit="confirmOrderEntry(event)"><p class="entry-note">'+(pickup?'Wähle deine Abholzeit und hinterlege deine Kontaktdaten.':'Gib deine Lieferadresse ein, bevor du Speisen auswählst.')+'</p>'+
  '<label>Name *</label><input id="entry-name" required autocomplete="name" value="'+escapeValue(old.name)+'" placeholder="Vor- und Nachname">'+
  '<label>Telefonnummer *</label><input id="entry-phone" required type="tel" autocomplete="tel" value="'+escapeValue(old.phone)+'" placeholder="+49 ...">'+
