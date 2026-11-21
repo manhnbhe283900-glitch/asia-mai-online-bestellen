@@ -88,11 +88,11 @@ function confirmOrderEntry(e){
  e.preventDefault();const el=id=>document.getElementById(id)?.value.trim()||'';
  const modeName=document.getElementById('orderEntryOverlay').dataset.mode;
  const name=el('entry-name'),phone=el('entry-phone');
- if(!/^\\+?[0-9\\s()\\/-]{6,}$/.test(phone)){alert('Bitte eine gültige Telefonnummer eingeben.');return}
+ if(!/^(?:\+49|0049|0)[0-9\s()\/-]{6,}$/.test(phone)){alert('Bitte eine gültige Telefonnummer eingeben.');return}
  let info={mode:modeName,name,phone};
  if(modeName==='Lieferung'){
   info.street=el('entry-street');info.plz=el('entry-plz');info.city=el('entry-city');
-  if(!/^\\d{5}$/.test(info.plz)){alert('Bitte eine fünfstellige PLZ eingeben.');return}
+  if(!/^\d{5}$/.test(info.plz)){alert('Bitte eine fünfstellige PLZ eingeben.');return}
  }else{
   info.time=el('entry-pickup')==='custom'?el('entry-pickup-date')+'T'+el('entry-pickup-clock'):'ASAP';
   if(!info.time||info.time!=='ASAP'&&new Date(info.time).getTime()<Date.now()+settings.prep*60000){alert('Bitte eine gültige Abholzeit auswählen.');return}
@@ -186,4 +186,60 @@ menuV3=function(){previousMenuV5();document.querySelectorAll('#foodSections .foo
 const previousAddItemV5=addItem;
 addItem=function(id){const d=dishes.find(x=>x.id===id);if(!d||d.available===false)return alert('Dieser Artikel ist derzeit nicht verfügbar.');previousAddItemV5(id)};
 persistMenu();
+</script><style>#symbolChoices{display:flex;flex-wrap:wrap;gap:7px}#symbolChoices button{background:#edf5ed;color:#183e2b;font-size:20px;padding:8px}#symbolChoices button.selected{outline:2px solid #13764b}.photo-preview{max-height:110px;max-width:150px;object-fit:cover}</style>
+<script id="asia-v6">
+let selectedSymbol='🍜',uploadImage=null;
+const symbols=[['🌶️','Scharf'],['🌱','Vegan'],['🍜','Nudeln'],['🍚','Reis'],['🍲','Pho'],['🥟','Vorspeise'],['🥬','Vegetarisch'],['🍛','Curry'],['🍗','Huhn'],['🦐','Garnelen']];
+function selectSymbol(sym){selectedSymbol=sym;document.getElementById('ed-emoji').value=sym;document.querySelectorAll('#symbolChoices button').forEach(b=>b.classList.toggle('selected',b.dataset.sym===sym))}
+function selectLocalPhoto(input){const f=input.files?.[0];if(!f)return;if(!f.type.startsWith('image/'))return alert('Bitte ein Bild auswählen.');if(f.size>650000)return alert('Demo: Bild bitte unter 650 KB. Cloud-Upload benötigt Backend.');const r=new FileReader();r.onload=()=>{uploadImage=r.result;const p=document.getElementById('photo-preview');p.src=uploadImage;p.hidden=false};r.readAsDataURL(f)}
+function removeLocalPhoto(){uploadImage='';document.getElementById('ed-image').value='';document.getElementById('photo-preview').hidden=true}
+const previousEdit=adminEditDish;
+adminEditDish=function(id){
+ uploadImage=null;previousEdit(id);const d=id===null?null:dishes.find(x=>x.id===id);selectedSymbol=d?.emoji||'🍜';
+ const img=document.getElementById('ed-image');
+ img.insertAdjacentHTML('beforebegin','<label>Foto vom Computer</label><input type="file" accept="image/*" onchange="selectLocalPhoto(this)"><p class="muted">Demo: Bild wird nur in diesem Browser gespeichert (max. 650 KB). Datenbank folgt mit Backend.</p><img class="photo-preview" id="photo-preview" hidden><button type="button" class="secondary compact" onclick="removeLocalPhoto()">Bild entfernen</button>');
+ if(d&&photos[d.id]){const p=document.getElementById('photo-preview');p.src=photos[d.id];p.hidden=false}
+ const emoji=document.getElementById('ed-emoji');emoji.readOnly=true;
+ emoji.insertAdjacentHTML('beforebegin','<div id="symbolChoices">'+symbols.map(([s,n])=>'<button type="button" data-sym="'+s+'" title="'+n+'" class="'+(s===selectedSymbol?'selected':'')+'" onclick="selectSymbol(\''+s+'\')">'+s+'</button>').join('')+'</div>');
+ document.getElementById('ed-options').parentElement.insertAdjacentHTML('afterend','<label>Varianten (Name|Aufpreis, je Zeile)</label><textarea id="ed-variants" rows="4" placeholder="Huhn|0&#10;Rind|2&#10;Garnelen|3&#10;Tofu|0">'+(d?.variants||[]).map(v=>v.name+'|'+v.extra).join('\n')+'</textarea>');
+};
+const previousSave=adminSaveDish;
+adminSaveDish=function(){
+ const variants=(document.getElementById('ed-variants')?.value||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>{const [name,extra='0']=x.split('|');return {name:name?.trim(),extra:Number(extra.replace(',','.'))}});
+ if(variants.some(v=>!v.name||!Number.isFinite(v.extra)||v.extra<0))return alert('Variante: Name|Aufpreis eingeben.');
+ const id=editingDish===null?Math.max(0,...dishes.map(x=>Number(x.id)||0))+1:editingDish;
+ const imageInput=document.getElementById('ed-image');
+ if(uploadImage?.startsWith('data:'))imageInput.value='https://example.invalid/upload';
+ if(uploadImage==='')imageInput.value='';
+ previousSave();
+ const d=dishes.find(x=>x.id===id);if(!d)return;d.variants=variants;
+ if(uploadImage!==null){if(uploadImage)photos[id]=uploadImage;else delete photos[id]}
+ try{localStorage.setItem('am_photos',JSON.stringify(photos));persistMenu()}catch(e){alert('Browser-Speicher voll. Bitte kleinere Bilder verwenden.')}
+};
+addItem=function(id){
+ const d=dishes.find(x=>x.id===id);if(!d||d.available===false)return alert('Artikel nicht verfügbar.');
+ if(!orderEntry){beginOrder(orderMode||'Lieferung');return}
+ if(d.options){
+ const vs=d.variants?.length?d.variants:[{name:'Huhn',extra:0},{name:'Tofu',extra:0},{name:'Rind',extra:2},{name:'Garnelen',extra:3}];
+ modal('<h2>'+safe(d.name)+'</h2><p>'+safe(d.desc)+'</p><label>Variante auswählen</label><select id="protein">'+vs.map(v=>'<option value="'+safe(v.name)+'|'+Number(v.extra)+'">'+safe(v.name)+(v.extra?' +'+money(v.extra):'')+'</option>').join('')+'</select><label>Schärfe</label><select id="spice"><option>Mild</option><option>Mittel</option><option>Scharf</option></select><button class="full" onclick="confirmItem('+id+')">Zum Warenkorb hinzufügen</button>');
+ }else{cart.push({name:d.name,price:d.price,option:'',qty:1});renderCart()}
+};
+function addReferenceMenu(){
+ if(localStorage.getItem('am_menu_seed_v6'))return;
+ const rows=[
+ ['Suppen','Peking Suppe',4.9,'🍲'],['Suppen','Tomatensuppe',5.9,'🍲'],['Vorspeisen','Vietnamesische Sommerrollen',5.9,'🥬'],
+ ['Hühnerfleisch Gerichte','Hühnerfleisch Chop Suey',11.7,'🍗'],['Hühnerfleisch Gerichte','Knuspriges Hähnchen',13.7,'🍗'],
+ ['Rindfleisch Gerichte','Rindfleisch Chop Suey',12.9,'🥩'],['Enten Gerichte','Gebackene Ente',14.7,'🍗'],
+ ['Vegetarische Gerichte','Gebratenes Gemüse',11.7,'🌱'],['Garnelen Gerichte','Garnelen Chop Suey',15.5,'🦐'],
+ ['Fisch Gerichte','Gebackenes Seelachsfilet',11.9,'🐟'],['Pho','Pho',12.9,'🍲'],['Bún','Bún',12.9,'🍜'],
+ ['Pho Xao (gebratene Reisbandnudeln)','Pho Xao',13.5,'🍜']];
+ for(const [cat,name,price,emoji] of rows){
+ if(dishes.some(d=>d.name.toLowerCase()===name.toLowerCase()))continue;
+ const d={id:Math.max(0,...dishes.map(z=>Number(z.id)||0))+1,cat,name,price,emoji,desc:'Aus der Asia Mai Speisekarte · Demo-Preis bitte prüfen',available:true};
+ if(['Pho','Bún','Pho Xao'].includes(name)){d.options=true;d.variants=[{name:'Hühnerfleisch',extra:0},{name:'Rindfleisch',extra:0},{name:'Garnelen',extra:1.5},{name:'Tofu',extra:0}]}
+ dishes.push(d);if(!menuCategories.includes(cat))menuCategories.push(cat);
+ }
+ localStorage.setItem('am_menu_seed_v6','1');persistMenu();
+}
+addReferenceMenu();
 </script></body></html>
