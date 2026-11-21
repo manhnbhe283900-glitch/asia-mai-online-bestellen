@@ -974,4 +974,50 @@ renderMenu=function(){
  window.v15FinishOrder=function(){if(orderEntry?.mode==='Abholung'&&orderEntry.time!=='ASAP'){const time=orderEntry.time||'',date=time.slice(0,10),hour=time.slice(11,13),minute=time.slice(14,16);const error=validate(date,hour,minute);if(error){alert(error);beginOrder('Abholung');return;}}priorFinish();};
 })();
 
+
+/* ASIA MAI V18 menu browse and customer details */
+(function(){
+ const style=document.createElement('style');style.textContent=`
+ #menu.v18-browse .layout{display:block;max-width:1400px;margin:auto}
+ #menu.v18-browse .menu-list{width:100%;max-width:none}
+ #menu.v18-browse aside{display:none!important}
+ #menu.v18-browse .food-card button{display:none!important}
+ #menu.v18-browse .food-grid,#menu.v18-order .food-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ #menu.v18-browse .food-card,#menu.v18-order .food-card{min-width:0;display:flex;flex-direction:column;justify-content:space-between;min-height:220px}
+ #menu.v18-browse .food-card img,#menu.v18-order .food-card img{width:100%;max-width:100%;height:125px;object-fit:cover}
+ #menu.v18-browse .food-card>div,#menu.v18-order .food-card>div{min-width:0}
+ #menu.v18-browse .food-card p,#menu.v18-order .food-card p{overflow-wrap:anywhere}
+ #v18-order-cta{display:none;align-items:center;gap:12px;flex-wrap:wrap;margin:15px 0 22px}
+ #menu.v18-browse #v18-order-cta{display:flex}
+ #v18-order-cta button{font-size:17px;padding:13px 22px}
+ #v18-order-choices{display:none;gap:10px;flex-wrap:wrap}
+ #v18-order-choices.show{display:flex}
+ #v18-order-choices button:first-child{background:#075438}
+ #v18-order-choices button:last-child{background:#b91422}
+ #menu.v18-order .layout{grid-template-columns:minmax(0,1fr) 280px}
+ #menu.v18-order .food-card{min-height:220px}
+ @media(max-width:1100px){#menu.v18-browse .food-grid,#menu.v18-order .food-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+ @media(max-width:760px){#menu.v18-browse .food-grid,#menu.v18-order .food-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#menu.v18-order .layout{display:block}#menu.v18-order aside{position:static!important;margin-top:20px}}
+ @media(max-width:430px){#menu.v18-browse .food-grid,#menu.v18-order .food-grid{grid-template-columns:repeat(1,minmax(0,1fr))!important}}
+ `;document.head.appendChild(style);
+ let ordering=false;
+ const menu=document.getElementById('menu');
+ const title=menu.querySelector('.menu-list h1');
+ const cta=document.createElement('div');cta.id='v18-order-cta';cta.innerHTML='<button type="button" onclick="v18ShowOrderChoices()">🛍️ Bestellen</button><span>Lieferung oder Abholung auswählen</span><div id="v18-order-choices"><button type="button" onclick="beginOrder(\'Lieferung\')">🚲 Lieferung</button><button type="button" onclick="beginOrder(\'Abholung\')">🏪 Abholung</button></div>';
+ title.insertAdjacentElement('afterend',cta);
+ window.v18ShowOrderChoices=function(){document.getElementById('v18-order-choices').classList.toggle('show');};
+ function setView(){menu.classList.toggle('v18-browse',!ordering);menu.classList.toggle('v18-order',ordering);}
+ const oldPage=page;
+ page=function(p){if(p==='menu'&&!document.getElementById('orderEntryOverlay'))ordering=false;setView();oldPage(p);};
+ const oldBegin=beginOrder;
+ beginOrder=function(which){ordering=false;setView();oldBegin(which);};
+ const oldConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){const overlay=document.getElementById('orderEntryOverlay');if(!overlay)return oldConfirm(e);const previous=orderEntry;oldConfirm(e);if(!document.getElementById('orderEntryOverlay')&&orderEntry&&orderEntry!==previous){ordering=true;setView();const info=orderEntry;try{localStorage.setItem('asia_mai_customer_v18',JSON.stringify({name:info.name,phone:info.phone,street:info.street||'',plz:info.plz||'',city:info.city||''}));}catch(_){} }};
+ // Browser-local storage: no IP tracking, no server-side identity lookup.
+ const oldBegin2=beginOrder;
+ beginOrder=function(which){oldBegin2(which);let saved=null;try{saved=JSON.parse(localStorage.getItem('asia_mai_customer_v18')||'null');}catch(_){}if(!saved)return;const set=(id,v)=>{const el=document.getElementById(id);if(el&&!el.value)el.value=v||'';};set('entry-name',saved.name);set('entry-phone',saved.phone);set('entry-street',saved.street);set('entry-plz',saved.plz);set('entry-city',saved.city);};
+ // On checkout keep the order view, and on home/menu navigation return to read-only menu.
+ setView();
+})();
+
 </script></body></html>
