@@ -1020,4 +1020,40 @@ renderMenu=function(){
  setView();
 })();
 
+
+/* ASIA MAI V19 collapsible homepage banners */
+(function(){
+ const css=document.createElement('style');css.textContent='.v19-banner-group{border:1px solid #dce7df;border-radius:13px;margin:18px 0;background:#fff;overflow:hidden}.v19-banner-group>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;font-weight:800;color:#174e34;background:#f2f8f3}.v19-banner-group>summary::-webkit-details-marker{display:none}.v19-banner-group>summary:after{content:"▾";font-size:19px;transition:transform .15s}.v19-banner-group[open]>summary:after{transform:rotate(180deg)}.v19-banner-inner{padding:12px 16px 18px}.v19-banner-item{border:1px solid #e0e9e1;border-radius:11px;margin:10px 0;overflow:hidden}.v19-banner-item>summary{cursor:pointer;list-style:none;padding:13px 15px;background:#fafcf9;font-weight:700;display:flex;justify-content:space-between}.v19-banner-item>summary::-webkit-details-marker{display:none}.v19-banner-item>summary:after{content:"+"}.v19-banner-item[open]>summary:after{content:"−"}.v19-banner-item-body{padding:10px 15px 16px}.v19-banner-item-body>.order{margin:0;border:0;padding:0;box-shadow:none}';document.head.appendChild(css);
+ const previous=adminRender;
+ adminRender=function(){
+  previous();
+  if(adminTab!=='Speisekarte')return;
+  const root=document.getElementById('adminbody');if(!root)return;
+  const heading=[...root.querySelectorAll('h3')].find(x=>x.textContent.includes('Startseite')&&x.textContent.includes('Werbebanner'));
+  if(!heading)return;
+  const saveButton=[...root.querySelectorAll('button')].find(x=>x.getAttribute('onclick')==='saveBanners()');
+  if(!saveButton)return;
+  const group=document.createElement('details');group.className='v19-banner-group';
+  const summary=document.createElement('summary');summary.textContent='🏞️ Startseite · Werbebanner ('+banners.length+')';
+  const inner=document.createElement('div');inner.className='v19-banner-inner';
+  group.append(summary,inner);heading.parentNode.insertBefore(group,heading);
+  let cursor=heading.nextSibling;
+  heading.remove();
+  while(cursor&&cursor!==saveButton){
+   const next=cursor.nextSibling;
+   if(cursor.nodeType===1&&cursor.classList.contains('order')){
+    const item=document.createElement('details');item.className='v19-banner-item';
+    const label=document.createElement('summary');const title=cursor.querySelector('b')?.textContent||'Banner';
+    label.textContent=title;const body=document.createElement('div');body.className='v19-banner-item-body';
+    item.append(label,body);body.append(cursor);
+    // Uploaded photo controls are inserted directly after the matching banner editor.
+    if(next?.nodeType===1&&next.classList.contains('v9-banner-upload')){body.append(next);cursor=next.nextSibling;}else cursor=next;
+    inner.append(item);continue;
+   }
+   inner.append(cursor);cursor=next;
+  }
+  inner.append(saveButton);
+ };
+})();
+
 </script></body></html>
