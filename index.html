@@ -1191,7 +1191,7 @@ async function deliveryStreetChanged(){
  panel.innerHTML='<h3>📍 Liefergebiet nach PLZ</h3><p class="muted">Nur diese Postleitzahlen dürfen Lieferung bestellen. Mit Komma, Leerzeichen oder Zeilenumbruch trennen. Leer bedeutet: keine Lieferung freigegeben.</p><label>Erlaubte Postleitzahlen</label><textarea id="asia-allowed-plz" rows="3" placeholder="21217, 21218, 21220">'+safe(allowed.join(', '))+'</textarea><button type="button" onclick="asiaSaveAllowedPlz()">PLZ-Liefergebiet speichern</button><p class="muted">Beispielwerte sind keine automatische Freigabe. Bitte Liefer-PLZ selbst eintragen.</p>';
  body.insertAdjacentElement('afterbegin',panel);return result;
  };
- window.asiaSaveAllowedPlz=function(){const value=document.getElementById('asia-allowed-plz')?.value||'',parts=value.split(/[\\s,;]+/).filter(Boolean),invalid=parts.filter(x=>!/^\\d{5}$/.test(x));if(invalid.length){alert('Ungültige PLZ: '+invalid.join(', ')+'. Bitte fünfstellige PLZ eingeben.');return}settings.allowedPlz=[...new Set(parts)];save();adminRender();alert('PLZ-Liefergebiet gespeichert (nur Demo / dieser Browser).')};
+ window.asiaSaveAllowedPlz=function(){const value=document.getElementById('asia-allowed-plz')?.value||'',parts=value.split(/[\s,;]+/).filter(Boolean),invalid=parts.filter(x=>!/^\d{5}$/.test(x));if(invalid.length){alert('Ungültige PLZ: '+invalid.join(', ')+'. Bitte fünfstellige PLZ eingeben.');return}settings.allowedPlz=[...new Set(parts)];save();adminRender();alert('PLZ-Liefergebiet gespeichert (nur Demo / dieser Browser).')};
  if(adminTab==='Einstellungen')adminRender();
 })();
 </script>
