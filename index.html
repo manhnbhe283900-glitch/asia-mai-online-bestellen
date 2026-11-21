@@ -1195,5 +1195,22 @@ const asiaOriginalAdminRender=adminRender;adminRender=function(...args){const re
 const asiaOriginalAdminAccept=adminAccept;adminAccept=function(...args){const result=asiaOriginalAdminAccept.apply(this,args);asiaAlertRefresh();return result};
 const asiaOriginalAdminReject=adminReject;adminReject=function(...args){const result=asiaOriginalAdminReject.apply(this,args);asiaAlertRefresh();return result};
 window.addEventListener('storage',asiaAlertRefresh);setInterval(asiaAlertRefresh,2000);asiaAlertRefresh();
+
+/* ASIA MAI V26 one-car dispatch */
+(function(){
+ const key='asia_mai_driver_v26';
+ const readDriver=()=>{try{return {...{status:'Frei',until:'',buffer:8,returnBuffer:5},...JSON.parse(localStorage.getItem(key)||'{}')}}catch{return {status:'Frei',until:'',buffer:8,returnBuffer:5}}};
+ function trip(o){return Math.max(8,Math.ceil((Number(o.km)||0)/25*60))}
+ function prediction(o){const c=readDriver(),prep=Math.max(5,Number(settings.prep)||20),buffer=Math.max(0,Number(c.buffer)||0),ret=Math.max(0,Number(c.returnBuffer)||0),created=Date.parse(o.created)||Date.now();let free=Date.now();if(c.status!=='Frei'&&c.until)free=Math.max(free,Date.parse(c.until)||free);
+ const queued=orders.filter(x=>x.mode==='Lieferung'&&x.token!==o.token&&!['Zugestellt','Abgelehnt'].includes(x.status)&&(Date.parse(x.created)||0)<=created).sort((a,b)=>Date.parse(a.created)-Date.parse(b.created));
+ for(const x of queued){free=Math.max(free,(Date.parse(x.created)||Date.now())+prep*60000)+(2*trip(x)+buffer+ret)*60000}
+ const ready=created+prep*60000,depart=Math.max(ready,free);return {date:new Date(depart+(trip(o)+buffer)*60000),wait:Math.max(0,Math.round((depart-ready)/60000)),drive:trip(o)}}
+ window.asiaEstimatedTime=function(o){if(!o||o.mode!=='Lieferung')return '';const d=prediction(o).date;return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+ const css=document.createElement('style');css.textContent='.v26-dispatch{background:#f3f8f4;border:1px solid #d4e4d7;padding:14px;border-radius:12px;margin:12px 0}.v26-dispatch .two{margin-bottom:8px}.v26-dispatch small{display:block;color:#66786c;margin-top:9px}.v26-eta{font-size:12px;color:#17663f;margin:5px 0}';document.head.appendChild(css);
+ window.asiaSaveDriver=function(){const c={status:document.getElementById('v26-status').value,until:document.getElementById('v26-until').value,buffer:Number(document.getElementById('v26-buffer').value)||0,returnBuffer:Number(document.getElementById('v26-return').value)||0};localStorage.setItem(key,JSON.stringify(c));adminRender()};
+ const prior=adminRender;adminRender=function(){prior();if(adminTab!=='Bestellungen')return;const body=document.getElementById('adminbody'),c=readDriver();body.insertAdjacentHTML('afterbegin','<div class="v26-dispatch"><h3>🚗 Fahrer · 1 Auto (Demo)</h3><div class="two"><div><label>Fahrerstatus</label><select id="v26-status"><option '+(c.status==='Frei'?'selected':'')+'>Frei</option><option '+(c.status==='Unterwegs'?'selected':'')+'>Unterwegs</option><option '+(c.status==='Rückfahrt'?'selected':'')+'>Rückfahrt</option></select></div><div><label>Fahrzeug wieder frei ab</label><input id="v26-until" type="datetime-local" value="'+safe(c.until)+'"></div></div><div class="two"><div><label>Zeitpuffer (Min.)</label><input id="v26-buffer" type="number" min="0" value="'+c.buffer+'"></div><div><label>Rückfahrt-Puffer (Min.)</label><input id="v26-return" type="number" min="0" value="'+c.returnBuffer+'"></div></div><button onclick="asiaSaveDriver()">Fahrer & Zeiten speichern</button><small>Demo: nur dieser Browser. Keine echten Fahrzeiten oder Live-Fahrerortung. ETA vor Annahme prüfen.</small></div>');for(const o of orders){if(o.mode!=='Lieferung'||o.status!=='Eingegangen')continue;const input=document.getElementById('eta-'+o.token);if(input){input.value=asiaEstimatedTime(o);const p=prediction(o),note=document.createElement('div');note.className='v26-eta';note.textContent='ETA-Vorschlag: '+p.drive+' Min. Fahrt, '+p.wait+' Min. Warteschlange (Demo)';input.insertAdjacentElement('afterend',note)}}};
+ if(adminTab==='Bestellungen')adminRender();
+})();
+
 </script>
 </body></html>
