@@ -438,4 +438,145 @@ adminSaveDish=function(){
 };
 const v8OldRenameCategory=adminRenameCategory;
 adminRenameCategory=function(i){const old=menuCategories[i];v8OldRenameCategory(i);if(old!==menuCategories[i]){v8Expanded.delete(old);v8Expanded.add(menuCategories[i]);v8Toast('Kategorie erfolgreich umbenannt.')}}
+</script>
+<style id="asia-v9-style">
+.v8-cat{border-left:6px solid var(--v9-cat,#b5d6c1);background:color-mix(in srgb,var(--v9-cat) 9%,white)}
+.v8-cat-head{background:color-mix(in srgb,var(--v9-cat) 17%,white)}
+.v8-cat-body{background:white}
+.v9-banner-upload{margin:8px 0 12px}
+.v9-banner-upload input{max-width:100%}
+.v9-banner-upload img{display:block;width:190px;max-height:105px;object-fit:cover;border-radius:8px;margin-top:8px}
+.v9-savebar{position:sticky;bottom:8px;z-index:4;background:#fffdf9;border:1px solid #d4e3d7;border-radius:12px;padding:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 6px 20px #0002}
+.v9-savebar button{min-width:130px}
+.v9-error{color:#b91c1c;font-size:12px;display:block;margin:4px 0}
+</style>
+<script id="asia-v9">
+/* V9: scoped creation, numeric price checks, colorful categories, manual save affordance, banner file upload. */
+const v9Colors=['#d8e9fb','#ffe1d5','#e5dafa','#d8f2df','#fff0bf','#f9d8e5','#d9eeee','#f5e2ca','#e4e9c9','#e4e0ff','#fbdfe0','#d8e9d3','#f1e5c7'];
+let v9BannerImages={};
+let v9ScopedCategory=null;
+function v9CategoryColor(i){return v9Colors[i%v9Colors.length]}
+function v9DecorateAdmin(){
+ if(adminTab!=='Speisekarte')return;
+ const b=document.getElementById('adminbody');if(!b)return;
+ const intro=b.querySelector('.row');
+ if(intro){
+  [...intro.querySelectorAll('button')].filter(x=>/Neuer Artikel/.test(x.textContent)).forEach(x=>x.remove());
+ }
+ b.querySelectorAll('.v8-cat').forEach((el,i)=>{
+  el.style.setProperty('--v9-cat',v9CategoryColor(i));
+  const add=[...el.querySelectorAll('.v8-cat-body button')].find(x=>x.textContent.trim()==='+ Artikel');
+  if(add){add.onclick=()=>v9CreateInCategory(i)}
+ });
+ b.querySelectorAll('h3').forEach(h=>{
+  if(!h.textContent.includes('Startseite'))return;
+  let node=h.nextElementSibling,i=0;
+  while(node&&i<banners.length){
+   const next=node.nextElementSibling;
+   if(node.classList.contains('order')){
+    const idx=i;
+    const upload=document.createElement('div');upload.className='v9-banner-upload';
+    upload.innerHTML='<label>Foto vom Computer (JPG, PNG, WebP)</label><input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Banner '+(idx+1)+' hochladen"><img alt="Banner Vorschau" style="display:none"><button type="button" class="secondary compact" style="display:none">Ausgewähltes Bild entfernen</button>';
+    const input=upload.querySelector('input'),img=upload.querySelector('img'),remove=upload.querySelector('button');
+    input.addEventListener('change',async()=>{
+     const file=input.files?.[0];if(!file)return;
+     if(!/^image\/(jpeg|png|webp)$/.test(file.type)){v8Toast('Nur JPG, PNG oder WebP erlaubt.');input.value='';return}
+     if(file.size>6*1024*1024){v8Toast('Bilddatei maximal 6 MB.');input.value='';return}
+     try{
+      const data=await v9CompressImage(file,1150,0.76);
+      v9BannerImages[idx]=data;img.src=data;img.style.display='block';remove.style.display='inline-block';
+      v8Toast('Bild vorbereitet. Bitte Änderungen speichern.');
+     }catch(e){v8Toast('Bild konnte nicht geladen werden.')}
+    });
+    remove.onclick=()=>{delete v9BannerImages[idx];img.style.display='none';remove.style.display='none';input.value='';v8Toast('Auswahl entfernt.')};
+    node.appendChild(upload);i++;
+   }
+   node=next;
+  }
+ });
+ const savebar=document.createElement('div');savebar.className='v9-savebar';
+ savebar.innerHTML='<span class="muted">Änderungen an Kategorien und Artikeln werden lokal gesichert.</span><button type="button">✓ Änderungen speichern</button>';
+ savebar.querySelector('button').onclick=v9SaveAll;
+ b.appendChild(savebar);
+}
+async function v9CompressImage(file,maxWidth,quality){
+ return await new Promise((resolve,reject)=>{
+  const img=new Image(),url=URL.createObjectURL(file);
+  img.onload=()=>{
+   try{
+    const scale=Math.min(1,maxWidth/img.width);
+    const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));
+    canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+    const data=canvas.toDataURL('image/jpeg',quality);
+    URL.revokeObjectURL(url);resolve(data);
+   }catch(e){URL.revokeObjectURL(url);reject(e)}
+  };
+  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Bild nicht lesbar'))};
+  img.src=url;
+ });
+}
+function v9CreateInCategory(index){
+ const category=menuCategories[index];if(!category)return;
+ v9ScopedCategory=category;
+ adminEditDish(null);
+ const select=document.getElementById('ed-cat');
+ if(select){select.value=category;select.disabled=true;select.insertAdjacentHTML('afterend','<p class="muted">Artikel wird in „'+safe(category)+'“ erstellt.</p>')}
+ const price=document.getElementById('ed-price');if(price){price.type='number';price.min='0';price.step='0.01';price.inputMode='decimal';price.value=''}
+ const rows=document.getElementById('v7-variant-rows');if(rows)rows.querySelectorAll('.v7-vprice').forEach(x=>{x.type='number';x.min='0';x.step='0.01'});
+ const button=document.querySelector('#modal button[onclick="adminSaveDish()"]');
+ if(button){button.insertAdjacentHTML('beforebegin','<button type="button" class="secondary full" onclick="closeModal()">✕ Abbrechen</button>')}
+}
+const v9PriorAdminRender=adminRender;
+adminRender=function(){v9PriorAdminRender();v9DecorateAdmin()};
+const v9PriorEdit=adminEditDish;
+adminEditDish=function(id){
+ if(id===null&&!v9ScopedCategory){v8Toast('Bitte zuerst eine Kategorie öffnen und dort + Artikel wählen.');return}
+ v9PriorEdit(id);
+ const price=document.getElementById('ed-price');
+ if(price){price.type='number';price.min='0';price.step='0.01';price.inputMode='decimal';if(id!==null){const d=dishes.find(x=>x.id===id);price.value=d?.price==null?'':Number(d.price)}}
+ document.querySelectorAll('.v7-vprice').forEach(x=>{x.type='number';x.min='0';x.step='0.01';x.inputMode='decimal'});
+ const originalAdd=document.querySelector('#v7-variant-editor button[onclick="v7VariantAdd()"]');
+ if(originalAdd)originalAdd.onclick=()=>{v7VariantAdd();const p=document.querySelector('.v7-variant-row:last-child .v7-vprice');if(p){p.type='number';p.min='0';p.step='0.01'}};
+ if(id===null&&v9ScopedCategory){const sel=document.getElementById('ed-cat');if(sel){sel.value=v9ScopedCategory;sel.disabled=true}}
+ const close=document.querySelector('#modal button[onclick="closeModal()"]');if(close)close.title='Schließen ohne Speichern';
+ const formSave=document.querySelector('#modal button[onclick="adminSaveDish()"]');
+ if(formSave&&!document.getElementById('v9-cancel'))formSave.insertAdjacentHTML('beforebegin','<button type="button" id="v9-cancel" class="secondary full" onclick="closeModal()">✕ Abbrechen</button>');
+};
+const v9PriorSaveDish=adminSaveDish;
+adminSaveDish=function(){
+ const name=document.getElementById('ed-name')?.value.trim();
+ if(!name){v8Toast('Bitte einen Artikelnamen eingeben.');return}
+ const enabled=!!document.getElementById('ed-options')?.checked;
+ if(!enabled){
+  const p=document.getElementById('ed-price'),value=p?.value?.trim();
+  if(!value||!Number.isFinite(Number(value))||Number(value)<0){v8Toast('Bitte einen gültigen numerischen Preis eingeben.');p?.focus();return}
+ }else{
+  const rows=[...document.querySelectorAll('.v7-variant-row')];
+  if(!rows.length||rows.some(r=>{const n=r.querySelector('.v7-vname')?.value.trim(),p=r.querySelector('.v7-vprice')?.value.trim();return !n||!p||!Number.isFinite(Number(p))||Number(p)<0})){v8Toast('Bitte für jede Variante einen gültigen Preis und Namen eingeben.');return}
+ }
+ const cat=document.getElementById('ed-cat');
+ if(v9ScopedCategory&&editingDish===null&&cat)cat.value=v9ScopedCategory;
+ const before=dishes.length;
+ v9PriorSaveDish();
+ if(dishes.length>before||editingDish!==null){v9ScopedCategory=null}
+};
+const v9PriorClose=closeModal;
+closeModal=function(){v9ScopedCategory=null;v9PriorClose()};
+function v9SaveAll(){
+ try{
+  const next=banners.map((x,i)=>({
+   ...x,
+   title:document.getElementById('bn'+i+'title')?.value??x.title,
+   subtitle:document.getElementById('bn'+i+'subtitle')?.value??x.subtitle,
+   image:v9BannerImages[i]||document.getElementById('bn'+i+'image')?.value||x.image
+  }));
+  const values={am_menu_v5:JSON.stringify(dishes),am_categories_v5:JSON.stringify(menuCategories),am_banners:JSON.stringify(next),am_photos:JSON.stringify(photos)};
+  for(const [key,val] of Object.entries(values))localStorage.setItem(key,val);
+  banners.splice(0,banners.length,...next);
+  v9BannerImages={};promoRender();menuV3();adminRender();
+  v8Toast('✓ Alle Änderungen in diesem Browser gespeichert.');
+ }catch(e){v8Toast('Speichern fehlgeschlagen: Browser-Speicher voll. Bitte kleinere Bilder verwenden.')}
+}
+const v9OldSaveBanners=saveBanners;
+saveBanners=function(){v9SaveAll()};
 </script></body></html>
