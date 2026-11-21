@@ -1101,4 +1101,34 @@ renderMenu=function(){
  returnHomeFromOrder=function(){pendingDish=null;oldReturn()};
 })();
 
+
+/* ASIA MAI V21 polish */
+(function(){
+ const css=document.createElement('style');css.textContent=`
+ .v15-cart-photo,.v15-cart-thumb-placeholder{display:none!important}
+ #menu .food-card{display:flex!important;flex-direction:column!important}
+ #menu .food-card>div:last-child{margin-top:auto!important}
+ #menu .food-card button{margin-top:auto!important}
+ .v20-choice-buttons button{color:#fff!important}
+ .v20-choice-buttons button svg{stroke:#fff!important;fill:none!important}
+ #v20-choice-overlay .v20-choice-card>p{display:none!important}
+ #orderEntryOverlay.v21-edit .entry-back{display:none!important}
+ #orderEntryOverlay.v21-edit .order-entry-header{justify-content:center}
+ `;document.head.appendChild(css);
+ const oldRender=renderCart;
+ renderCart=function(){oldRender();document.querySelectorAll('#cart .v15-cart-photo,#cart .v15-cart-thumb-placeholder').forEach(el=>el.remove());};
+ const oldAdd=addItem;
+ addItem=function(id){oldAdd(id);const box=document.getElementById('v20-choice-overlay');if(box){const p=box.querySelector('.v20-choice-card>p');if(p)p.remove();box.querySelectorAll('[data-mode]').forEach(b=>{const m=b.dataset.mode;b.textContent=m==='Lieferung'?'Lieferung':'Abholung';b.insertAdjacentHTML('afterbegin',m==='Lieferung'?'<svg width="23" height="23" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:5px" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="m5 17 5-9 5 9h4l-4-8h-5"/></svg>':'<svg width="23" height="23" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:5px" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M5 10v11h14V10M3 10l2-6h14l2 6M9 21v-7h6v7"/></svg>');});}};
+ let editing=false;
+ window.v15EditDetails=function(){closeModal();editing=true;beginOrder(orderEntry?.mode||orderMode||'Lieferung');const overlay=document.getElementById('orderEntryOverlay');if(!overlay)return;overlay.classList.add('v21-edit');const title=overlay.querySelector('.order-entry-header h2');if(title)title.textContent='Angaben ändern';const note=overlay.querySelector('.entry-note');if(note)note.textContent='Korrigiere deine Angaben und speichere die Änderungen.';const submit=overlay.querySelector('button[type="submit"]');if(submit)submit.textContent='Änderungen speichern';};
+ const oldConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){const isEdit=editing;oldConfirm(e);if(isEdit&&!document.getElementById('orderEntryOverlay')){editing=false;checkout();}};
+ const oldBegin=beginOrder;
+ beginOrder=function(which){if(!editing)return oldBegin(which);oldBegin(which);const overlay=document.getElementById('orderEntryOverlay');if(overlay){overlay.classList.add('v21-edit');const back=overlay.querySelector('.entry-back');if(back)back.remove();}};
+ const oldToggle=togglePickupFields;
+ togglePickupFields=function(){oldToggle();const select=document.getElementById('entry-pickup');if(select){const asap=[...select.options].find(o=>o.value==='ASAP');if(asap)asap.textContent='Ab sofort';}const note=document.getElementById('v16-pickup-hint');if(note&&!note.textContent.includes('5–10'))note.textContent+=' · Zubereitungszeit ca. 5–10 Minuten, je nach Gericht.';};
+ const oldBegin2=beginOrder;
+ beginOrder=function(which){oldBegin2(which);if(which==='Abholung'){const select=document.getElementById('entry-pickup');if(select){const asap=[...select.options].find(o=>o.value==='ASAP');if(asap)asap.textContent='Ab sofort';const hint=document.createElement('p');hint.className='muted';hint.style.fontSize='12px';hint.textContent='Zubereitungszeit ca. 5–10 Minuten, je nach Gericht.';select.insertAdjacentElement('afterend',hint);}}};
+})();
+
 </script></body></html>
