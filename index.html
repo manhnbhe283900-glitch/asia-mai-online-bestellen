@@ -895,6 +895,7 @@ renderMenu=function(){
   if(orderEntry.mode==='Lieferung'&&!settings.delivery)return alert('Lieferung ist deaktiviert.');
   if(orderEntry.mode==='Abholung'&&!settings.pickup)return alert('Abholung ist deaktiviert.');
   const pickup=orderEntry.mode==='Abholung';
+  if(!pickup&&distanceKm===null){const demo=prompt('Demo-Fahrstrecke in km (keine echte Routenprüfung):','2.7');if(demo===null)return;const km=Number(String(demo).replace(',','.'));if(!Number.isFinite(km)||km<=0||deliveryFee(km)===null)return alert('Ungültige Strecke oder außerhalb des Liefergebiets.');distanceKm=km;renderCart();}
   const info=pickup?(orderEntry.time==='ASAP'?'So schnell wie möglich (mind. '+settings.prep+' Min.)':new Date(orderEntry.time).toLocaleString('de-DE')):[orderEntry.street,orderEntry.plz,orderEntry.city].filter(Boolean).join(', ');
   const fee=pickup?0:distanceKm===null?null:deliveryFee(distanceKm);
   modal('<h2>Bestellung abschließen</h2><div class="v15-checkout-summary"><b>'+safe(orderEntry.name)+'</b><div>'+safe(orderEntry.phone)+'</div><div>'+safe(pickup?'Abholung':'Lieferung')+': '+safe(info)+'</div><div>'+cart.reduce((n,i)=>n+Number(i.qty||0),0)+' Artikel · '+money(subtotal())+'</div><b>Gesamt: '+(fee===null?money(subtotal())+' + Lieferkosten':money(subtotal()+fee))+'</b></div><button type="button" class="secondary" style="margin-top:10px" onclick="v15EditDetails()">Angaben ändern</button><h3>Zahlungsart wählen</h3><div class="v15-pay-options"><label class="v15-pay-option"><input type="radio" name="v15-payment" value="Bargeld" checked> Barzahlung bei Übergabe<small>Erst bei Lieferung oder Abholung bezahlen</small></label><label class="v15-pay-option"><input type="radio" name="v15-payment" value="PayPal"> PayPal<small>Online-Zahlung ist noch nicht aktiviert (Demo)</small></label></div><button class="full" onclick="v15FinishOrder()">Bestellung aufgeben →</button>');
@@ -905,10 +906,10 @@ renderMenu=function(){
   const payment=document.querySelector('input[name="v15-payment"]:checked')?.value||'Bargeld';
   if(payment==='PayPal'){alert('PayPal ist noch nicht mit einem Geschäftskonto verbunden. Es wurde nichts abgebucht. Bitte Barzahlung wählen.');return;}
   const pickup=orderEntry.mode==='Abholung';
-  if(!pickup){alert('Lieferstrecke und Lieferkosten sind noch nicht live verifiziert. Eine verbindliche Lieferbestellung ist derzeit nicht möglich.');return;}
+  if(!pickup&&distanceKm===null){alert('Für die Lieferung muss zuerst eine Demo-Fahrstrecke festgelegt werden. Eine echte Routenprüfung ist noch nicht aktiv.');return;}
   if(!restaurantIsOpen())return alert('Das Restaurant ist derzeit geschlossen. Bitte während der Öffnungszeiten bestellen.');
   const token='AM-'+Array.from(crypto.getRandomValues(new Uint8Array(10)),x=>x.toString(16).padStart(2,'0')).join('').toUpperCase();
-  const order={token,name:orderEntry.name,phone:orderEntry.phone,address:'',km:0,fee:0,mode:'Abholung',items:cart.map(i=>({...i})),subtotal:subtotal(),total:subtotal(),payment:'Bargeld',paymentStatus:'Noch nicht bezahlt',status:'Eingegangen',time:orderEntry.time||'ASAP',eta:'',created:new Date().toISOString()};
+  const fee=pickup?0:deliveryFee(distanceKm);if(fee===null)return alert('Außerhalb des Liefergebiets.');if(!pickup&&subtotal()<settings.minOrder)return alert('Mindestbestellwert: '+money(settings.minOrder));const order={token,name:orderEntry.name,phone:orderEntry.phone,address:pickup?'':[orderEntry.street,orderEntry.plz,orderEntry.city].join(', '),km:pickup?0:distanceKm,fee,mode:orderEntry.mode,items:cart.map(i=>({...i})),subtotal:subtotal(),total:subtotal()+fee,payment:'Bargeld',paymentStatus:'Noch nicht bezahlt',status:'Eingegangen',time:pickup?(orderEntry.time||'ASAP'):'',eta:'',created:new Date().toISOString()};
   orders.unshift(order);save();cart=[];renderCart();closeModal();activeTrack=token;page('tracking');document.getElementById('trackinput').value=token;lookup();
  };
  const oldBeginOrder=beginOrder;
