@@ -110,6 +110,8 @@ function confirmOrderEntry(e){
   info.street=el('entry-street');info.plz=el('entry-plz');info.city=el('entry-city');
   if(!/^\d{5}$/.test(info.plz)){alert('Bitte eine fünfstellige PLZ eingeben.');return}
   if(deliveryPostalState.plz!==info.plz||deliveryPostalState.valid!==true){alert('Diese PLZ ist nicht für Lieferung freigegeben. Bitte Abholung wählen.');return}
+  if(!info.city){alert('Ort konnte nicht ermittelt werden. Bitte PLZ erneut prüfen.');return}
+  if(!/\d+[a-zA-Z]?\s*$/.test(info.street)){alert('Bitte Straße und Hausnummer vollständig eingeben.');return}
  }else{
   info.time=el('entry-pickup')==='custom'?el('entry-pickup-date')+'T'+el('entry-pickup-clock'):'ASAP';
   if(!info.time||info.time!=='ASAP'&&new Date(info.time).getTime()<Date.now()+settings.prep*60000){alert('Bitte eine gültige Abholzeit auswählen.');return}
@@ -119,10 +121,10 @@ function confirmOrderEntry(e){
 const originalAddItem=addItem;
 addItem=function(id){if(!orderEntry){beginOrder(orderMode||'Lieferung');return}originalAddItem(id)};
 const originalCheckout=checkout;
-checkout=function(){if(!orderEntry){beginOrder(orderMode||'Lieferung');return}originalCheckout();
+checkout=function(){if(!orderEntry){beginOrder(orderMode||'Lieferung');return}if(orderEntry.mode!==orderMode){beginOrder(orderMode);return}originalCheckout();
  const fill=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value||''};
  fill('cname',orderEntry.name);fill('cphone',orderEntry.phone);
- if(orderEntry.mode==='Lieferung'){fill('cstreet',orderEntry.street);fill('cplz',orderEntry.plz);fill('ccity',orderEntry.city)}
+ if(orderEntry.mode==='Lieferung'){fill('cstreet',orderEntry.street);fill('cplz',orderEntry.plz);fill('ccity',orderEntry.city);const city=document.getElementById('ccity');if(city)city.readOnly=true}
  else if(orderEntry.time&&orderEntry.time!=='ASAP'){fill('ctime','custom');fill('ccustom',orderEntry.time)}
 };
 </script>
@@ -1155,13 +1157,13 @@ let deliveryPostalState={plz:'',valid:false};let deliveryPlzSeq=0,deliveryStreet
 async function deliveryPlzChanged(){
  const field=document.getElementById('entry-plz');if(!field)return;
  const plz=field.value.trim(),status=document.getElementById('delivery-plz-status'),seq=++deliveryPlzSeq;
- deliveryPostalState={plz,valid:false};if(!status)return;
- if(!/^\\d{5}$/.test(plz)){status.textContent='Bitte 5 Ziffern eingeben.';return}
+ deliveryPostalState={plz,valid:false};const cityField=document.getElementById('entry-city');if(cityField)cityField.value='';if(!status)return;
+ if(!/^\d{5}$/.test(plz)){status.textContent='Bitte 5 Ziffern eingeben.';return}
  status.textContent='PLZ wird geprüft …';
  try{const resp=await fetch('https://api.zippopotam.us/de/'+encodeURIComponent(plz));if(seq!==deliveryPlzSeq)return;
  if(!resp.ok)throw Error('unknown');const data=await resp.json();
  const allowed=(settings.allowedPlz||[]).map(x=>String(x).trim());const permitted=allowed.includes(plz);
- deliveryPostalState={plz,valid:permitted};status.textContent=permitted?'✓ PLZ im Liefergebiet':'Für diese PLZ bieten wir derzeit keine Lieferung an. Bitte Abholung wählen.';
+ const city=(data.places||[])[0]?.['place name']||'';const cityField=document.getElementById('entry-city');if(cityField)cityField.value=city;deliveryPostalState={plz,valid:permitted,city};status.textContent=permitted?'✓ PLZ im Liefergebiet':'Für diese PLZ bieten wir derzeit keine Lieferung an. Bitte Abholung wählen.';
  status.style.color=permitted?'#17653b':'#b91c1c';
  }catch(e){if(seq!==deliveryPlzSeq)return;status.textContent='PLZ konnte nicht geprüft werden. Bitte später erneut versuchen.';status.style.color='#b91c1c'}
  deliveryStreetChanged();
