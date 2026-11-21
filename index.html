@@ -86,10 +86,10 @@ function beginOrder(which){
  '<label>Telefonnummer *</label><input id="entry-phone" required type="tel" autocomplete="tel" value="'+escapeValue(old.phone)+'" placeholder="+49 ...">'+
  (pickup?'<label>Wann möchtest du abholen? *</label><select id="entry-pickup" onchange="togglePickupFields()"><option value="ASAP">So schnell wie möglich (mind. '+settings.prep+' Min.)</option><option value="custom">Datum und Uhrzeit auswählen</option></select><div id="pickup-date-fields" style="display:none"><div class="two"><div><label>Datum *</label><input type="date" id="entry-pickup-date" lang="de-DE"></div><div><label>Uhrzeit *</label><input type="time" id="entry-pickup-clock" step="900"></div></div></div>'+
  '<p class="entry-note">Das Restaurant kann eine andere Uhrzeit vorschlagen, die du bestätigen kannst.</p>':
- '<label>PLZ * (nur Hamburg)</label><input id="entry-plz" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" value="'+escapeValue(old.plz)+'" placeholder="z. B. 22087" oninput="deliveryPlzChanged()" autocomplete="postal-code"><div id="delivery-plz-status" class="entry-note" aria-live="polite"></div>'+
+ '<label>PLZ *</label><input id="entry-plz" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" value="'+escapeValue(old.plz)+'" placeholder="z. B. 22087" oninput="deliveryPlzChanged()" autocomplete="postal-code"><div id="delivery-plz-status" class="entry-note" aria-live="polite"></div>'+
  '<label>Straße und Hausnummer *</label><input id="entry-street" required autocomplete="street-address" value="'+escapeValue(old.street)+'" placeholder="Straße und Hausnummer" oninput="deliveryStreetChanged()" list="delivery-street-suggestions"><datalist id="delivery-street-suggestions"></datalist>'+
- '<div id="delivery-address-status" class="entry-note" aria-live="polite">Adressvorschläge nach Eingabe von PLZ und Straße.</div><input id="entry-city" type="hidden" value="Hamburg">'+
- '<p class="entry-note">Lieferung derzeit nur innerhalb Hamburgs. Adressprüfung über öffentliche Kartendaten; die tatsächliche Fahrstrecke wird hier noch nicht live berechnet.</p>')+
+ '<div id="delivery-address-status" class="entry-note" aria-live="polite">Adressvorschläge nach Eingabe von PLZ und Straße.</div><input id="entry-city" type="hidden" value="">'+
+ '<p class="entry-note">Lieferung nur in den vom Restaurant freigegebenen Postleitzahlen.</p>')+
  '<button class="entry-submit" type="submit">Weiter zur Speisekarte →</button></form>';
  let overlay=document.getElementById('orderEntryOverlay');
  if(!overlay){overlay=document.createElement('div');overlay.id='orderEntryOverlay';overlay.className='order-entry-overlay';document.body.appendChild(overlay)}
@@ -109,7 +109,7 @@ function confirmOrderEntry(e){
  if(modeName==='Lieferung'){
   info.street=el('entry-street');info.plz=el('entry-plz');info.city=el('entry-city');
   if(!/^\d{5}$/.test(info.plz)){alert('Bitte eine fünfstellige PLZ eingeben.');return}
-  if(deliveryPostalState.plz!==info.plz||deliveryPostalState.valid!==true){alert('Bitte zuerst eine gültige Hamburger PLZ bestätigen lassen.');return}
+  if(deliveryPostalState.plz!==info.plz||deliveryPostalState.valid!==true){alert('Diese PLZ ist nicht für Lieferung freigegeben. Bitte Abholung wählen.');return}
  }else{
   info.time=el('entry-pickup')==='custom'?el('entry-pickup-date')+'T'+el('entry-pickup-clock'):'ASAP';
   if(!info.time||info.time!=='ASAP'&&new Date(info.time).getTime()<Date.now()+settings.prep*60000){alert('Bitte eine gültige Abholzeit auswählen.');return}
@@ -1160,9 +1160,9 @@ async function deliveryPlzChanged(){
  status.textContent='PLZ wird geprüft …';
  try{const resp=await fetch('https://api.zippopotam.us/de/'+encodeURIComponent(plz));if(seq!==deliveryPlzSeq)return;
  if(!resp.ok)throw Error('unknown');const data=await resp.json();
- const hamburg=(data.places||[]).some(p=>/hamburg/i.test(p['place name']||'')||/hamburg/i.test(p.state||''));
- deliveryPostalState={plz,valid:hamburg};status.textContent=hamburg?'✓ Hamburger PLZ bestätigt':'Ungültig: Lieferung nur in Hamburg möglich.';
- status.style.color=hamburg?'#17653b':'#b91c1c';
+ const allowed=(settings.allowedPlz||[]).map(x=>String(x).trim());const permitted=allowed.includes(plz);
+ deliveryPostalState={plz,valid:permitted};status.textContent=permitted?'✓ PLZ im Liefergebiet':'Für diese PLZ bieten wir derzeit keine Lieferung an. Bitte Abholung wählen.';
+ status.style.color=permitted?'#17653b':'#b91c1c';
  }catch(e){if(seq!==deliveryPlzSeq)return;status.textContent='PLZ konnte nicht geprüft werden. Bitte später erneut versuchen.';status.style.color='#b91c1c'}
  deliveryStreetChanged();
 }
@@ -1170,16 +1170,31 @@ async function deliveryStreetChanged(){
  const field=document.getElementById('entry-street'),list=document.getElementById('delivery-street-suggestions'),status=document.getElementById('delivery-address-status'),link=document.getElementById('delivery-map-link');if(!field||!list)return;
  const street=field.value.trim(),plz=document.getElementById('entry-plz')?.value.trim()||'',seq=++deliveryStreetSeq;
  list.innerHTML='';
- if(street.length<3||!deliveryPostalState.valid||deliveryPostalState.plz!==plz){if(status)status.textContent='Hamburger PLZ bestätigen und mindestens 3 Zeichen der Straße eingeben.';return}
+ if(street.length<3||!deliveryPostalState.valid||deliveryPostalState.plz!==plz){if(status)status.textContent='Zugelassene PLZ bestätigen und mindestens 3 Zeichen der Straße eingeben.';return}
  if(status)status.textContent='Straßenvorschläge werden geladen …';
- try{const url='https://photon.komoot.io/api/?limit=8&lang=de&q='+encodeURIComponent(street+', '+plz+' Hamburg');const resp=await fetch(url);if(!resp.ok)throw Error('lookup');const data=await resp.json();if(seq!==deliveryStreetSeq)return;
- const opts=(data.features||[]).filter(f=>{const p=f.properties||{};return /hamburg/i.test([p.city,p.state,p.county].filter(Boolean).join(' '))&&p.postcode===plz});
+ try{const url='https://photon.komoot.io/api/?limit=8&lang=de&q='+encodeURIComponent(street+', '+plz+' Deutschland');const resp=await fetch(url);if(!resp.ok)throw Error('lookup');const data=await resp.json();if(seq!==deliveryStreetSeq)return;
+ const opts=(data.features||[]).filter(f=>{const p=f.properties||{};return String(p.postcode||'')===plz});
  for(const f of opts){const p=f.properties||{};const value=[p.street||p.name,p.housenumber].filter(Boolean).join(' ');if(value&&!Array.from(list.options).some(o=>o.value===value)){const o=document.createElement('option');o.value=value;list.appendChild(o)}}
  if(status)status.textContent=opts.length?'Straße auswählen und Hausnummer ergänzen.':'Keine Vorschläge gefunden. Bitte Straße und Hausnummer vollständig eingeben.';
  }catch(e){if(seq!==deliveryStreetSeq)return;if(status)status.textContent='Adressvorschläge momentan nicht verfügbar. Bitte Adresse vollständig eingeben.'}
 }
 </script>
 
+
+<script id="asia-v27-postal-zones">
+/* V27: customer PLZ allowlist, editable in admin. Demo localStorage only. */
+(function(){
+ const old=adminRender;
+ adminRender=function(...args){const result=old.apply(this,args);if(adminTab!=='Einstellungen')return result;const body=document.getElementById('adminbody');if(!body)return result;
+ const panel=document.createElement('div');panel.className='card';panel.style.marginBottom='16px';
+ const allowed=Array.isArray(settings.allowedPlz)?settings.allowedPlz:[];
+ panel.innerHTML='<h3>📍 Liefergebiet nach PLZ</h3><p class="muted">Nur diese Postleitzahlen dürfen Lieferung bestellen. Mit Komma, Leerzeichen oder Zeilenumbruch trennen. Leer bedeutet: keine Lieferung freigegeben.</p><label>Erlaubte Postleitzahlen</label><textarea id="asia-allowed-plz" rows="3" placeholder="21217, 21218, 21220">'+safe(allowed.join(', '))+'</textarea><button type="button" onclick="asiaSaveAllowedPlz()">PLZ-Liefergebiet speichern</button><p class="muted">Beispielwerte sind keine automatische Freigabe. Bitte Liefer-PLZ selbst eintragen.</p>';
+ body.insertAdjacentElement('afterbegin',panel);return result;
+ };
+ window.asiaSaveAllowedPlz=function(){const value=document.getElementById('asia-allowed-plz')?.value||'',parts=value.split(/[\\s,;]+/).filter(Boolean),invalid=parts.filter(x=>!/^\\d{5}$/.test(x));if(invalid.length){alert('Ungültige PLZ: '+invalid.join(', ')+'. Bitte fünfstellige PLZ eingeben.');return}settings.allowedPlz=[...new Set(parts)];save();adminRender();alert('PLZ-Liefergebiet gespeichert (nur Demo / dieser Browser).')};
+ if(adminTab==='Einstellungen')adminRender();
+})();
+</script>
 <style id="asia-v25-alert-style">#asia-new-order-badge{display:none;position:fixed;right:18px;bottom:20px;z-index:1000;background:#c8102e;color:white;border-radius:100px;padding:12px 18px;box-shadow:0 5px 22px #0004;font-weight:900;cursor:pointer;animation:asiaPulse 1.1s infinite}#asia-new-order-badge:focus{outline:3px solid #ffc400}@keyframes asiaPulse{50%{transform:scale(1.07)}}.asia-tab-new{position:relative}.asia-tab-new::after{content:attr(data-count);display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 5px;border-radius:99px;background:#d10e2d;color:white;margin-left:6px;font-size:12px}</style>
 <div id="asia-new-order-badge" role="button" tabindex="0" onclick="page('admin');adminTab='Bestellungen';adminRender()" onkeydown="if(event.key==='Enter')this.click()" aria-live="polite"></div>
 <script id="asia-v25-order-alert">
@@ -1196,21 +1211,6 @@ const asiaOriginalAdminAccept=adminAccept;adminAccept=function(...args){const re
 const asiaOriginalAdminReject=adminReject;adminReject=function(...args){const result=asiaOriginalAdminReject.apply(this,args);asiaAlertRefresh();return result};
 window.addEventListener('storage',asiaAlertRefresh);setInterval(asiaAlertRefresh,2000);asiaAlertRefresh();
 
-/* ASIA MAI V26 one-car dispatch */
-(function(){
- const key='asia_mai_driver_v26';
- const readDriver=()=>{try{return {...{status:'Frei',until:'',buffer:8,returnBuffer:5},...JSON.parse(localStorage.getItem(key)||'{}')}}catch{return {status:'Frei',until:'',buffer:8,returnBuffer:5}}};
- function trip(o){return Math.max(8,Math.ceil((Number(o.km)||0)/25*60))}
- function prediction(o){const c=readDriver(),prep=Math.max(5,Number(settings.prep)||20),buffer=Math.max(0,Number(c.buffer)||0),ret=Math.max(0,Number(c.returnBuffer)||0),created=Date.parse(o.created)||Date.now();let free=Date.now();if(c.status!=='Frei'&&c.until)free=Math.max(free,Date.parse(c.until)||free);
- const queued=orders.filter(x=>x.mode==='Lieferung'&&x.token!==o.token&&!['Zugestellt','Abgelehnt'].includes(x.status)&&(Date.parse(x.created)||0)<=created).sort((a,b)=>Date.parse(a.created)-Date.parse(b.created));
- for(const x of queued){free=Math.max(free,(Date.parse(x.created)||Date.now())+prep*60000)+(2*trip(x)+buffer+ret)*60000}
- const ready=created+prep*60000,depart=Math.max(ready,free);return {date:new Date(depart+(trip(o)+buffer)*60000),wait:Math.max(0,Math.round((depart-ready)/60000)),drive:trip(o)}}
- window.asiaEstimatedTime=function(o){if(!o||o.mode!=='Lieferung')return '';const d=prediction(o).date;return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
- const css=document.createElement('style');css.textContent='.v26-dispatch{background:#f3f8f4;border:1px solid #d4e4d7;padding:14px;border-radius:12px;margin:12px 0}.v26-dispatch .two{margin-bottom:8px}.v26-dispatch small{display:block;color:#66786c;margin-top:9px}.v26-eta{font-size:12px;color:#17663f;margin:5px 0}';document.head.appendChild(css);
- window.asiaSaveDriver=function(){const c={status:document.getElementById('v26-status').value,until:document.getElementById('v26-until').value,buffer:Number(document.getElementById('v26-buffer').value)||0,returnBuffer:Number(document.getElementById('v26-return').value)||0};localStorage.setItem(key,JSON.stringify(c));adminRender()};
- const prior=adminRender;adminRender=function(){prior();if(adminTab!=='Bestellungen')return;const body=document.getElementById('adminbody'),c=readDriver();body.insertAdjacentHTML('afterbegin','<div class="v26-dispatch"><h3>🚗 Fahrer · 1 Auto (Demo)</h3><div class="two"><div><label>Fahrerstatus</label><select id="v26-status"><option '+(c.status==='Frei'?'selected':'')+'>Frei</option><option '+(c.status==='Unterwegs'?'selected':'')+'>Unterwegs</option><option '+(c.status==='Rückfahrt'?'selected':'')+'>Rückfahrt</option></select></div><div><label>Fahrzeug wieder frei ab</label><input id="v26-until" type="datetime-local" value="'+safe(c.until)+'"></div></div><div class="two"><div><label>Zeitpuffer (Min.)</label><input id="v26-buffer" type="number" min="0" value="'+c.buffer+'"></div><div><label>Rückfahrt-Puffer (Min.)</label><input id="v26-return" type="number" min="0" value="'+c.returnBuffer+'"></div></div><button onclick="asiaSaveDriver()">Fahrer & Zeiten speichern</button><small>Demo: nur dieser Browser. Keine echten Fahrzeiten oder Live-Fahrerortung. ETA vor Annahme prüfen.</small></div>');for(const o of orders){if(o.mode!=='Lieferung'||o.status!=='Eingegangen')continue;const input=document.getElementById('eta-'+o.token);if(input){input.value=asiaEstimatedTime(o);const p=prediction(o),note=document.createElement('div');note.className='v26-eta';note.textContent='ETA-Vorschlag: '+p.drive+' Min. Fahrt, '+p.wait+' Min. Warteschlange (Demo)';input.insertAdjacentElement('afterend',note)}}};
- if(adminTab==='Bestellungen')adminRender();
-})();
 
 </script>
 </body></html>
