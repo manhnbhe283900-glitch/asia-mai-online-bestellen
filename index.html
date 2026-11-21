@@ -877,4 +877,45 @@ renderMenu=function(){
  renderCart();
 })();
 
+
+/* ASIA MAI V15 checkout and cart */
+(function(){
+ const css=document.createElement('style');
+ css.textContent='.v15-cart-photo{width:52px;height:52px;object-fit:cover;border-radius:9px;flex:none}.v15-cartline{display:flex;gap:9px;align-items:flex-start}.v15-cartline .v14-cart-controls{margin-left:auto}.v15-pay-options{display:grid;gap:10px;margin:16px 0}.v15-pay-option{display:block;border:1px solid #d7e0d7;border-radius:12px;padding:14px;cursor:pointer}.v15-pay-option:has(input:checked){border-color:#17663f;background:#edf7f0}.v15-pay-option input{width:auto;margin-right:8px}.v15-pay-option small{display:block;margin:5px 0 0 24px;color:#627368}.v15-checkout-summary{background:#f4f8f3;border-radius:10px;padding:13px;line-height:1.7}.v15-cart-thumb-placeholder{width:52px;height:52px;border-radius:9px;background:#edf2eb;display:grid;place-items:center;flex:none}';
+ document.head.appendChild(css);
+ function itemPhoto(i){const d=dishes.find(d=>d.name===i.name);return d&&photos[d.id]?photos[d.id]:'';}
+ const oldCart=renderCart;
+ renderCart=function(){oldCart();const el=document.getElementById('cart');if(!el||!cart.length)return;el.querySelectorAll('.cartline').forEach((row,n)=>{const src=itemPhoto(cart[n]);const thumb=document.createElement(src?'img':'div');thumb.className=src?'v15-cart-photo':'v15-cart-thumb-placeholder';if(src){thumb.src=src;thumb.alt=cart[n].name;thumb.onerror=function(){this.style.display='none'};}else thumb.textContent='🍽️';row.classList.add('v15-cartline');row.prepend(thumb);});};
+ function pickupValid(time){return time==='ASAP'||!!time&&Number.isFinite(new Date(time).getTime())&&new Date(time).getTime()>=Date.now()+Number(settings.prep||20)*60000;}
+ function guardPickup(){if(orderEntry?.mode==='Abholung'&&!pickupValid(orderEntry.time||'ASAP')){alert('Die ausgewählte Abholzeit liegt in der Vergangenheit oder ist zu früh. Bitte eine neue Abholzeit wählen.');beginOrder('Abholung');return false;}return true;}
+ checkout=function(){
+  if(!cart.length)return alert('Bitte zuerst ein Gericht auswählen.');
+  if(!orderEntry){beginOrder(orderMode||'Lieferung');return;}
+  if(!guardPickup())return;
+  if(orderEntry.mode==='Lieferung'&&!settings.delivery)return alert('Lieferung ist deaktiviert.');
+  if(orderEntry.mode==='Abholung'&&!settings.pickup)return alert('Abholung ist deaktiviert.');
+  const pickup=orderEntry.mode==='Abholung';
+  const info=pickup?(orderEntry.time==='ASAP'?'So schnell wie möglich (mind. '+settings.prep+' Min.)':new Date(orderEntry.time).toLocaleString('de-DE')):[orderEntry.street,orderEntry.plz,orderEntry.city].filter(Boolean).join(', ');
+  const fee=pickup?0:distanceKm===null?null:deliveryFee(distanceKm);
+  modal('<h2>Bestellung abschließen</h2><div class="v15-checkout-summary"><b>'+safe(orderEntry.name)+'</b><div>'+safe(orderEntry.phone)+'</div><div>'+safe(pickup?'Abholung':'Lieferung')+': '+safe(info)+'</div><div>'+cart.reduce((n,i)=>n+Number(i.qty||0),0)+' Artikel · '+money(subtotal())+'</div><b>Gesamt: '+(fee===null?money(subtotal())+' + Lieferkosten':money(subtotal()+fee))+'</b></div><button type="button" class="secondary" style="margin-top:10px" onclick="v15EditDetails()">Angaben ändern</button><h3>Zahlungsart wählen</h3><div class="v15-pay-options"><label class="v15-pay-option"><input type="radio" name="v15-payment" value="Bargeld" checked> Barzahlung bei Übergabe<small>Erst bei Lieferung oder Abholung bezahlen</small></label><label class="v15-pay-option"><input type="radio" name="v15-payment" value="PayPal"> PayPal<small>Online-Zahlung ist noch nicht aktiviert (Demo)</small></label></div><button class="full" onclick="v15FinishOrder()">Bestellung aufgeben →</button>');
+ };
+ window.v15EditDetails=function(){closeModal();beginOrder(orderEntry?.mode||orderMode||'Lieferung');};
+ window.v15FinishOrder=function(){
+  if(!orderEntry||!guardPickup())return;
+  const payment=document.querySelector('input[name="v15-payment"]:checked')?.value||'Bargeld';
+  if(payment==='PayPal'){alert('PayPal ist noch nicht mit einem Geschäftskonto verbunden. Es wurde nichts abgebucht. Bitte Barzahlung wählen.');return;}
+  const pickup=orderEntry.mode==='Abholung';
+  if(!pickup){alert('Lieferstrecke und Lieferkosten sind noch nicht live verifiziert. Eine verbindliche Lieferbestellung ist derzeit nicht möglich.');return;}
+  if(!restaurantIsOpen())return alert('Das Restaurant ist derzeit geschlossen. Bitte während der Öffnungszeiten bestellen.');
+  const token='AM-'+Array.from(crypto.getRandomValues(new Uint8Array(10)),x=>x.toString(16).padStart(2,'0')).join('').toUpperCase();
+  const order={token,name:orderEntry.name,phone:orderEntry.phone,address:'',km:0,fee:0,mode:'Abholung',items:cart.map(i=>({...i})),subtotal:subtotal(),total:subtotal(),payment:'Bargeld',paymentStatus:'Noch nicht bezahlt',status:'Eingegangen',time:orderEntry.time||'ASAP',eta:'',created:new Date().toISOString()};
+  orders.unshift(order);save();cart=[];renderCart();closeModal();activeTrack=token;page('tracking');document.getElementById('trackinput').value=token;lookup();
+ };
+ const oldBeginOrder=beginOrder;
+ beginOrder=function(which){oldBeginOrder(which);if(which!=='Abholung')return;const date=document.getElementById('entry-pickup-date'),clock=document.getElementById('entry-pickup-clock');if(!date||!clock)return;const now=new Date(),minDate=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');date.min=minDate;if(date.value<minDate)date.value=minDate;date.addEventListener('change',()=>{if(date.value<minDate)date.value=minDate;});};
+ const oldConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){const modeName=document.getElementById('orderEntryOverlay')?.dataset.mode;if(modeName==='Abholung'&&document.getElementById('entry-pickup')?.value==='custom'){const date=document.getElementById('entry-pickup-date')?.value,clock=document.getElementById('entry-pickup-clock')?.value;if(!pickupValid(date+'T'+clock)){e.preventDefault();alert('Bitte eine Abholzeit in der Zukunft wählen (mindestens '+settings.prep+' Minuten Vorlauf).');return;}}oldConfirm(e);};
+ renderCart();
+})();
+
 </script></body></html>
