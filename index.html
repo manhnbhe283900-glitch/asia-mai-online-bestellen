@@ -737,4 +737,25 @@ renderMenu=function(){
   if(d&&title)title.textContent=v11Label(d);
  });
 };
+</script>
+<style id="asia-v12-css">
+#v11-save-row{display:none!important}
+#v12-category-toolbar{display:flex!important;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0}
+#v12-category-toolbar #v11-save{display:inline-flex!important;align-items:center;justify-content:center;margin:0 0 0 auto;width:auto;position:static!important}
+@media(max-width:600px){#v12-category-toolbar #v11-save{width:auto;max-width:100%;font-size:12px;padding:10px}}
+</style>
+<script id="asia-v12">
+/* Put save button directly opposite '+ Kategorie hinzufügen'. */
+const v12OldDecorate=v10Decorate;
+v10Decorate=function(){
+ v12OldDecorate();
+ if(adminTab!=='Speisekarte')return;
+ const body=document.getElementById('adminbody');if(!body)return;
+ const add=[...body.querySelectorAll('button')].find(b=>b.textContent.includes('Kategorie hinzufügen'));
+ const save=body.querySelector('#v11-save');
+ if(!add||!save)return;
+ const toolbar=document.createElement('div');toolbar.id='v12-category-toolbar';
+ add.parentNode.insertBefore(toolbar,add);
+ toolbar.append(add,save);
+};
 </script></body></html>
