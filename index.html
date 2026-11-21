@@ -666,4 +666,75 @@ menuV3=function(){
   });
  });
 };
+</script>
+<style id="asia-v11-css">
+.v9-savebar,#v10-save{display:none!important}
+#v11-save{margin-left:auto;white-space:nowrap;background:#12683e;color:#fff;font-weight:750;border-radius:9px;padding:11px 16px}
+#v11-save-row{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin:0 0 15px}
+#v11-save-row .muted{font-size:12px}
+.v10-dish .v10-num{min-width:36px}
+#ed-number{max-width:180px}
+@media(max-width:600px){#v11-save-row{flex-wrap:wrap}#v11-save{width:100%}}
+</style>
+<script id="asia-v11">
+/* Article numbers are manually assigned immutable-through-reordering labels, not list positions. */
+function v11Label(d){const n=d.articleNumber;return (n!==undefined&&n!==null&&String(n).trim()!==''?String(n).trim()+'. ':'')+d.name}
+const v11OldEdit=adminEditDish;
+adminEditDish=function(id){
+ v11OldEdit(id);
+ const name=document.getElementById('ed-name');if(!name)return;
+ const d=id===null?null:dishes.find(x=>x.id===id);
+ const label=document.createElement('label');label.htmlFor='ed-number';label.textContent='Artikelnummer (frei wählbar, bleibt beim Sortieren gleich)';
+ const number=document.createElement('input');number.id='ed-number';number.type='text';number.inputMode='numeric';number.maxLength=12;number.placeholder='z. B. 29';number.value=d?.articleNumber??'';
+ name.before(label,number);
+};
+const v11OldSave=adminSaveDish;
+adminSaveDish=function(){
+ const field=document.getElementById('ed-number');if(!field)return v11OldSave();
+ const number=field.value.trim();
+ if(number&&!/^[0-9]{1,12}$/.test(number)){alert('Artikelnummer: Bitte nur Ziffern eingeben.');field.focus();return}
+ if(number&&dishes.some(d=>d.id!==editingDish&&String(d.articleNumber??'')===number)){alert('Diese Artikelnummer ist bereits vergeben.');field.focus();return}
+ const id=editingDish===null?Math.max(0,...dishes.map(x=>Number(x.id)||0))+1:editingDish;
+ v11OldSave();
+ const d=dishes.find(x=>x.id===id);
+ if(d){d.articleNumber=number;persistMenu();if(adminTab==='Speisekarte')adminRender()}
+};
+const v11OldDecorate=v10Decorate;
+v10Decorate=function(){
+ v11OldDecorate();
+ if(adminTab!=='Speisekarte')return;
+ const body=document.getElementById('adminbody');if(!body)return;
+ body.querySelectorAll('.v10-dish').forEach(el=>{
+  const cat=el.dataset.cat,idx=Number(el.dataset.pos),d=v10CategoryDishes(cat)[idx];
+  if(!d)return;
+  el.querySelector('.v10-num')?.remove();
+  const title=el.querySelector('.v10-main b');if(title)title.textContent=v11Label(d);
+ });
+ const header=document.createElement('div');header.id='v11-save-row';
+ const msg=document.createElement('span');msg.className='muted';msg.textContent='Speisekarte speichern';
+ const button=document.createElement('button');button.type='button';button.id='v11-save';button.textContent='✓ Änderungen speichern';button.onclick=v9SaveAll;
+ header.append(msg,button);
+ const intro=body.querySelector('h2');
+ if(intro)intro.before(header);else body.prepend(header);
+};
+const v11OldMenu=menuV3;
+menuV3=function(){
+ v11OldMenu();
+ const root=document.getElementById('foodSections');if(!root)return;
+ root.querySelectorAll('section').forEach(sec=>{
+  const cat=sec.querySelector('h2')?.textContent,group=v10CategoryDishes(cat);
+  sec.querySelectorAll('.food-card').forEach((card,i)=>{
+   const d=group[i],title=card.querySelector('b');if(d&&title)title.textContent=v11Label(d);
+  });
+ });
+};
+const v11OldRenderMenu=renderMenu;
+renderMenu=function(){
+ v11OldRenderMenu();
+ const list=document.getElementById('items');if(!list)return;
+ list.querySelectorAll('.item').forEach((item,i)=>{
+  const subset=dishes.filter(d=>category==='Alle'||d.cat===category),d=subset[i],title=item.querySelector('h3');
+  if(d&&title)title.textContent=v11Label(d);
+ });
+};
 </script></body></html>
