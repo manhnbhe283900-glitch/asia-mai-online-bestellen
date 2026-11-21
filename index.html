@@ -242,4 +242,109 @@ function addReferenceMenu(){
  localStorage.setItem('am_menu_seed_v6','1');persistMenu();
 }
 addReferenceMenu();
+</script>
+<style id="asia-v7-style">
+@media(min-width:850px){#foodSections .food-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+#foodSections .food-card{min-width:0;min-height:170px;position:relative;align-items:stretch}
+#foodSections .food-card .food-photo{width:116px;height:116px;object-fit:cover;border-radius:14px}
+#foodSections .food-card .food-symbols{font-size:15px;margin:7px 0}
+#foodSections .food-card .food-action{margin-top:10px}
+#foodSections .food-card .food-copy{min-width:0;flex:1}
+#foodSections .food-card .food-copy p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.v7-variant-row{display:grid;grid-template-columns:26px 1fr 100px 32px;gap:7px;align-items:center;margin:8px 0}
+.v7-variant-row input{min-width:0}.v7-editor-note{font-size:12px;color:#65766d}
+.v7-category-group{border:1px solid #dde5dd;border-radius:12px;margin:15px 0;padding:14px}
+.v7-category-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.v7-category-items{margin-top:10px}
+.v7-category-items .order{margin:7px 0}
+</style>
+<script id="asia-v7">
+/* V7: grouped category editor, absolute-priced variants, optional two badges. Browser-only demo. */
+function v7Currency(n){return Number(n||0).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function v7Number(x){return Number(String(x).replace(',','.'))}
+function v7SymbolBadges(d){return (d.badges||[]).filter(x=>x==='spicy'||x==='vegan').map(x=>x==='spicy'?'🌶️':'🌱').join(' ')}
+function v7VariantAdd(name='',price=''){
+ const rows=document.getElementById('v7-variant-rows');if(!rows)return;
+ const n=rows.children.length+1;
+ const row=document.createElement('div');row.className='v7-variant-row';
+ row.innerHTML='<span class="v7-row-number">'+n+'.</span><input class="v7-vname" placeholder="z. B. Hühnerfleisch" value="'+safe(name)+'"><input class="v7-vprice" type="text" inputmode="decimal" placeholder="Preis €" value="'+safe(String(price))+'"><button type="button" class="secondary compact" onclick="this.parentElement.remove();v7Renumber()">×</button>';
+ rows.appendChild(row);
+}
+function v7Renumber(){document.querySelectorAll('.v7-row-number').forEach((x,i)=>x.textContent=(i+1)+'.')}
+function v7ToggleVariants(){
+ const on=document.getElementById('ed-options').checked;
+ document.getElementById('v7-variant-editor').hidden=!on;
+ document.getElementById('v7-standard-price').hidden=on;
+}
+const v7OldEditor=adminEditDish;
+adminEditDish=function(id){
+ if(id===null&&!menuCategories.length)return alert('Bitte zuerst eine Kategorie erstellen.');
+ v7OldEditor(id);
+ const d=id===null?null:dishes.find(x=>x.id===id);
+ const em=document.getElementById('ed-emoji');if(em){document.getElementById('symbolChoices')?.remove();em.previousElementSibling?.tagName==='LABEL'&&em.previousElementSibling.remove();em.remove()}
+ const price=document.getElementById('ed-price');price.type='text';price.inputMode='decimal';price.value=d?.price===undefined?'':v7Currency(d.price);
+ price.parentElement;price.previousElementSibling?.tagName==='LABEL'&& (price.previousElementSibling.textContent='Standardpreis (€)');
+ const wrap=document.createElement('div');wrap.id='v7-standard-price';price.before(wrap);wrap.append(price.previousElementSibling?.tagName==='LABEL'?price.previousElementSibling:document.createElement('span'),price);
+ const opt=document.getElementById('ed-options');opt.parentElement.lastChild.textContent=' Varianten aktiv (eigene Preise je Variante)';
+ document.getElementById('ed-variants')?.previousElementSibling?.remove();document.getElementById('ed-variants')?.remove();
+ opt.parentElement.insertAdjacentHTML('afterend','<div id="v7-variant-editor"><p class="v7-editor-note">Jede Variante hat einen eigenen Endpreis. Der Standardpreis wird bei aktiven Varianten nicht verwendet.</p><div id="v7-variant-rows"></div><button type="button" class="secondary" onclick="v7VariantAdd()">+ Variante hinzufügen</button></div><label>Optionale Kennzeichnung</label><div class="row"><label><input type="checkbox" id="v7-spicy" '+(d?.badges?.includes('spicy')?'checked':'')+'> 🌶️ Scharf</label><label><input type="checkbox" id="v7-vegan" '+(d?.badges?.includes('vegan')?'checked':'')+'> 🌱 Vegan</label></div>');
+ opt.onchange=v7ToggleVariants;
+ const variants=d?.variants||[];
+ variants.forEach(v=>v7VariantAdd(v.name,v.price!==undefined?v.price:Number(d.price||0)+Number(v.extra||0)));
+ v7ToggleVariants();
+ const category=document.getElementById('ed-cat');if(category){category.innerHTML=menuCategories.map(c=>'<option value="'+safe(c)+'" '+(c===(d?.cat||menuCategories[0])?'selected':'')+'>'+safe(c)+'</option>').join('')}
+};
+adminSaveDish=function(){
+ const get=id=>document.getElementById(id)?.value?.trim()||'';
+ const name=get('ed-name'),cat=get('ed-cat'),enabled=document.getElementById('ed-options').checked;
+ const price=v7Number(get('ed-price')||'0');
+ if(!name)return alert('Bitte einen Artikelnamen eingeben.');
+ if(!menuCategories.includes(cat))return alert('Bitte eine vorhandene Kategorie auswählen.');
+ if(!enabled&&(!Number.isFinite(price)||price<0))return alert('Bitte einen gültigen Preis eingeben.');
+ const variants=[...document.querySelectorAll('.v7-variant-row')].map(r=>({name:r.querySelector('.v7-vname').value.trim(),price:v7Number(r.querySelector('.v7-vprice').value.trim())}));
+ if(enabled&&(!variants.length||variants.some(v=>!v.name||!Number.isFinite(v.price)||v.price<0)))return alert('Bitte mindestens eine Variante mit Name und gültigem Preis eingeben.');
+ const url=get('ed-image');
+ if(uploadImage===null&&url&&!/^https:\/\/[^\s]+$/i.test(url)&&!url.startsWith('data:image/'))return alert('Bitte eine gültige HTTPS-Bildadresse eingeben.');
+ const id=editingDish===null?Math.max(0,...dishes.map(d=>Number(d.id)||0))+1:editingDish;
+ let d=dishes.find(x=>x.id===id);
+ if(!d){d={id};dishes.push(d)}
+ Object.assign(d,{name,cat,desc:get('ed-desc'),price:enabled?null:price,options:enabled,variants:enabled?variants:[],badges:[document.getElementById('v7-spicy').checked?'spicy':null,document.getElementById('v7-vegan').checked?'vegan':null].filter(Boolean),emoji:'',available:document.getElementById('ed-available').checked});
+ if(uploadImage!==null){if(uploadImage)photos[id]=uploadImage;else delete photos[id]}
+ else if(url)photos[id]=url;else delete photos[id];
+ try{localStorage.setItem('am_photos',JSON.stringify(photos));persistMenu()}catch(e){alert('Bild zu groß für lokalen Browser-Speicher. Bitte kleinere Datei wählen.');return}
+ closeModal();adminRender();
+};
+function v7AddToCart(id){
+ const d=dishes.find(x=>x.id===id);if(!d||d.available===false)return alert('Artikel nicht verfügbar.');
+ if(!orderEntry){beginOrder(orderMode||'Lieferung');return}
+ if(d.options){
+ let variants=d.variants||[];
+ if(!variants.length)return alert('Für diesen Artikel wurden noch keine Varianten hinterlegt.');
+ modal('<h2>'+safe(d.name)+'</h2><p>'+safe(d.desc||'')+'</p><label>Variante auswählen *</label><div>'+variants.map((v,i)=>'<label style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px;border-bottom:1px solid #eee"><span><input type="radio" name="v7-choice" value="'+i+'" '+(!i?'checked':'')+'> '+safe(v.name)+'</span><b>'+money(v.price!==undefined?v.price:Number(d.price||0)+Number(v.extra||0))+'</b></label>').join('')+'</div><button class="full" onclick="v7ConfirmVariant('+id+')">Zum Warenkorb hinzufügen</button>');
+ }else{cart.push({name:d.name,price:Number(d.price),option:'',qty:1});renderCart()}
+}
+addItem=v7AddToCart;
+function v7ConfirmVariant(id){
+ const d=dishes.find(x=>x.id===id),i=Number(document.querySelector('input[name="v7-choice"]:checked')?.value??-1),v=d?.variants?.[i];
+ if(!v)return alert('Bitte eine Variante wählen.');
+ const p=v.price!==undefined?Number(v.price):Number(d.price||0)+Number(v.extra||0);
+ cart.push({name:d.name,price:p,option:v.name,qty:1});closeModal();renderCart();
+}
+menuV3=function(){
+ const cats=menuCategories.filter(c=>dishes.some(d=>d.cat===c&&d.available!==false));
+ document.getElementById('categoryLinks').innerHTML=cats.map((c,i)=>'<button onclick="document.getElementById(\'section'+i+'\').scrollIntoView({behavior:\'smooth\'})">'+safe(c)+'</button>').join('');
+ document.getElementById('foodSections').innerHTML=cats.map((c,i)=>'<section id="section'+i+'"><h2>'+safe(c)+'</h2><div class="food-grid">'+dishes.filter(d=>d.cat===c&&d.available!==false).map(d=>'<div class="food-card"><div class="food-copy"><b>'+safe(d.name)+'</b><p class="muted">'+safe(d.desc||'')+'</p><div class="food-symbols">'+v7SymbolBadges(d)+'</div><b>'+(d.options?'Varianten wählen':money(d.price))+'</b><div class="food-action"><button onclick="addItem('+d.id+')">Bestellen</button></div></div>'+(photos[d.id]?'<img class="food-photo" src="'+safe(photos[d.id])+'" alt="'+safe(d.name)+'">':'')+'</div>').join('')+'</div></section>').join('');
+};
+const v7OldAdmin=adminRender;
+adminRender=function(){
+ v7OldAdmin();
+ if(adminTab!=='Speisekarte')return;
+ const b=document.getElementById('adminbody');if(!b)return;
+ const bannerIndex=b.innerHTML.indexOf('<h3>Startseite');
+ const bannerHTML=bannerIndex>=0?b.innerHTML.slice(bannerIndex):'';
+ b.innerHTML='<h2>Speisekarte verwalten</h2><p class="muted">Zuerst Kategorie erstellen, dann Artikel hinzufügen. Demo-Daten nur in diesem Browser.</p><div class="row"><button onclick="adminAddCategory()">+ Kategorie hinzufügen</button><button onclick="adminEditDish(null)" '+(!menuCategories.length?'disabled':'')+'>+ Neuer Artikel</button></div>'+
+ menuCategories.map((c,i)=>'<div class="v7-category-group"><div class="v7-category-head"><b>'+safe(c)+' ('+dishes.filter(d=>d.cat===c).length+')</b><div class="row"><button class="secondary compact" onclick="adminRenameCategory('+i+')">Umbenennen</button><button class="secondary compact" onclick="adminRemoveCategory('+i+')">Löschen</button><button class="secondary compact" onclick="adminEditDish(null);document.getElementById(\'ed-cat\').value='+JSON.stringify(c).replace(/"/g,'&quot;')+'">+ Artikel</button></div></div><div class="v7-category-items">'+(dishes.filter(d=>d.cat===c).map(d=>'<div class="order"><div class="row"><div><b>'+safe(d.name)+'</b><p class="muted">'+(d.options?'Varianten: '+(d.variants||[]).length:money(d.price))+(d.available===false?' · Nicht verfügbar':'')+'</p></div><div class="row"><button class="secondary compact" onclick="adminEditDish('+d.id+')">Bearbeiten</button><button class="danger compact" onclick="adminDeleteDish('+d.id+')">Löschen</button></div></div></div>').join('')||'<p class="muted">Noch keine Artikel in dieser Kategorie.</p>')+'</div></div>').join('')+
+ '<h3>Startseite · 3 Werbebanner</h3>'+banners.map((x,i)=>'<div class="order"><b>Banner '+(i+1)+'</b>'+['title','subtitle','image'].map(k=>'<label>'+({title:'Überschrift',subtitle:'Untertitel',image:'Bild-URL (https://)'}[k])+'</label><input id="bn'+i+k+'" value="'+safe(x[k]||'')+'">').join('')+'</div>').join('')+'<button onclick="saveBanners()">Banner speichern</button>';
+};
+menuV3();
 </script></body></html>
