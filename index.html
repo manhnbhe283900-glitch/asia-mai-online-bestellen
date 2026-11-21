@@ -86,15 +86,16 @@ function beginOrder(which){
  '<label>Telefonnummer *</label><input id="entry-phone" required type="tel" autocomplete="tel" value="'+escapeValue(old.phone)+'" placeholder="+49 ...">'+
  (pickup?'<label>Wann möchtest du abholen? *</label><select id="entry-pickup" onchange="togglePickupFields()"><option value="ASAP">So schnell wie möglich (mind. '+settings.prep+' Min.)</option><option value="custom">Datum und Uhrzeit auswählen</option></select><div id="pickup-date-fields" style="display:none"><div class="two"><div><label>Datum *</label><input type="date" id="entry-pickup-date" lang="de-DE"></div><div><label>Uhrzeit *</label><input type="time" id="entry-pickup-clock" step="900"></div></div></div>'+
  '<p class="entry-note">Das Restaurant kann eine andere Uhrzeit vorschlagen, die du bestätigen kannst.</p>':
- '<label>Straße und Hausnummer *</label><input id="entry-street" required autocomplete="street-address" value="'+escapeValue(old.street)+'" placeholder="Musterstraße 12">'+
- '<div class="two"><div><label>PLZ *</label><input id="entry-plz" required inputmode="numeric" maxlength="5" value="'+escapeValue(old.plz)+'" placeholder="20095"></div><div><label>Ort *</label><input id="entry-city" required value="'+escapeValue(old.city||'Hamburg')+'" placeholder="Hamburg"></div></div>'+
- '<p class="entry-note">Demo: Adressvorschläge, Fahrstrecke und Liefergebiet werden später über Google Maps geprüft.</p>')+
+ '<label>PLZ * (nur Hamburg)</label><input id="entry-plz" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" value="'+escapeValue(old.plz)+'" placeholder="z. B. 22087" oninput="deliveryPlzChanged()" autocomplete="postal-code"><div id="delivery-plz-status" class="entry-note" aria-live="polite"></div>'+
+ '<label>Straße und Hausnummer *</label><input id="entry-street" required autocomplete="street-address" value="'+escapeValue(old.street)+'" placeholder="Straße und Hausnummer" oninput="deliveryStreetChanged()" list="delivery-street-suggestions"><datalist id="delivery-street-suggestions"></datalist>'+
+ '<div id="delivery-address-status" class="entry-note" aria-live="polite">Adressvorschläge nach Eingabe von PLZ und Straße.</div><a id="delivery-map-link" target="_blank" rel="noopener noreferrer" style="display:none;font-size:12px" href="#">📍 Adresse auf OpenStreetMap prüfen ↗</a><input id="entry-city" type="hidden" value="Hamburg">'+
+ '<p class="entry-note">Lieferung derzeit nur innerhalb Hamburgs. Adressprüfung über öffentliche Kartendaten; die tatsächliche Fahrstrecke wird hier noch nicht live berechnet.</p>')+
  '<button class="entry-submit" type="submit">Weiter zur Speisekarte →</button></form>';
  let overlay=document.getElementById('orderEntryOverlay');
  if(!overlay){overlay=document.createElement('div');overlay.id='orderEntryOverlay';overlay.className='order-entry-overlay';document.body.appendChild(overlay)}
  overlay.dataset.mode=which;overlay.innerHTML='<div class="order-entry-card">'+html+'</div>';
  if(pickup){const now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');const dateInput=document.getElementById('entry-pickup-date');dateInput.min=today;dateInput.value=old.time&&old.time!=='ASAP'?old.time.slice(0,10):today;document.getElementById('entry-pickup-clock').value=old.time&&old.time!=='ASAP'?old.time.slice(11,16):'18:00';if(old.time&&old.time!=='ASAP')document.getElementById('entry-pickup').value='custom';togglePickupFields()}
- document.getElementById('entry-name').focus();
+ if(!pickup){deliveryPlzChanged();deliveryStreetChanged()}document.getElementById('entry-name').focus();
 }
 function togglePickupFields(){const custom=document.getElementById('entry-pickup')?.value==='custom';const fields=document.getElementById('pickup-date-fields');if(fields)fields.style.display=custom?'block':'none';for(const id of ['entry-pickup-date','entry-pickup-clock']){const input=document.getElementById(id);if(input)input.required=custom}}
 function returnHomeFromOrder(){closeOrderEntry();page("shop")}
@@ -108,6 +109,7 @@ function confirmOrderEntry(e){
  if(modeName==='Lieferung'){
   info.street=el('entry-street');info.plz=el('entry-plz');info.city=el('entry-city');
   if(!/^\d{5}$/.test(info.plz)){alert('Bitte eine fünfstellige PLZ eingeben.');return}
+  if(deliveryPostalState.plz!==info.plz||deliveryPostalState.valid!==true){alert('Bitte zuerst eine gültige Hamburger PLZ bestätigen lassen.');return}
  }else{
   info.time=el('entry-pickup')==='custom'?el('entry-pickup-date')+'T'+el('entry-pickup-clock'):'ASAP';
   if(!info.time||info.time!=='ASAP'&&new Date(info.time).getTime()<Date.now()+settings.prep*60000){alert('Bitte eine gültige Abholzeit auswählen.');return}
@@ -1146,4 +1148,35 @@ renderMenu=function(){
  beginOrder=function(which){oldBegin2(which);if(which==='Abholung'){const select=document.getElementById('entry-pickup');if(select){const asap=[...select.options].find(o=>o.value==='ASAP');if(asap)asap.textContent='Ab sofort';const hint=document.createElement('p');hint.className='muted';hint.style.fontSize='12px';hint.textContent='Zubereitungszeit ca. 5–10 Minuten, je nach Gericht.';select.insertAdjacentElement('afterend',hint);}}};
 })();
 
-</script></body></html>
+</script>
+<script id="asia-mai-v24-delivery-map">
+/* Public postal lookup and OSM address suggestions. No API keys, no live driving-distance claim. */
+let deliveryPostalState={plz:'',valid:false};let deliveryPlzSeq=0,deliveryStreetSeq=0;
+async function deliveryPlzChanged(){
+ const field=document.getElementById('entry-plz');if(!field)return;
+ const plz=field.value.trim(),status=document.getElementById('delivery-plz-status'),seq=++deliveryPlzSeq;
+ deliveryPostalState={plz,valid:false};if(!status)return;
+ if(!/^\\d{5}$/.test(plz)){status.textContent='Bitte 5 Ziffern eingeben.';return}
+ status.textContent='PLZ wird geprüft …';
+ try{const resp=await fetch('https://api.zippopotam.us/de/'+encodeURIComponent(plz));if(seq!==deliveryPlzSeq)return;
+ if(!resp.ok)throw Error('unknown');const data=await resp.json();
+ const hamburg=(data.places||[]).some(p=>/hamburg/i.test(p['place name']||'')||/hamburg/i.test(p.state||''));
+ deliveryPostalState={plz,valid:hamburg};status.textContent=hamburg?'✓ Hamburger PLZ bestätigt':'Ungültig: Lieferung nur in Hamburg möglich.';
+ status.style.color=hamburg?'#17653b':'#b91c1c';
+ }catch(e){if(seq!==deliveryPlzSeq)return;status.textContent='PLZ konnte nicht geprüft werden. Bitte später erneut versuchen.';status.style.color='#b91c1c'}
+ deliveryStreetChanged();
+}
+async function deliveryStreetChanged(){
+ const field=document.getElementById('entry-street'),list=document.getElementById('delivery-street-suggestions'),status=document.getElementById('delivery-address-status'),link=document.getElementById('delivery-map-link');if(!field||!list)return;
+ const street=field.value.trim(),plz=document.getElementById('entry-plz')?.value.trim()||'',seq=++deliveryStreetSeq;
+ list.innerHTML='';if(link){link.href='https://www.openstreetmap.org/search?query='+encodeURIComponent(street+', '+plz+' Hamburg, Deutschland');link.style.display=street?'inline-block':'none'}
+ if(street.length<3||!deliveryPostalState.valid||deliveryPostalState.plz!==plz){if(status)status.textContent='Hamburger PLZ bestätigen und mindestens 3 Zeichen der Straße eingeben.';return}
+ if(status)status.textContent='Straßenvorschläge werden geladen …';
+ try{const url='https://photon.komoot.io/api/?limit=8&lang=de&q='+encodeURIComponent(street+', '+plz+' Hamburg');const resp=await fetch(url);if(!resp.ok)throw Error('lookup');const data=await resp.json();if(seq!==deliveryStreetSeq)return;
+ const opts=(data.features||[]).filter(f=>{const p=f.properties||{};return /hamburg/i.test([p.city,p.state,p.county].filter(Boolean).join(' '))&&(p.postcode===plz||!p.postcode)});
+ for(const f of opts){const p=f.properties||{};const value=[p.street||p.name,p.housenumber].filter(Boolean).join(' ');if(value&&!Array.from(list.options).some(o=>o.value===value)){const o=document.createElement('option');o.value=value;list.appendChild(o)}}
+ if(status)status.textContent=opts.length?'Vorschläge verfügbar. Bitte Hausnummer prüfen.':'Keine passenden Vorschläge – Adresse auf der Karte prüfen.';
+ }catch(e){if(seq!==deliveryStreetSeq)return;if(status)status.textContent='Adressvorschläge momentan nicht verfügbar. Bitte Adresse auf der Karte prüfen.'}
+}
+</script>
+</body></html>
