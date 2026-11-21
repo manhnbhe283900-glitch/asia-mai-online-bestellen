@@ -1238,4 +1238,25 @@ window.addEventListener('storage',asiaAlertRefresh);setInterval(asiaAlertRefresh
 
 
 </script>
+<style id="asia-v29-pickup-asap-style">#orderEntryOverlay[data-mode="Abholung"] #pickup-date-fields[hidden]{display:none!important}</style>
+<script id="asia-v29-pickup-asap">
+(function(){
+ const previousToggle=togglePickupFields;
+ togglePickupFields=function(...args){
+  const result=previousToggle.apply(this,args);
+  const select=document.getElementById('entry-pickup'),fields=document.getElementById('pickup-date-fields');
+  if(!select||!fields)return result;
+  const custom=select.value==='custom';
+  fields.hidden=!custom;fields.style.display=custom?'block':'none';
+  fields.querySelectorAll('input').forEach(input=>{input.disabled=!custom;if(input.id==='entry-pickup-date'||input.id==='entry-pickup-clock')input.required=custom;});
+  return result;
+ };
+ const previousBegin=beginOrder;
+ beginOrder=function(...args){
+  const result=previousBegin.apply(this,args);
+  if(args[0]==='Abholung'){const select=document.getElementById('entry-pickup');if(select){const asap=select.querySelector('option[value="ASAP"]');if(asap)asap.textContent='Ab sofort';togglePickupFields();}}
+  return result;
+ };
+})();
+</script>
 </body></html>
