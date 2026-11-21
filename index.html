@@ -22,7 +22,7 @@ header .brand-home img{width:73px;height:73px;object-fit:contain;margin:0 1px 0 
 </style></head><body><header><div class="head"><button class="brand brand-home" type="button" onclick="page('shop')" aria-label="ASIA MAI – Startseite"><img src="logo1.png" alt="Asia Mai Logo" onerror="this.src='logo.png'"> <span>ASIA MAI</span></button><nav class="nav"><button onclick="page('shop')">Home</button><button onclick="page('menu')">Menü</button><button onclick="page('kontakt')">Kontakt</button><button onclick="page('tracking')">Bestellung verfolgen</button><button onclick="page('admin')">Management Demo</button></nav></div></header><div class="order-bar"><strong>ONLINE BESTELLUNG</strong><div class="order-switch"><button class="delivery-switch" onclick="beginOrder('Lieferung')"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="18" r="3"/><circle cx="19" cy="18" r="3"/><path d="M8 18h6l-3-8h-4M12 8h5l3 6M4 11h4M13 6h3"/></svg>LIEFERUNG</button><span class="switch-center" aria-hidden="true">↔</span><button class="pickup-switch" onclick="beginOrder('Abholung')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18l-2-6H5zM5 10v11h14V10M9 21v-7h6v7M4 10l2 2 3-2 3 2 3-2 3 2 2-2"/></svg>ABHOLUNG</button></div></div><main class="wrap"><div id="shop"><div class="promo-grid" id="promoGrid"></div></div><section id="menu" class="hidden"><div class="layout"><section class="menu-list"><div class="category-links" id="categoryLinks"></div><h1>Menü</h1><div id="foodSections"></div></section><aside class="card" style="align-self:start;position:sticky;top:100px"><h2>🛒 Warenkorb <span class="badge" id="count">0</span></h2><div id="cart"></div><div class="line"></div><div class="row"><span>Zwischensumme</span><b id="subtotal">0,00 €</b></div><div class="row"><span>Lieferkosten</span><b id="fee">–</b></div><div class="row"><b>Gesamt</b><b id="total">0,00 €</b></div><p class="muted" id="feeinfo">Lieferkosten werden nach Fahrstrecke berechnet.</p><button class="full" onclick="checkout()">Zur Kasse →</button></aside></div></section><section id="kontakt" class="hidden"><div class="card"><h1>Kontakt</h1><h2>ASIA MAI</h2><p>Restaurantadresse und Öffnungszeiten folgen.</p></div></section><section id="tracking" class="hidden"><div class="card"><h2>📦 Bestellung verfolgen</h2><p class="muted">Nach der Bestellung öffnet sich diese Seite automatisch. Später kannst du deinen privaten Tracking-Code verwenden.</p><div class="two"><div><label>Tracking-Code</label><input id="trackinput" placeholder="z. B. AM-..."></div><div style="align-self:end"><button onclick="lookup()">Bestellung suchen</button></div></div><div id="trackresult" style="margin-top:20px"></div></div></section>
 <section id="admin" class="hidden"><div class="card"><div class="row"><div><h2>ASIA MAI Management <span class="badge">DEMO</span></h2><p class="muted">Nur lokale Vorschau – keine echte Authentifizierung, Zahlungen oder Benachrichtigungen.</p></div><span>⚙️</span></div><div class="adminnav" id="adminnav"></div><div id="adminbody"></div></div></section></main><div class="footer">ASIA MAI V3 · Interaktiver Prototyp · Keine echten Bestellungen oder Zahlungen</div><div id="overlay" class="modalbg hidden"><div id="modal" class="modal"></div></div><script>
 const DEFAULT={tiers:[{km:1,fee:1},{km:2,fee:2},{km:3,fee:3},{km:5,fee:4.5}],prep:20,minOrder:15,delivery:true,pickup:true,restaurant:'Glüsinger Str. 22, 21217 Seevetal-Meckelfeld, Deutschland',opening:'Di–Sa 11:00–21:30 · So 12:00–21:30 · Mo geschlossen'};
-const dishes=[{id:1,cat:'Hauptgerichte',name:'Rotes Curry',desc:'Kokosmilch, Gemüse, Reis',price:12.9,emoji:'🍛',options:true},{id:2,cat:'Hauptgerichte',name:'Gebratene Nudeln',desc:'Wok-Nudeln mit Gemüse',price:9.9,emoji:'🍜',options:true},{id:3,cat:'Hauptgerichte',name:'Gebratener Reis',desc:'Reis mit Gemüse und Ei',price:10.5,emoji:'🍚',options:true},{id:4,cat:'Vorspeisen',name:'Frühlingsrollen',desc:'Knusprig mit Dip',price:5.5,emoji:'🥟'},{id:5,cat:'Vorspeisen',name:'Sommerrollen',desc:'Frisch mit Kräutern',price:6.9,emoji:'🥬'},{id:6,cat:'Getränke',name:'Mango Lassi',desc:'Fruchtig und cremig',price:4.5,emoji:'🥭'}];
+let dishes=[{id:1,cat:'Hauptgerichte',name:'Rotes Curry',desc:'Kokosmilch, Gemüse, Reis',price:12.9,emoji:'🍛',options:true},{id:2,cat:'Hauptgerichte',name:'Gebratene Nudeln',desc:'Wok-Nudeln mit Gemüse',price:9.9,emoji:'🍜',options:true},{id:3,cat:'Hauptgerichte',name:'Gebratener Reis',desc:'Reis mit Gemüse und Ei',price:10.5,emoji:'🍚',options:true},{id:4,cat:'Vorspeisen',name:'Frühlingsrollen',desc:'Knusprig mit Dip',price:5.5,emoji:'🥟'},{id:5,cat:'Vorspeisen',name:'Sommerrollen',desc:'Frisch mit Kräutern',price:6.9,emoji:'🥬'},{id:6,cat:'Getränke',name:'Mango Lassi',desc:'Fruchtig und cremig',price:4.5,emoji:'🥭'}];
 const read=(key,def)=>{try{return JSON.parse(localStorage.getItem(key))??def}catch{return def}};let settings=read('am_settings',DEFAULT),orders=read('am_orders',[]),cart=[],orderMode='Lieferung',category='Alle',adminTab='Bestellungen',activeTrack='',distanceKm=null,checkoutData=null;
 if(!settings.restaurant)settings.restaurant=DEFAULT.restaurant;if(!settings.opening||settings.opening==='11:00–22:00')settings.opening=DEFAULT.opening;
 const money=n=>Number(n||0).toLocaleString('de-DE',{style:'currency',currency:'EUR'}),save=()=>{localStorage.setItem('am_settings',JSON.stringify(settings));localStorage.setItem('am_orders',JSON.stringify(orders))};const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -108,4 +108,82 @@ checkout=function(){if(!orderEntry){beginOrder(orderMode||'Lieferung');return}or
  if(orderEntry.mode==='Lieferung'){fill('cstreet',orderEntry.street);fill('cplz',orderEntry.plz);fill('ccity',orderEntry.city)}
  else if(orderEntry.time&&orderEntry.time!=='ASAP'){fill('ctime','custom');fill('ccustom',orderEntry.time)}
 };
+</script>
+<script id="asia-admin-editor-v5">
+/* Demo editor. All changes are local to the current browser; no backend or authentication yet. */
+const initialDishes=JSON.parse(JSON.stringify(dishes));
+dishes=read('am_menu_v5',initialDishes);
+let menuCategories=read('am_categories_v5',[...new Set(dishes.map(d=>d.cat))]);
+let editingDish=null;
+function persistMenu(){localStorage.setItem('am_menu_v5',JSON.stringify(dishes));localStorage.setItem('am_categories_v5',JSON.stringify(menuCategories));renderMenu();menuV3()}
+function adminEditDish(id){
+ const d=id===null?{id:null,name:'',desc:'',cat:menuCategories[0]||'Hauptgerichte',price:0,emoji:'🍜',options:false,available:true}:dishes.find(x=>x.id===id);
+ if(!d)return;
+ editingDish=id;
+ modal('<h2>'+(id===null?'Neuer Artikel':'Artikel bearbeiten')+'</h2>'+
+ '<label>Artikelname *</label><input id="ed-name" value="'+safe(d.name)+'">'+
+ '<label>Beschreibung / Zutaten</label><textarea id="ed-desc" rows="3">'+safe(d.desc)+'</textarea>'+
+ '<label>Kategorie</label><select id="ed-cat">'+menuCategories.map(c=>'<option '+(c===d.cat?'selected':'')+'>'+safe(c)+'</option>').join('')+'</select>'+
+ '<label>Preis (€) *</label><input id="ed-price" type="number" min="0" step="0.01" value="'+Number(d.price)+'">'+
+ '<label>Bild-URL (https://)</label><input id="ed-image" placeholder="https://..." value="'+safe(photos[d.id]||'')+'">'+
+ '<label>Symbol ohne Bild</label><input id="ed-emoji" value="'+safe(d.emoji||'🍜')+'">'+
+ '<p class="toggle"><input id="ed-options" type="checkbox" '+(d.options?'checked':'')+'> Protein- und Schärfeauswahl aktiv</p>'+
+ '<p class="toggle"><input id="ed-available" type="checkbox" '+(d.available!==false?'checked':'')+'> Artikel verfügbar</p>'+
+ '<button class="full" onclick="adminSaveDish()">Artikel speichern</button>');
+}
+function adminSaveDish(){
+ const get=id=>document.getElementById(id)?.value.trim()||'';
+ const name=get('ed-name'),price=Number(get('ed-price')),url=get('ed-image');
+ if(!name||!Number.isFinite(price)||price<0)return alert('Name und gültigen Preis eingeben.');
+ if(url&&!/^https:\/\/[^\s]+$/i.test(url))return alert('Bitte eine gültige HTTPS-Bildadresse eingeben.');
+ const d=editingDish===null?{id:Math.max(0,...dishes.map(x=>Number(x.id)||0))+1}:dishes.find(x=>x.id===editingDish);
+ if(!d)return;
+ Object.assign(d,{name,desc:get('ed-desc'),cat:get('ed-cat'),price,emoji:get('ed-emoji')||'🍜',options:document.getElementById('ed-options').checked,available:document.getElementById('ed-available').checked});
+ if(editingDish===null)dishes.push(d);
+ if(url)photos[d.id]=url;else delete photos[d.id];
+ localStorage.setItem('am_photos',JSON.stringify(photos));
+ persistMenu();closeModal();adminRender();
+}
+function adminDeleteDish(id){if(!confirm('Artikel wirklich löschen?'))return;dishes=dishes.filter(d=>d.id!==id);delete photos[id];localStorage.setItem('am_photos',JSON.stringify(photos));persistMenu();adminRender()}
+function adminAddCategory(){
+ const name=prompt('Name der neuen Kategorie:')?.trim();
+ if(!name)return;
+ if(menuCategories.some(c=>c.toLowerCase()===name.toLowerCase()))return alert('Kategorie existiert bereits.');
+ menuCategories.push(name);persistMenu();adminRender()
+}
+function adminRenameCategory(index){
+ const old=menuCategories[index],name=prompt('Kategorie umbenennen:',old)?.trim();
+ if(!name||name===old)return;
+ if(menuCategories.some(c=>c.toLowerCase()===name.toLowerCase()))return alert('Kategorie existiert bereits.');
+ menuCategories[index]=name;dishes.forEach(d=>{if(d.cat===old)d.cat=name});persistMenu();adminRender()
+}
+function adminRemoveCategory(index){
+ const name=menuCategories[index];
+ if(dishes.some(d=>d.cat===name))return alert('Bitte zuerst alle Artikel in eine andere Kategorie verschieben.');
+ if(!confirm('Kategorie löschen?'))return;
+ menuCategories.splice(index,1);persistMenu();adminRender()
+}
+const priorAdminRenderV5=adminRender;
+adminRender=function(){
+ priorAdminRenderV5();
+ if(adminTab!=='Speisekarte')return;
+ const b=document.getElementById('adminbody');
+ b.innerHTML='<h2>Speisekarte verwalten</h2><p class="muted">Artikel, Preise, Bilder, Kategorien und Startseitenbanner · nur Demo / lokal in diesem Browser</p>'+
+ '<div class="row"><button onclick="adminEditDish(null)">+ Neuer Artikel</button><button class="secondary" onclick="adminAddCategory()">+ Kategorie hinzufügen</button></div>'+
+ '<h3>Kategorien</h3>'+menuCategories.map((c,i)=>'<div class="row" style="padding:8px 0;border-bottom:1px solid #eee"><b>'+safe(c)+'</b><div class="row"><button class="secondary compact" onclick="adminRenameCategory('+i+')">Umbenennen</button><button class="secondary compact" onclick="adminRemoveCategory('+i+')">Löschen</button></div></div>').join('')+
+ '<h3>Artikel ('+dishes.length+')</h3>'+dishes.map(d=>'<div class="order"><div class="row"><div><b>'+safe(d.name)+'</b><p class="muted">'+safe(d.cat)+' · '+money(d.price)+(d.available===false?' · Nicht verfügbar':'')+'</p></div><div class="row"><button class="secondary compact" onclick="adminEditDish('+d.id+')">Bearbeiten</button><button class="danger compact" onclick="adminDeleteDish('+d.id+')">Löschen</button></div></div></div>').join('')+
+ '<h3>Startseite · 3 Werbebanner</h3><p class="muted">Bild-URL, Titel und Untertitel individuell bearbeiten.</p>'+
+ banners.map((x,i)=>'<div class="order"><b>Banner '+(i+1)+'</b>'+['title','subtitle','image'].map(k=>'<label>'+({title:'Überschrift',subtitle:'Untertitel',image:'Bild-URL (https://)'}[k])+'</label><input id="bn'+i+k+'" value="'+safe(x[k]||'')+'">').join('')+'</div>').join('')+
+ '<button onclick="saveBanners()">Banner speichern</button>';
+};
+const oldSaveBannersV5=saveBanners;
+saveBanners=function(){
+ for(let i=0;i<banners.length;i++){let u=document.getElementById('bn'+i+'image')?.value.trim();if(u&&!/^https:\/\/[^\s]+$/i.test(u))return alert('Banner '+(i+1)+': gültige HTTPS-Bildadresse eingeben.')}
+ oldSaveBannersV5();
+};
+const previousMenuV5=menuV3;
+menuV3=function(){previousMenuV5();document.querySelectorAll('#foodSections .food-card').forEach(el=>{});};
+const previousAddItemV5=addItem;
+addItem=function(id){const d=dishes.find(x=>x.id===id);if(!d||d.available===false)return alert('Dieser Artikel ist derzeit nicht verfügbar.');previousAddItemV5(id)};
+persistMenu();
 </script></body></html>
