@@ -1056,4 +1056,49 @@ renderMenu=function(){
  };
 })();
 
+
+/* ASIA MAI V20 per-dish order choice */
+(function(){
+ const css=document.createElement('style');css.textContent=`
+ #menu.v18-browse .food-card button{display:inline-block!important}
+ #v18-order-cta{display:none!important}
+ .v20-choice-overlay{position:fixed;inset:0;background:rgba(10,30,20,.62);z-index:10050;display:flex;align-items:center;justify-content:center;padding:20px}
+ .v20-choice-card{background:white;color:#193d2d;border-radius:17px;padding:26px;max-width:430px;width:100%;box-shadow:0 20px 70px #0004}
+ .v20-choice-card h2{margin:0 0 9px}.v20-choice-card p{color:#5b7466}
+ .v20-choice-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 14px}
+ .v20-choice-buttons button{padding:18px 9px;font-size:17px}
+ .v20-choice-buttons button:last-child{background:#ba1725}
+ .v20-choice-cancel{width:100%;background:#e7efe8;color:#195a38}
+ `;document.head.appendChild(css);
+ let pendingDish=null;
+ const oldAdd=addItem;
+ addItem=function(id){
+  const menu=document.getElementById('menu');
+  if(menu?.classList.contains('v18-browse')){
+   pendingDish=id;
+   document.getElementById('v20-choice-overlay')?.remove();
+   const overlay=document.createElement('div');overlay.id='v20-choice-overlay';overlay.className='v20-choice-overlay';
+   const dish=dishes.find(x=>x.id===id);
+   overlay.innerHTML='<div class="v20-choice-card" role="dialog" aria-modal="true" aria-label="Bestellart auswählen"><h2>Wie möchtest du bestellen?</h2><p>'+safe(dish?.name||'Gericht')+'</p><div class="v20-choice-buttons"><button type="button" data-mode="Lieferung">🚲 Lieferung</button><button type="button" data-mode="Abholung">🏪 Abholung</button></div><button type="button" class="v20-choice-cancel">Abbrechen</button></div>';
+   document.body.appendChild(overlay);
+   overlay.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>{const m=btn.dataset.mode;overlay.remove();beginOrder(m)}));
+   overlay.querySelector('.v20-choice-cancel').onclick=()=>{pendingDish=null;overlay.remove()};
+   overlay.addEventListener('click',e=>{if(e.target===overlay){pendingDish=null;overlay.remove()}});
+   return;
+  }
+  oldAdd(id);
+ };
+ const oldConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){
+  oldConfirm(e);
+  if(pendingDish!==null&&!document.getElementById('orderEntryOverlay')){
+   const id=pendingDish;pendingDish=null;
+   // Add the chosen dish after successful customer information validation.
+   addItem(id);
+  }
+ };
+ const oldReturn=returnHomeFromOrder;
+ returnHomeFromOrder=function(){pendingDish=null;oldReturn()};
+})();
+
 </script></body></html>
