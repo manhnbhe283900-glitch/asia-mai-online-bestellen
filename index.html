@@ -955,7 +955,7 @@ renderMenu=function(){
  const oldTag=timeEl.tagName.toLowerCase();if(oldTag==='input'){const sel=document.createElement('select');sel.id='entry-pickup-clock';sel.required=true;timeEl.replaceWith(sel);}
  const select=document.getElementById('entry-pickup-clock');select.innerHTML=options.length?options.map(t=>'<option value="'+t+'">'+t+'</option>').join(''):'<option value="">Keine Abholzeit verfügbar</option>';if(options.includes(previous))select.value=previous;else if(options.length)select.value=options[0];
  let hint=document.getElementById('v16-pickup-hint');if(!hint){hint=document.createElement('div');hint.id='v16-pickup-hint';hint.className='v16-pickup-hint';select.parentElement.appendChild(hint);}hint.textContent=h?(options.length?'Abholung nur während der Öffnungszeiten. Mindestens '+settings.prep+' Minuten Vorlauf.':'Heute sind keine Abholzeiten mehr verfügbar. Bitte einen anderen Tag wählen.'):'Montag geschlossen. Bitte einen anderen Tag wählen.';hint.classList.toggle('v16-pickup-warning',!options.length);
- const asap=validTime('ASAP');const asapOption=pickupEl.querySelector('option[value="ASAP"]');if(asapOption)asapOption.disabled=!asap;if(!asap&&pickupEl.value==='ASAP'){pickupEl.value='custom';togglePickupFields();}
+ const asap=validTime('ASAP');const asapOption=pickupEl.querySelector('option[value="ASAP"]');if(asapOption){asapOption.disabled=false;asapOption.textContent='Ab sofort';}/* Keep ASAP selectable; operating-hours validation occurs on confirmation. */
  }
  const previousBegin=beginOrder;
  beginOrder=function(which){previousBegin(which);if(which!=='Abholung')return;const dateEl=document.getElementById('entry-pickup-date');if(dateEl)dateEl.addEventListener('change',updateChoices);updateChoices();};
