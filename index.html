@@ -919,4 +919,33 @@ renderMenu=function(){
  renderCart();
 })();
 
+
+/* ASIA MAI V16 pickup opening hours */
+(function(){
+ const style=document.createElement('style');style.textContent='.v16-pickup-hint{font-size:12px;color:#50675a;line-height:1.5;margin-top:8px}.v16-pickup-warning{color:#a32828;font-weight:600}';document.head.appendChild(style);
+ const berlinNow=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());const get=k=>p.find(x=>x.type===k)?.value;return {date:get('year')+'-'+get('month')+'-'+get('day'),minute:Number(get('hour'))*60+Number(get('minute'))};};
+ const weekday=date=>{const [y,m,d]=date.split('-').map(Number);return new Date(Date.UTC(y,m-1,d)).getUTCDay();};
+ function hoursFor(date){const day=weekday(date);if(day===1)return null;return {start:day===0?12*60:11*60,end:21*60+30};}
+ const toMinute=time=>{const m=/^(\d{2}):(\d{2})$/.exec(time||'');return m?Number(m[1])*60+Number(m[2]):NaN;};
+ const asTime=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
+ function validSlot(date,time){const h=hoursFor(date),minute=toMinute(time),now=berlinNow();if(!h||!Number.isFinite(minute)||minute<h.start||minute>h.end)return false;if(date<now.date)return false;if(date===now.date&&minute<now.minute+Number(settings.prep||20))return false;return true;}
+ function validTime(value){if(value==='ASAP'){const n=berlinNow(),h=hoursFor(n.date);return !!h&&n.minute+Number(settings.prep||20)<=h.end&&n.minute>=h.start;}const m=/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(value||'');return !!m&&validSlot(m[1],m[2]);}
+ window.v16ValidPickup=validTime;
+ function updateChoices(){const dateEl=document.getElementById('entry-pickup-date'),timeEl=document.getElementById('entry-pickup-clock'),pickupEl=document.getElementById('entry-pickup');if(!dateEl||!timeEl||!pickupEl)return;const now=berlinNow();dateEl.min=now.date;if(!dateEl.value||dateEl.value<now.date)dateEl.value=now.date;
+ const date=dateEl.value,h=hoursFor(date),previous=timeEl.value;let options=[];if(h){for(let minute=h.start;minute<=h.end;minute+=15){const time=asTime(minute);if(validSlot(date,time))options.push(time);}}
+ const oldTag=timeEl.tagName.toLowerCase();if(oldTag==='input'){const sel=document.createElement('select');sel.id='entry-pickup-clock';sel.required=true;timeEl.replaceWith(sel);}
+ const select=document.getElementById('entry-pickup-clock');select.innerHTML=options.length?options.map(t=>'<option value="'+t+'">'+t+'</option>').join(''):'<option value="">Keine Abholzeit verfügbar</option>';if(options.includes(previous))select.value=previous;else if(options.length)select.value=options[0];
+ let hint=document.getElementById('v16-pickup-hint');if(!hint){hint=document.createElement('div');hint.id='v16-pickup-hint';hint.className='v16-pickup-hint';select.parentElement.appendChild(hint);}hint.textContent=h?(options.length?'Abholung nur während der Öffnungszeiten. Mindestens '+settings.prep+' Minuten Vorlauf.':'Heute sind keine Abholzeiten mehr verfügbar. Bitte einen anderen Tag wählen.'):'Montag geschlossen. Bitte einen anderen Tag wählen.';hint.classList.toggle('v16-pickup-warning',!options.length);
+ const asap=validTime('ASAP');const asapOption=pickupEl.querySelector('option[value="ASAP"]');if(asapOption)asapOption.disabled=!asap;if(!asap&&pickupEl.value==='ASAP'){pickupEl.value='custom';togglePickupFields();}
+ }
+ const previousBegin=beginOrder;
+ beginOrder=function(which){previousBegin(which);if(which!=='Abholung')return;const dateEl=document.getElementById('entry-pickup-date');if(dateEl)dateEl.addEventListener('change',updateChoices);updateChoices();};
+ const previousConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){if(document.getElementById('orderEntryOverlay')?.dataset.mode==='Abholung'){const custom=document.getElementById('entry-pickup')?.value==='custom';const value=custom?document.getElementById('entry-pickup-date')?.value+'T'+document.getElementById('entry-pickup-clock')?.value:'ASAP';if(!validTime(value)){e.preventDefault();alert('Bitte eine gültige Abholzeit innerhalb der Öffnungszeiten auswählen.');return;}}previousConfirm(e);};
+ const previousCheckout=checkout;
+ checkout=function(){if(orderEntry?.mode==='Abholung'&&!validTime(orderEntry.time||'ASAP')){alert('Die Abholzeit ist nicht mehr verfügbar. Bitte neu auswählen.');beginOrder('Abholung');return;}previousCheckout();};
+ const previousFinish=window.v15FinishOrder;
+ window.v15FinishOrder=function(){if(orderEntry?.mode==='Abholung'&&!validTime(orderEntry.time||'ASAP')){alert('Bitte eine Abholzeit während der Öffnungszeiten wählen.');beginOrder('Abholung');return;}const originalOpen=restaurantIsOpen;try{restaurantIsOpen=()=>true;previousFinish();}finally{restaurantIsOpen=originalOpen;}};
+})();
+
 </script></body></html>
