@@ -1,0 +1,1262 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ASIA MAI · Online Bestellen V3</title><style>
+:root{font-family:Inter,system-ui,Arial,sans-serif;color:#18342a;background:#f7f9f5}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:11px;padding:12px 16px;background:#17663f;color:white;font-weight:700}button.secondary{background:#e7efe8;color:#195a38}button.danger{background:#b73232}button:disabled{opacity:.45;cursor:not-allowed}input,select{width:100%;padding:11px;border:1px solid #d7e0d7;border-radius:10px;background:white}label{font-size:13px;font-weight:700;display:block;margin:12px 0 5px}header{background:#fff;border-bottom:1px solid #e5ece4;position:sticky;top:0;z-index:3}.head{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:13px 20px;gap:12px}.brand{font-size:25px;color:#b41d28;font-weight:900;letter-spacing:.04em}.brand small{display:block;color:#297548;font-size:10px;letter-spacing:.22em}.nav{display:flex;gap:8px;flex-wrap:wrap}.nav button{background:transparent;color:#245a3b;padding:9px}.nav button.active{background:#e8f2e8}.wrap{max-width:1150px;margin:26px auto;padding:0 20px}.hero{border-radius:24px;background:linear-gradient(115deg,#e4f0df,#fff 60%,#fbe7de);padding:34px;display:flex;justify-content:space-between;gap:25px;align-items:center}.hero h1{font-size:clamp(30px,5vw,50px);margin:0}.hero p{max-width:540px;color:#5b6d61}.lotus{font-size:110px}.pills{display:flex;gap:10px;flex-wrap:wrap}.pill{background:#fff;color:#22593b;border:1px solid #d5e3d5}.pill.selected{background:#19663f;color:white}.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;margin-top:25px}.card{background:white;border:1px solid #e1e9e0;border-radius:18px;padding:19px;box-shadow:0 7px 28px #164c2b09}.card h2,.card h3{margin:0 0 15px}.categories{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}.categories button{padding:9px 13px}.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.item{border:1px solid #e3eae2;border-radius:15px;padding:14px;display:flex;gap:12px}.emoji{background:#edf5e8;border-radius:12px;min-width:64px;height:64px;display:grid;place-items:center;font-size:33px}.item h3{margin:0 0 5px;font-size:16px}.muted{color:#748477;font-size:13px}.price{font-weight:800;color:#b62d2d}.item button{padding:7px 12px;margin-top:9px}.cartline,.row{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0}.line{height:1px;background:#e5ece4;margin:15px 0}.badge{font-size:12px;padding:5px 9px;border-radius:999px;background:#e6f3e7;color:#17663f;font-weight:700}.note{background:#fff5df;border-radius:12px;padding:12px;font-size:13px;color:#74500e}.full{width:100%}.hidden{display:none!important}.modalbg{position:fixed;inset:0;background:#12271dbb;display:grid;place-items:center;z-index:5;padding:15px}.modal{background:#fff;border-radius:20px;padding:25px;width:min(100%,520px);max-height:95vh;overflow:auto}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.adminnav{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}.adminnav button{padding:10px 13px}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.status{font-size:12px;border-radius:7px;background:#fff1d5;color:#915600;padding:5px 8px;font-weight:800}.order{border:1px solid #e0e9e0;border-radius:14px;padding:14px;margin:10px 0}.small{font-size:12px}.steps{padding-left:22px;line-height:2}.footer{text-align:center;padding:30px;color:#829085}.toggle{display:flex;align-items:center;gap:9px}.toggle input{width:auto}.compact{padding:7px 10px}.tiers{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center}@media(max-width:760px){.layout,.admin-grid{grid-template-columns:1fr}.items{grid-template-columns:1fr}.hero{padding:24px}.lotus{display:none}.head{align-items:flex-start;flex-direction:column}.wrap{margin:16px auto}.two{grid-template-columns:1fr}}
+.promo-grid{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:180px 180px;gap:12px;margin:22px auto;max-width:1050px}.promo{background:linear-gradient(120deg,#075336,#b91422);background-position:center;background-size:cover;color:white;border-radius:14px;padding:24px;display:flex;flex-direction:column;justify-content:end}.promo:first-child{grid-row:span 2}.promo h2{font-size:clamp(24px,3vw,40px);margin:5px 0}.promo button{background:#b91422;align-self:start}.food-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.food-card{border:1px solid #ccc;padding:15px;display:flex;justify-content:space-between;gap:12px;min-height:155px}.food-card img{width:100px;height:100px;object-fit:cover;border-radius:12px}.food-card button{border-radius:2px}.category-links{display:flex;gap:12px;overflow:auto;position:sticky;top:80px;background:white;padding:12px}.category-links button{white-space:nowrap;background:transparent;color:#075336}.order-bar{background:#303030;color:white;text-align:center;padding:13px;font-weight:900}.order-bar button{margin-left:10px}.order-bar button:last-child{background:#b91422}.brand{color:#b91422}.brand img{height:46px;vertical-align:middle;margin-right:8px}@media(max-width:760px){.promo-grid{grid-template-columns:1fr;grid-template-rows:250px 160px 160px}.promo:first-child{grid-row:auto}.food-grid{grid-template-columns:1fr}}  .tiers-head{display:grid;grid-template-columns:1fr 1fr 38px;gap:8px;margin:12px 0 6px;font-size:13px}.unit-field{position:relative}.unit-field input{padding-right:43px}.unit-field span{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:#567264;font-weight:700;pointer-events:none}</style><style id="asia-mai-v3-home-fix">
+:root{--asia-red:#c20d1b;--asia-green:#075438}header .head{max-width:1320px;min-height:88px}header .brand{display:flex;align-items:center;font-size:clamp(27px,3vw,39px);letter-spacing:-.025em;white-space:nowrap;line-height:1}header .brand img{height:70px;width:70px;object-fit:contain;margin-right:13px}.order-bar{display:flex;align-items:center;justify-content:center;gap:20px;min-height:76px;padding:9px 16px}.order-bar strong{font-family:Impact,'Arial Narrow',sans-serif;font-size:clamp(18px,1.8vw,26px);letter-spacing:.015em}.order-switch{position:relative;display:flex;align-items:stretch}.order-switch button{font-family:Impact,'Arial Narrow',sans-serif;font-size:clamp(22px,2.3vw,34px);letter-spacing:.02em;border-radius:0;padding:13px 28px;display:flex;align-items:center;gap:12px;min-height:58px}.order-switch button.delivery-switch{background:var(--asia-green);border-radius:7px 0 0 7px;padding-right:39px}.order-switch button.pickup-switch{background:var(--asia-red);border-radius:0 7px 7px 0;padding-left:39px}.order-switch svg{width:25px;height:25px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.switch-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:white;color:#133827;border-radius:50%;height:35px;width:35px;display:grid;place-items:center;font-size:19px;font-weight:900;z-index:1;border:3px solid #303030}.wrap{max-width:1300px}.promo-grid{max-width:1150px;grid-template-columns:1.5fr 1fr;grid-template-rows:260px 260px;gap:13px;margin:25px auto 50px}.promo{position:relative;isolation:isolate;border-radius:18px;overflow:hidden;min-height:0;background-size:cover;background-position:center;align-items:center;text-align:center;padding:28px}.promo:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.68))}.promo h2{font-family:Impact,'Arial Narrow',sans-serif;font-size:clamp(24px,2.7vw,42px);text-shadow:0 2px 12px #0008}.promo p{font-size:16px;text-shadow:0 2px 9px #000}.promo button{margin-top:12px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;font-size:20px;background:var(--asia-red);min-width:165px}.menu-list{min-width:0}.menu-list h1{font-weight:500}.food-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.food-card{background:#fff}.food-card>div:first-child{display:flex;flex-direction:column;min-width:0;flex:1}.food-card>div:first-child>b:last-child{margin-top:auto}.food-card>div:last-child{display:flex;flex-direction:column;align-items:end;justify-content:space-between;gap:6px}.food-card .emoji{min-width:95px}.menu-list .category-links{top:88px;z-index:2}.menu-list section[id^="section"]{scroll-margin-top:160px}@media(max-width:800px){.order-bar{gap:8px}.order-switch button{padding:11px 17px;font-size:23px}.order-switch button.delivery-switch{padding-right:29px}.order-switch button.pickup-switch{padding-left:29px}.promo-grid{grid-template-rows:200px 200px}}@media(max-width:650px){header .brand{font-size:29px}header .brand img{width:53px;height:53px}.order-bar{flex-direction:column;gap:7px}.order-bar strong{font-size:21px}.order-switch button{font-size:22px;min-height:49px}.order-switch svg{width:20px}.promo-grid{grid-template-columns:1fr;grid-template-rows:340px 205px 205px}.promo:first-child{grid-row:auto}.food-grid{grid-template-columns:1fr}.promo h2{font-size:34px}}
+</style><style id="order-flow-v4-css">
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+header .brand-home{display:flex;align-items:center;gap:4px;background:transparent;color:#bd0c1a;padding:0;border:0;border-radius:0;font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:clamp(27px,2.6vw,38px);letter-spacing:-.045em;line-height:1}
+header .brand-home img{width:73px;height:73px;object-fit:contain;margin:0 1px 0 0}
+.order-switch button{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.015em;font-size:clamp(21px,2.1vw,30px)}
+.order-bar strong{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.015em}
+.order-entry-overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-start;justify-content:center;padding:clamp(95px,13vh,150px) 15px 20px;background:rgba(12,18,15,.63);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.order-entry-card{width:min(100%,450px);max-height:calc(100vh - 120px);overflow:auto;border-radius:16px;background:#fff;box-shadow:0 20px 60px #0004;color:#17382a}
+.order-entry-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #e8e8e8}
+.order-entry-header h2{font-size:22px;margin:0;font-weight:800}
+.order-entry-card .entry-body{padding:19px 22px 23px}
+.order-entry-card label{margin-top:12px}
+.order-entry-card input,.order-entry-card select{border-radius:9px}
+.order-entry-card .entry-submit{width:100%;margin-top:18px;padding:14px;background:#075438}
+.order-entry-card .entry-back{background:#f0f3f0;color:#193a2b;padding:7px 12px}
+.order-entry-card .entry-note{font-size:12px;color:#6b796f;line-height:1.5}
+@media(max-width:650px){header .brand-home{font-size:28px}header .brand-home img{width:55px;height:55px}}
+</style><style id="asia-mai-v22-bottom-buttons">/* V22: keep every Bestellen button pinned to the card bottom */
+#menu .food-grid .food-card{position:relative!important;padding-bottom:67px!important;justify-content:flex-start!important}
+#menu .food-grid .food-card .food-copy{flex:0 0 auto!important;display:flex!important;flex-direction:column!important;align-items:stretch!important}
+#menu .food-grid .food-card .food-action{position:absolute!important;left:13px!important;right:13px!important;bottom:13px!important;margin:0!important;display:flex!important;justify-content:flex-start!important;z-index:1}
+#menu .food-grid .food-card .food-action button{margin:0!important;align-self:auto!important}
+#menu .food-grid .food-card .food-photo{margin-top:auto!important;margin-bottom:0!important}
+</style><style id="asia-mai-v23-compact-cards">
+/* V23: compact original horizontal cards, image upper right, button bottom left */
+#menu .food-grid .food-card{display:flex!important;flex-direction:row!important;align-items:stretch!important;justify-content:space-between!important;gap:10px!important;min-height:250px!important;padding:13px!important;padding-bottom:64px!important;position:relative!important}
+#menu .food-grid .food-card .food-copy{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;flex:1 1 0!important;min-width:0!important}
+#menu .food-grid .food-card .food-photo{position:static!important;flex:0 0 40%!important;width:40%!important;max-width:105px!important;height:100px!important;object-fit:cover!important;align-self:flex-start!important;margin:0!important;border-radius:12px!important}
+#menu .food-grid .food-card .food-action{position:absolute!important;left:13px!important;bottom:13px!important;right:auto!important;margin:0!important;display:block!important}
+#menu .food-grid .food-card .food-action button{margin:0!important}
+#menu .food-grid .food-card .food-copy>b:last-of-type{margin-top:auto!important}
+@media(max-width:760px){#menu .food-grid .food-card{min-height:240px!important}#menu .food-grid .food-card .food-photo{max-width:75px!important;height:75px!important}}
+</style></head><body><header><div class="head"><button class="brand brand-home" type="button" onclick="page('shop')" aria-label="ASIA MAI – Startseite"><img src="logo1.png" alt="Asia Mai Logo" onerror="this.src='logo.png'"> <span>ASIA MAI</span></button><nav class="nav"><button onclick="page('shop')">Home</button><button onclick="page('menu')">Menü</button><button onclick="page('kontakt')">Kontakt</button><button onclick="page('tracking')">Bestellung verfolgen</button><button onclick="page('admin')">Management Demo</button></nav></div></header><div class="order-bar"><strong>ONLINE BESTELLUNG</strong><div class="order-switch"><button class="delivery-switch" onclick="beginOrder('Lieferung')"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="18" r="3"/><circle cx="19" cy="18" r="3"/><path d="M8 18h6l-3-8h-4M12 8h5l3 6M4 11h4M13 6h3"/></svg>LIEFERUNG</button><span class="switch-center" aria-hidden="true">↔</span><button class="pickup-switch" onclick="beginOrder('Abholung')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18l-2-6H5zM5 10v11h14V10M9 21v-7h6v7M4 10l2 2 3-2 3 2 3-2 3 2 2-2"/></svg>ABHOLUNG</button></div></div><main class="wrap"><div id="shop"><div class="promo-grid" id="promoGrid"></div><section class="asia-radius-section"><div class="asia-radius-heading"><div><span class="asia-radius-eyebrow">UNSER LIEFERGEBIET</span><h2>Wir liefern im Umkreis von <span id="asia-radius-head">10</span> km</h2><p>Rund um ASIA MAI in Seevetal-Meckelfeld · Luftlinie</p></div><span class="asia-radius-pill">🚗 LIEFERUNG</span></div><div id="asia-radius-map" role="img" aria-label="Karte mit kreisförmigem Liefergebiet um ASIA MAI"></div><p class="asia-radius-foot">Der Kreis zeigt unseren ungefähren Lieferbereich. Ob Lieferung an deine Adresse möglich ist, prüfen wir anhand deiner Postleitzahl.</p></section></div><section id="menu" class="hidden"><div class="layout"><section class="menu-list"><div class="category-links" id="categoryLinks"></div><h1>Menü</h1><div id="foodSections"></div></section><aside class="card" style="align-self:start;position:sticky;top:100px"><h2>🛒 Warenkorb <span class="badge" id="count">0</span></h2><div id="cart"></div><div class="line"></div><div class="row"><span>Zwischensumme</span><b id="subtotal">0,00 €</b></div><div class="row"><span>Lieferkosten</span><b id="fee">–</b></div><div class="row"><b>Gesamt</b><b id="total">0,00 €</b></div><p class="muted" id="feeinfo">Lieferkosten werden nach Fahrstrecke berechnet.</p><button class="full" onclick="checkout()">Zur Kasse →</button></aside></div></section><section id="kontakt" class="hidden"><div class="card"><h1>Kontakt · ASIA MAI</h1><p><b>Adresse:</b> Glüsinger Str. 22, 21217 Seevetal-Meckelfeld, Deutschland</p><p><b>Telefon:</b> <a href="tel:+494076759963">040 76759963</a></p><div class="row" style="flex-wrap:wrap;gap:10px"><a href="tel:+494076759963" style="background:#075438;color:white;padding:12px 18px;border-radius:10px;text-decoration:none">📞 Jetzt anrufen</a><a href="https://www.google.com/maps/search/?api=1&query=Asia%20Mai%20Gl%C3%BCsinger%20Str.%2022%2021217%20Seevetal" target="_blank" rel="noopener noreferrer" style="background:#e7efe8;color:#075438;padding:12px 18px;border-radius:10px;text-decoration:none">📍 Google Maps öffnen</a></div><h2>Öffnungszeiten</h2><p>Montag: Geschlossen</p><p>Dienstag–Samstag: 11:00–21:30 Uhr</p><p>Sonntag: 12:00–21:30 Uhr</p><p class="muted">An Feiertagen können die Öffnungszeiten abweichen. Bitte telefonisch prüfen.</p><iframe title="Asia Mai Standort auf Google Maps" src="https://www.google.com/maps?q=Asia%20Mai%20Gl%C3%BCsinger%20Str.%2022%2021217%20Seevetal&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:320px;border:0;border-radius:12px"></iframe></div></section><section id="tracking" class="hidden"><div class="card"><h2>📦 Bestellung verfolgen</h2><p class="muted">Nach der Bestellung öffnet sich diese Seite automatisch. Später kannst du deinen privaten Tracking-Code verwenden.</p><div class="two"><div><label>Tracking-Code</label><input id="trackinput" placeholder="z. B. AM-..."></div><div style="align-self:end"><button onclick="lookup()">Bestellung suchen</button></div></div><div id="trackresult" style="margin-top:20px"></div></div></section>
+<section id="admin" class="hidden"><div class="card"><div class="row"><div><h2>ASIA MAI Management <span class="badge">DEMO</span></h2><p class="muted">Nur lokale Vorschau – keine echte Authentifizierung, Zahlungen oder Benachrichtigungen.</p></div><span>⚙️</span></div><div class="adminnav" id="adminnav"></div><div id="adminbody"></div></div></section></main><div class="footer">ASIA MAI V3 · Interaktiver Prototyp · Keine echten Bestellungen oder Zahlungen</div><div id="overlay" class="modalbg hidden"><div id="modal" class="modal"></div></div><script>
+const DEFAULT={tiers:[{km:1,fee:1},{km:2,fee:2},{km:3,fee:3},{km:5,fee:4.5}],prep:20,minOrder:15,delivery:true,pickup:true,restaurant:'Glüsinger Str. 22, 21217 Seevetal-Meckelfeld, Deutschland',opening:'Di–Sa 11:00–21:30 · So 12:00–21:30 · Mo geschlossen'};
+let dishes=[{id:1,cat:'Hauptgerichte',name:'Rotes Curry',desc:'Kokosmilch, Gemüse, Reis',price:12.9,emoji:'🍛',options:true},{id:2,cat:'Hauptgerichte',name:'Gebratene Nudeln',desc:'Wok-Nudeln mit Gemüse',price:9.9,emoji:'🍜',options:true},{id:3,cat:'Hauptgerichte',name:'Gebratener Reis',desc:'Reis mit Gemüse und Ei',price:10.5,emoji:'🍚',options:true},{id:4,cat:'Vorspeisen',name:'Frühlingsrollen',desc:'Knusprig mit Dip',price:5.5,emoji:'🥟'},{id:5,cat:'Vorspeisen',name:'Sommerrollen',desc:'Frisch mit Kräutern',price:6.9,emoji:'🥬'},{id:6,cat:'Getränke',name:'Mango Lassi',desc:'Fruchtig und cremig',price:4.5,emoji:'🥭'}];
+const read=(key,def)=>{try{return JSON.parse(localStorage.getItem(key))??def}catch{return def}};let settings=read('am_settings',DEFAULT),orders=read('am_orders',[]),cart=[],orderMode='Lieferung',category='Alle',adminTab='Bestellungen',activeTrack='',distanceKm=null,checkoutData=null;
+if(!settings.restaurant)settings.restaurant=DEFAULT.restaurant;if(!settings.opening||settings.opening==='11:00–22:00')settings.opening=DEFAULT.opening;
+const money=n=>Number(n||0).toLocaleString('de-DE',{style:'currency',currency:'EUR'}),save=()=>{localStorage.setItem('am_settings',JSON.stringify(settings));localStorage.setItem('am_orders',JSON.stringify(orders))};const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function page(p){for(let id of ['shop','menu','kontakt','tracking','admin'])document.getElementById(id).classList.toggle('hidden',id!==p);if(p==='admin')adminRender();if(p==='tracking')lookup();scrollTo(0,0)}
+function mode(m){orderMode=m;document.getElementById('delbtn')?.classList.toggle('selected',m==='Lieferung');document.getElementById('pickbtn')?.classList.toggle('selected',m==='Abholung');distanceKm=null;renderCart()}
+function renderMenu(){if(!document.getElementById('categories'))return;document.getElementById('categories').innerHTML=['Alle',...new Set(dishes.map(x=>x.cat))].map(c=>`<button class="${category===c?'':'secondary'}" onclick="category=${JSON.stringify(c)};renderMenu()">${safe(c)}</button>`).join('');document.getElementById('items').innerHTML=dishes.filter(d=>category==='Alle'||d.cat===category).map(d=>`<div class="item"><div class="emoji">${d.emoji}</div><div style="flex:1"><h3>${safe(d.name)}</h3><div class="muted">${safe(d.desc)}</div><div class="row"><span class="price">${money(d.price)}</span><button onclick="addItem(${d.id})">+ Hinzufügen</button></div></div></div>`).join('')}
+function addItem(id){const d=dishes.find(x=>x.id===id);if(d.options){modal(`<h2>${safe(d.name)}</h2><p>${safe(d.desc)}</p><label>Protein auswählen</label><select id="protein"><option value="Huhn|0">Huhn</option><option value="Tofu|0">Tofu</option><option value="Rind|2">Rind +2,00 €</option><option value="Garnelen|3">Garnelen +3,00 €</option></select><label>Schärfe</label><select id="spice"><option>Mild</option><option>Mittel</option><option>Scharf</option></select><p class="muted">Demo-Optionen – später im Admin editierbar.</p><button class="full" onclick="confirmItem(${id})">Zum Warenkorb hinzufügen</button>`)}else{cart.push({name:d.name,price:d.price,option:'',qty:1});renderCart()}}
+function confirmItem(id){let d=dishes.find(x=>x.id===id),[p,extra]=document.getElementById('protein').value.split('|');cart.push({name:d.name,price:d.price+Number(extra),option:p+' · '+document.getElementById('spice').value,qty:1});closeModal();renderCart()}
+function subtotal(){return cart.reduce((s,i)=>s+i.price*i.qty,0)}function deliveryFee(km){return [...settings.tiers].sort((a,b)=>a.km-b.km).find(t=>km<=t.km)?.fee??null}
+function renderCart(){document.getElementById('cart').innerHTML=cart.length?cart.map((i,n)=>`<div class="cartline"><div><b>${safe(i.name)}</b><div class="muted">${safe(i.option)}</div><span class="small">${money(i.price)}</span></div><div><button class="secondary compact" onclick="changeQty(${n},-1)">−</button> ${i.qty} <button class="secondary compact" onclick="changeQty(${n},1)">+</button></div></div>`).join(''):'<p class="muted">Dein Warenkorb ist noch leer.</p>';let f=orderMode==='Abholung'?0:distanceKm===null?null:deliveryFee(distanceKm);document.getElementById('count').textContent=cart.reduce((n,x)=>n+x.qty,0);document.getElementById('subtotal').textContent=money(subtotal());document.getElementById('fee').textContent=f===null?'Wird berechnet':money(f);document.getElementById('total').textContent=f===null?money(subtotal())+' + Lieferung':money(subtotal()+f);document.getElementById('feeinfo').textContent=orderMode==='Abholung'?'Keine Lieferkosten bei Abholung.':distanceKm===null?'Fahrstrecke wird erst durch eine echte Routen-API ermittelt.':'Demo-Fahrstrecke: '+distanceKm.toFixed(1)+' km'}
+function changeQty(n,by){cart[n].qty+=by;if(cart[n].qty<=0)cart.splice(n,1);renderCart()}
+function modal(html){document.getElementById('modal').innerHTML=`<div class="row"><span class="badge">ASIA MAI · Demo</span><button class="secondary compact" onclick="closeModal()">✕</button></div>${html}`;document.getElementById('overlay').classList.remove('hidden')}function closeModal(){document.getElementById('overlay').classList.add('hidden')}
+function checkout(){if(!cart.length)return alert('Bitte zuerst ein Gericht auswählen.');if(orderMode==='Lieferung'&&!settings.delivery)return alert('Lieferung ist deaktiviert');if(orderMode==='Abholung'&&!settings.pickup)return alert('Abholung ist deaktiviert');let delivery=orderMode==='Lieferung';modal(`<h2>${delivery?'🛵 Lieferung':'🏬 Abholung'} · Bestellung</h2><div class="two"><div><label>Name *</label><input id="cname" placeholder="Vor- und Nachname"></div><div><label>Telefon *</label><input id="cphone" placeholder="Telefonnummer"></div></div>${delivery?`<label>Straße und Hausnummer *</label><input id="cstreet" placeholder="Musterstraße 12"><div class="two"><div><label>PLZ *</label><input id="cplz" placeholder="20095"></div><div><label>Ort *</label><input id="ccity" placeholder="Hamburg"></div></div><div class="note" style="margin-top:12px">Für echte Fahrstrecke, Adressprüfung und Liefergebühr ist später Google Places + Routes API erforderlich. Im Demo-Modus bitte Teststrecke manuell wählen.</div><label>Test-Fahrstrecke (nur Demo)</label><select id="cdistance">${[0.8,1.6,2.7,4.2,6.1].map(x=>`<option value="${x}">${x.toFixed(1)} km</option>`).join('')}</select>`:`<label>Gewünschte Abholzeit</label><select id="ctime"><option value="ASAP">So schnell wie möglich (mind. ${settings.prep} Min.)</option><option value="custom">Uhrzeit auswählen</option></select><label>Abholzeit (nur bei Uhrzeit-Auswahl)</label><input id="ccustom" type="datetime-local">`}<label>Zahlungsart</label><select id="cpayment"><option value="Bargeld">Bargeld bei Übergabe</option><option value="PayPal">PayPal (nur simuliert)</option></select><p class="muted">Keine echten Zahlungen. Keine Live-Adressvalidierung.</p><button class="full" onclick="placeOrder()">Demo-Bestellung aufgeben →</button>`)}
+function restaurantIsOpen(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());const get=t=>parts.find(x=>x.type===t)?.value;const day=get('weekday'),mins=Number(get('hour'))*60+Number(get('minute'));return day!=='Mon'&&mins>=(day==='Sun'?720:660)&&mins<1290}
+function placeOrder(){let val=id=>document.getElementById(id)?.value.trim()||'',name=val('cname'),phone=val('cphone');if(!name||!/^\+?[0-9\s()\/-]{6,}$/.test(phone))return alert('Bitte Name und gültige Telefonnummer eingeben.');if(!restaurantIsOpen())return alert('Das Restaurant ist derzeit geschlossen. Öffnungszeiten: Di–Sa 11:00–21:30, So 12:00–21:30, Mo geschlossen.');let del=orderMode==='Lieferung',address=del?[val('cstreet'),val('cplz'),val('ccity')].join(', '):'',km=del?Number(val('cdistance')):0,fee=del?deliveryFee(km):0;if(del&&(!val('cstreet')||!/^\d{5}$/.test(val('cplz'))||!val('ccity')))return alert('Bitte vollständige Adresse eingeben.');if(fee===null)return alert('Außerhalb des Liefergebiets. Bitte Abholung wählen.');if(subtotal()<settings.minOrder&&del)return alert('Mindestbestellwert für Lieferung: '+money(settings.minOrder));let time=del?'':val('ctime')==='custom'?val('ccustom'):'ASAP';if(!del&&val('ctime')==='custom'&&(!time||new Date(time).getTime()<Date.now()+settings.prep*60000))return alert('Bitte eine spätere Abholzeit wählen.');let token='AM-'+Array.from(crypto.getRandomValues(new Uint8Array(10)),x=>x.toString(16).padStart(2,'0')).join('').toUpperCase();let order={token,name,phone,address,km,fee,mode:orderMode,items:cart.map(x=>({...x})),subtotal:subtotal(),total:subtotal()+fee,payment:val('cpayment'),paymentStatus:val('cpayment')==='PayPal'?'SIMULIERT – nicht bezahlt':'Noch nicht bezahlt',status:'Eingegangen',time,eta:'',created:new Date().toISOString()};orders.unshift(order);save();cart=[];renderCart();closeModal();activeTrack=token;page('tracking');document.getElementById('trackinput').value=token;lookup()}
+function lookup(){let token=(document.getElementById('trackinput').value||activeTrack).trim().toUpperCase(),o=orders.find(x=>x.token===token),el=document.getElementById('trackresult');if(!token){el.innerHTML='<p class="muted">Tracking-Code eingeben.</p>';return}if(!o){el.innerHTML='<p class="note">Keine Bestellung zu diesem Code gefunden.</p>';return}activeTrack=token;el.innerHTML=`<div class="card"><div class="row"><b>${safe(o.token)}</b><button class="secondary compact" onclick="navigator.clipboard?.writeText('${o.token}')">Code kopieren</button></div><h3>${safe(o.status)}</h3><p>${o.status==='Eingegangen'?'Wir haben deine Bestellung erhalten und warten auf die Bestätigung des Restaurants.':o.status==='Abholzeit vorgeschlagen'?'Das Restaurant schlägt eine neue Abholzeit vor. Bitte bestätige oder lehne ab.':o.status==='Abgelehnt'?'Die Bestellung wurde abgelehnt.': 'Deine Bestellung wird bearbeitet.'}</p>${o.eta?`<div class="note">${o.mode==='Lieferung'?'Voraussichtliche Lieferung':'Abholzeit'}: <b>${safe(o.eta)}</b></div>`:''}${o.status==='Abholzeit vorgeschlagen'?`<div class="row"><button onclick="acceptPickup('${o.token}',true)">Neue Zeit bestätigen</button><button class="danger" onclick="acceptPickup('${o.token}',false)">Nicht akzeptieren</button></div>`:''}<ol class="steps"><li>Bestellung eingegangen</li><li>Vom Restaurant bestätigt</li><li>In Zubereitung</li><li>Unterwegs / Abholbereit</li><li>Zugestellt / Abgeholt</li></ol><p class="muted">Zahlungsstatus: ${safe(o.paymentStatus)} · ${money(o.total)}</p><p class="muted">Demo aktualisiert sich bei Änderungen in diesem Browser automatisch.</p></div>`}
+function acceptPickup(token,yes){let o=orders.find(x=>x.token===token);o.status=yes?'Bestätigt':'Zeitvorschlag abgelehnt';if(!yes)o.eta='';save();lookup()}
+const tabs=['Bestellungen','Speisekarte','Kunden','Statistik','Einstellungen'];function adminRender(){document.getElementById('adminnav').innerHTML=tabs.map(t=>`<button class="${adminTab===t?'':'secondary'}" onclick="adminTab='${t}';adminRender()">${t}</button>`).join('');let b=document.getElementById('adminbody');if(adminTab==='Bestellungen'){b.innerHTML=`<h3>🔔 Bestellungen <span class="badge">${orders.filter(x=>x.status==='Eingegangen').length} Neu</span></h3>${orders.length?orders.map(o=>`<div class="order"><div class="row"><b>${safe(o.token)}</b><span class="status">${safe(o.status)}</span></div><div class="muted">${safe(o.mode)} · ${safe(o.name)} · ${safe(o.phone)} · ${safe(o.address)}</div><p>${o.items.map(i=>`${i.qty}× ${safe(i.name)} (${safe(i.option)})`).join('<br>')}</p><div class="row"><b>${money(o.total)}</b><span>${safe(o.payment)} · ${safe(o.paymentStatus)}</span></div><p class="small">${o.mode==='Abholung'?'Gewünscht: '+safe(o.time):'Demo-Fahrstrecke: '+o.km.toFixed(1)+' km'}</p>${o.status==='Eingegangen'?`<label>${o.mode==='Lieferung'?'Voraussichtliche Lieferzeit (HH:MM) · Vorschlag ab Bestellzeit':'Bestätigte / vorgeschlagene Abholzeit (HH:MM)'}</label><input id="eta-${o.token}" type="time" value="${o.mode==='Lieferung'?asiaEstimatedTime(o):''}"><div class="row"><button onclick="adminAccept('${o.token}')">Annehmen</button>${o.mode==='Abholung'?`<button class="secondary" onclick="adminPropose('${o.token}')">Andere Zeit vorschlagen</button>`:''}<button class="danger" onclick="adminReject('${o.token}')">Ablehnen</button></div>`:`<div class="row"><button class="secondary" onclick="nextStatus('${o.token}')">Nächster Status →</button>${o.payment==='Bargeld'&&o.paymentStatus!=='Bezahlt'?`<button onclick="markPaid('${o.token}')">Bargeld erhalten</button>`:''}</div>`}</div>`).join(''):'<p class="muted">Noch keine Demo-Bestellungen. Bestelle zuerst etwas in der Speisekarte.</p>'}`}else if(adminTab==='Einstellungen'){b.innerHTML=`<h3>Liefergebiet & Lieferkosten</h3><p class="muted">Fahrstrecke (Google Routes in der Live-Version). Die größte Zone bestimmt die maximale Lieferweite.</p><div class="tiers-head"><strong>Bis Entfernung (km)</strong><strong>Liefergebühr (€)</strong><span></span></div><div id="tierrows">${settings.tiers.map((t,i)=>`<div class="tiers"><div class="unit-field"><input aria-label="Entfernung bis in Kilometer" id="km${i}" type="number" min="0.1" step="0.1" value="${t.km}" placeholder="Bis km"><span>km</span></div><div class="unit-field"><input aria-label="Liefergebühr in Euro" id="fee${i}" type="number" min="0" step="0.1" value="${t.fee}" placeholder="Gebühr €"><span>€</span></div><button class="secondary compact" aria-label="Zone entfernen" onclick="removeTier(${i})">✕</button></div>`).join('')}</div><button class="secondary" onclick="collectTiers();settings.tiers.push({km:Math.max(...settings.tiers.map(x=>x.km),0)+1,fee:0});save();adminRender()">+ Zone hinzufügen</button><div class="two"><div><label>Mindestbestellwert (€)</label><input id="minOrder" type="number" min="0" value="${settings.minOrder}"></div><div><label>Mindestzubereitungszeit (Min.)</label><input id="prep" type="number" min="0" value="${settings.prep}"></div></div><label>Restaurantadresse</label><input id="restaurant" value="${safe(settings.restaurant)}" placeholder="Wird später für Google Routes verwendet"><label>Öffnungszeiten (Demo-Notiz)</label><input id="opening" value="${safe(settings.opening)}"><p class="toggle"><input id="enableDelivery" type="checkbox" ${settings.delivery?'checked':''}> Lieferung aktiv</p><p class="toggle"><input id="enablePickup" type="checkbox" ${settings.pickup?'checked':''}> Abholung aktiv</p><button onclick="saveSettings()">Einstellungen speichern</button><p class="note">Hinweis: Lieferstrecken sind im Prototyp simuliert. Google Maps, echte Öffnungszeitenprüfung und Zahlungsanbindung sind noch nicht verbunden.</p>`}else if(adminTab==='Speisekarte'){b.innerHTML=`<h3>Speisekarte verwalten</h3><p>Demo-Menü mit ${dishes.length} Artikeln, Kategorien und Protein-Optionen.</p><p class="note">Produktbilder, Kategorien, Preise, Zutaten, Allergene und Optionen werden in der nächsten Ausbaustufe in einer gemeinsamen Artikelmaske editierbar.</p>`}else if(adminTab==='Kunden'){b.innerHTML=`<h3>Kunden</h3><p>${orders.length} Demo-Bestellungen · ${new Set(orders.map(o=>o.phone)).size} Kundenkontakte (nur lokal gespeichert).</p><p class="note">Echte Kundendaten erfordern Datenschutz, Zugriffsschutz und Löschkonzept.</p>`}else{b.innerHTML=`<h3>Statistik</h3><div class="admin-grid"><div class="card"><h3>Bestellungen</h3><h2>${orders.length}</h2></div><div class="card"><h3>Demo-Umsatz (nicht real)</h3><h2>${money(orders.filter(o=>o.status!=='Abgelehnt').reduce((s,o)=>s+o.total,0))}</h2></div></div><p class="muted">Keine echten Zahlungseingänge oder Steuerberichte.</p>`}}
+function collectTiers(){settings.tiers=settings.tiers.map((t,i)=>({km:Number(document.getElementById('km'+i)?.value??t.km),fee:Number(document.getElementById('fee'+i)?.value??t.fee)}))}function removeTier(i){collectTiers();settings.tiers.splice(i,1);save();adminRender()}function saveSettings(){collectTiers();settings.tiers.sort((a,b)=>a.km-b.km);if(!settings.tiers.length||settings.tiers.some((t,i)=>!Number.isFinite(t.km)||t.km<=0||!Number.isFinite(t.fee)||t.fee<0||(i>0&&t.km===settings.tiers[i-1].km)))return alert('Bitte gültige Lieferzonen eingeben.');settings.minOrder=Number(document.getElementById('minOrder').value);settings.prep=Number(document.getElementById('prep').value);settings.restaurant=document.getElementById('restaurant').value;settings.opening=document.getElementById('opening').value;settings.delivery=document.getElementById('enableDelivery').checked;settings.pickup=document.getElementById('enablePickup').checked;save();renderCart();adminRender();alert('Demo-Einstellungen gespeichert.')}function adminAccept(token){let o=orders.find(x=>x.token===token),eta=document.getElementById('eta-'+token).value;if(!eta)return alert('Bitte Uhrzeit eingeben');o.eta=eta;o.status='Bestätigt';save();adminRender()}function adminPropose(token){let o=orders.find(x=>x.token===token),eta=document.getElementById('eta-'+token).value;if(!eta)return alert('Bitte neue Uhrzeit eingeben');o.eta=eta;o.status='Abholzeit vorgeschlagen';save();adminRender()}function adminReject(token){let o=orders.find(x=>x.token===token);if(!confirm('Demo-Bestellung wirklich ablehnen?'))return;o.status='Abgelehnt';if(o.payment==='PayPal')o.paymentStatus='REFUND ERFORDERLICH (Demo – keine echte Rückzahlung)';save();adminRender()}function nextStatus(token){let o=orders.find(x=>x.token===token),flow=['Bestätigt','In Zubereitung',o.mode==='Lieferung'?'Unterwegs':'Abholbereit',o.mode==='Lieferung'?'Zugestellt':'Abgeholt'];let idx=flow.indexOf(o.status);if(idx>=0&&idx<flow.length-1)o.status=flow[idx+1];save();adminRender()}function markPaid(token){let o=orders.find(x=>x.token===token);o.paymentStatus='Bezahlt';save();adminRender()}
+window.addEventListener('storage',()=>{orders=read('am_orders',[]);settings=read('am_settings',DEFAULT);if(!document.getElementById('tracking').classList.contains('hidden'))lookup();if(!document.getElementById('admin').classList.contains('hidden'))adminRender()});setInterval(()=>{if(!document.getElementById('tracking').classList.contains('hidden')){orders=read('am_orders',[]);lookup()}},3000);renderMenu();renderCart();
+</script>
+<script>
+let banners=read('am_banners',[
+{title:'VIETNAMESISCHE KÜCHE',subtitle:'Pho · Frisch · Aromatisch',image:'https://images.unsplash.com/photo-1555126634-323283e090fa?w=1200&q=85'},
+{title:'WOK SPEZIALITÄTEN',subtitle:'Knusprig & frisch aus dem Wok',image:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=900&q=85'},
+{title:'FRISCHE SOMMERROLLEN',subtitle:'Leicht, frisch und lecker',image:'https://images.unsplash.com/photo-1547592180-85f173990554?w=900&q=85'}]);
+if(!localStorage.getItem('am_banner_food_migration_v1')&&banners.length===3&&banners.every(b=>!b.image)){banners=[{title:'VIETNAMESISCHE KÜCHE',subtitle:'Pho · Frisch · Aromatisch',image:'https://images.unsplash.com/photo-1555126634-323283e090fa?w=1200&q=85'},{title:'WOK SPEZIALITÄTEN',subtitle:'Knusprig & frisch aus dem Wok',image:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=900&q=85'},{title:'FRISCHE SOMMERROLLEN',subtitle:'Leicht, frisch und lecker',image:'https://images.unsplash.com/photo-1547592180-85f173990554?w=900&q=85'}];localStorage.setItem('am_banners',JSON.stringify(banners))}localStorage.setItem('am_banner_food_migration_v1','1');let photos=read('am_photos',{});
+function promoRender(){document.getElementById('promoGrid').innerHTML=banners.map(b=>'<div class="promo" style="'+(b.image?'background-image:url('+safe(b.image)+')':'')+'"><h2>'+safe(b.title)+'</h2><p>'+safe(b.subtitle)+'</p><button onclick="page(\'menu\')">BESTELLEN</button></div>').join('')}
+function menuV3(){let cats=[...new Set(dishes.map(d=>d.cat))];document.getElementById('categoryLinks').innerHTML=cats.map((c,i)=>'<button onclick="document.getElementById(\'section'+i+'\').scrollIntoView()">'+safe(c)+'</button>').join('');document.getElementById('foodSections').innerHTML=cats.map((c,i)=>'<section id="section'+i+'"><h2>'+safe(c)+'</h2><div class="food-grid">'+dishes.filter(d=>d.cat===c).map(d=>'<div class="food-card"><div><b>'+safe(d.name)+'</b><p class="muted">'+safe(d.desc)+'</p><b>'+money(d.price)+'</b></div><div>'+(photos[d.id]?'<img src="'+safe(photos[d.id])+'">':'<div class="emoji">'+d.emoji+'</div>')+'<button onclick="addItem('+d.id+')">+</button></div></div>').join('')+'</div></section>').join('')}
+const oldAdmin=adminRender;
+adminRender=function(){oldAdmin();if(adminTab==='Speisekarte'){let html='<h3>Startseite: 3 Werbebanner bearbeiten</h3>';banners.forEach((x,i)=>{html+='<div class="order"><b>Banner '+(i+1)+'</b>';['title','subtitle','image'].forEach(k=>html+='<label>'+k+'</label><input id="bn'+i+k+'" value="'+safe(x[k])+'">');html+='</div>'});html+='<button onclick="saveBanners()">Banner speichern</button><h3>Menübilder bearbeiten</h3>';dishes.forEach(d=>html+='<label>'+safe(d.name)+'</label><input id="pic'+d.id+'" value="'+safe(photos[d.id]||'')+'" placeholder="Bild-URL">');html+='<button onclick="savePhotos()">Bilder speichern</button>';document.getElementById('adminbody').innerHTML+=html}};
+function saveBanners(){banners.forEach((x,i)=>['title','subtitle','image'].forEach(k=>x[k]=document.getElementById('bn'+i+k).value));localStorage.setItem('am_banners',JSON.stringify(banners));promoRender();alert('Gespeichert')}
+function savePhotos(){dishes.forEach(d=>photos[d.id]=document.getElementById('pic'+d.id).value);localStorage.setItem('am_photos',JSON.stringify(photos));menuV3();alert('Gespeichert')}
+promoRender();menuV3();
+</script>
+<script id="order-flow-v4">
+let orderEntry=null;
+try{orderEntry=JSON.parse(sessionStorage.getItem('asia_order_entry_v4')||'null')}catch(e){}
+function beginOrder(which){
+ page('menu');const old=orderEntry&&orderEntry.mode===which?orderEntry:{};
+ const pickup=which==='Abholung';
+ const escapeValue=v=>safe(v||'');
+ const html='<div class="order-entry-header"><button class="entry-back" onclick="returnHomeFromOrder()" aria-label="Zurück zur Startseite">←</button><h2>'+(pickup?'Abholung':'Lieferung')+'</h2><span style="width:38px"></span></div>'+
+ '<form class="entry-body" onsubmit="confirmOrderEntry(event)"><p class="entry-note">'+(pickup?'Wähle deine Abholzeit und hinterlege deine Kontaktdaten.':'Gib deine Lieferadresse ein, bevor du Speisen auswählst.')+'</p>'+
+ '<label>Name *</label><input id="entry-name" required autocomplete="name" value="'+escapeValue(old.name)+'" placeholder="Vor- und Nachname">'+
+ '<label>Telefonnummer *</label><input id="entry-phone" required type="tel" autocomplete="tel" value="'+escapeValue(old.phone)+'" placeholder="+49 ...">'+
+ (pickup?'<label>Wann möchtest du abholen? *</label><select id="entry-pickup" onchange="togglePickupFields()"><option value="ASAP">So schnell wie möglich (mind. '+settings.prep+' Min.)</option><option value="custom">Datum und Uhrzeit auswählen</option></select><div id="pickup-date-fields" style="display:none"><div class="two"><div><label>Datum *</label><input type="date" id="entry-pickup-date" lang="de-DE"></div><div><label>Uhrzeit *</label><input type="time" id="entry-pickup-clock" step="900"></div></div></div>'+
+ '<p class="entry-note">Das Restaurant kann eine andere Uhrzeit vorschlagen, die du bestätigen kannst.</p>':
+ '<label>PLZ *</label><input id="entry-plz" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" value="'+escapeValue(old.plz)+'" placeholder="z. B. 22087" oninput="deliveryPlzChanged()" autocomplete="postal-code"><div id="delivery-plz-status" class="entry-note" aria-live="polite"></div>'+
+ '<label>Straße und Hausnummer *</label><input id="entry-street" required autocomplete="street-address" value="'+escapeValue(old.street)+'" placeholder="Straße und Hausnummer" oninput="deliveryStreetChanged()" list="delivery-street-suggestions"><datalist id="delivery-street-suggestions"></datalist>'+
+ '<div id="delivery-address-status" class="entry-note" aria-live="polite">Adressvorschläge nach Eingabe von PLZ und Straße.</div><input id="entry-city" type="hidden" value="">'+
+ '<p class="entry-note">Lieferung nur in den vom Restaurant freigegebenen Postleitzahlen.</p>')+
+ '<button class="entry-submit" type="submit">Weiter zur Speisekarte →</button></form>';
+ let overlay=document.getElementById('orderEntryOverlay');
+ if(!overlay){overlay=document.createElement('div');overlay.id='orderEntryOverlay';overlay.className='order-entry-overlay';document.body.appendChild(overlay)}
+ overlay.dataset.mode=which;overlay.innerHTML='<div class="order-entry-card">'+html+'</div>';
+ if(pickup){const now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');const dateInput=document.getElementById('entry-pickup-date');dateInput.min=today;dateInput.value=old.time&&old.time!=='ASAP'?old.time.slice(0,10):today;document.getElementById('entry-pickup-clock').value=old.time&&old.time!=='ASAP'?old.time.slice(11,16):'18:00';if(old.time&&old.time!=='ASAP')document.getElementById('entry-pickup').value='custom';togglePickupFields()}
+ if(!pickup){deliveryPlzChanged();deliveryStreetChanged()}document.getElementById('entry-name').focus();
+}
+function togglePickupFields(){const custom=document.getElementById('entry-pickup')?.value==='custom';const fields=document.getElementById('pickup-date-fields');if(fields)fields.style.display=custom?'block':'none';for(const id of ['entry-pickup-date','entry-pickup-clock']){const input=document.getElementById(id);if(input)input.required=custom}}
+function returnHomeFromOrder(){closeOrderEntry();page("shop")}
+function closeOrderEntry(){document.getElementById('orderEntryOverlay')?.remove()}
+function confirmOrderEntry(e){
+ e.preventDefault();const el=id=>document.getElementById(id)?.value.trim()||'';
+ const modeName=document.getElementById('orderEntryOverlay').dataset.mode;
+ const name=el('entry-name'),phone=el('entry-phone');
+ if(!/^(?:\+49|0049|0)[0-9\s()\/-]{6,}$/.test(phone)){alert('Bitte eine gültige Telefonnummer eingeben.');return}
+ let info={mode:modeName,name,phone};
+ if(modeName==='Lieferung'){
+  info.street=el('entry-street');info.plz=el('entry-plz');info.city=el('entry-city');
+  if(!/^\d{5}$/.test(info.plz)){alert('Bitte eine fünfstellige PLZ eingeben.');return}
+  if(deliveryPostalState.plz!==info.plz||deliveryPostalState.valid!==true){alert('Diese PLZ ist nicht für Lieferung freigegeben. Bitte Abholung wählen.');return}
+  if(!info.city){alert('Ort konnte nicht ermittelt werden. Bitte PLZ erneut prüfen.');return}
+  if(!/\d+[a-zA-Z]?\s*$/.test(info.street)){alert('Bitte Straße und Hausnummer vollständig eingeben.');return}
+ }else{
+  info.time=el('entry-pickup')==='custom'?el('entry-pickup-date')+'T'+el('entry-pickup-clock'):'ASAP';
+  if(!info.time||info.time!=='ASAP'&&new Date(info.time).getTime()<Date.now()+settings.prep*60000){alert('Bitte eine gültige Abholzeit auswählen.');return}
+ }
+ orderEntry=info;sessionStorage.setItem('asia_order_entry_v4',JSON.stringify(info));mode(modeName);closeOrderEntry();page('menu');
+}
+const originalAddItem=addItem;
+addItem=function(id){if(!orderEntry){beginOrder(orderMode||'Lieferung');return}originalAddItem(id)};
+const originalCheckout=checkout;
+checkout=function(){if(!orderEntry){beginOrder(orderMode||'Lieferung');return}if(orderEntry.mode!==orderMode){beginOrder(orderMode);return}originalCheckout();
+ const fill=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value||''};
+ fill('cname',orderEntry.name);fill('cphone',orderEntry.phone);
+ if(orderEntry.mode==='Lieferung'){fill('cstreet',orderEntry.street);fill('cplz',orderEntry.plz);fill('ccity',orderEntry.city);const city=document.getElementById('ccity');if(city)city.readOnly=true}
+ else if(orderEntry.time&&orderEntry.time!=='ASAP'){fill('ctime','custom');fill('ccustom',orderEntry.time)}
+};
+</script>
+<script id="asia-admin-editor-v5">
+/* Demo editor. All changes are local to the current browser; no backend or authentication yet. */
+const initialDishes=JSON.parse(JSON.stringify(dishes));
+dishes=read('am_menu_v5',initialDishes);
+let menuCategories=read('am_categories_v5',[...new Set(dishes.map(d=>d.cat))]);
+let editingDish=null;
+function persistMenu(){localStorage.setItem('am_menu_v5',JSON.stringify(dishes));localStorage.setItem('am_categories_v5',JSON.stringify(menuCategories));renderMenu();menuV3()}
+function adminEditDish(id){
+ const d=id===null?{id:null,name:'',desc:'',cat:menuCategories[0]||'Hauptgerichte',price:0,emoji:'🍜',options:false,available:true}:dishes.find(x=>x.id===id);
+ if(!d)return;
+ editingDish=id;
+ modal('<h2>'+(id===null?'Neuer Artikel':'Artikel bearbeiten')+'</h2>'+
+ '<label>Artikelname *</label><input id="ed-name" value="'+safe(d.name)+'">'+
+ '<label>Beschreibung / Zutaten</label><textarea id="ed-desc" rows="3">'+safe(d.desc)+'</textarea>'+
+ '<label>Kategorie</label><select id="ed-cat">'+menuCategories.map(c=>'<option '+(c===d.cat?'selected':'')+'>'+safe(c)+'</option>').join('')+'</select>'+
+ '<label>Preis (€) *</label><input id="ed-price" type="number" min="0" step="0.01" value="'+Number(d.price)+'">'+
+ '<label>Bild-URL (https://)</label><input id="ed-image" placeholder="https://..." value="'+safe(photos[d.id]||'')+'">'+
+ '<label>Symbol ohne Bild</label><input id="ed-emoji" value="'+safe(d.emoji||'🍜')+'">'+
+ '<p class="toggle"><input id="ed-options" type="checkbox" '+(d.options?'checked':'')+'> Protein- und Schärfeauswahl aktiv</p>'+
+ '<p class="toggle"><input id="ed-available" type="checkbox" '+(d.available!==false?'checked':'')+'> Artikel verfügbar</p>'+
+ '<button class="full" onclick="adminSaveDish()">Artikel speichern</button>');
+}
+function adminSaveDish(){
+ const get=id=>document.getElementById(id)?.value.trim()||'';
+ const name=get('ed-name'),price=Number(get('ed-price')),url=get('ed-image');
+ if(!name||!Number.isFinite(price)||price<0)return alert('Name und gültigen Preis eingeben.');
+ if(url&&!/^https:\/\/[^\s]+$/i.test(url))return alert('Bitte eine gültige HTTPS-Bildadresse eingeben.');
+ const d=editingDish===null?{id:Math.max(0,...dishes.map(x=>Number(x.id)||0))+1}:dishes.find(x=>x.id===editingDish);
+ if(!d)return;
+ Object.assign(d,{name,desc:get('ed-desc'),cat:get('ed-cat'),price,emoji:get('ed-emoji')||'🍜',options:document.getElementById('ed-options').checked,available:document.getElementById('ed-available').checked});
+ if(editingDish===null)dishes.push(d);
+ if(url)photos[d.id]=url;else delete photos[d.id];
+ localStorage.setItem('am_photos',JSON.stringify(photos));
+ persistMenu();closeModal();adminRender();
+}
+function adminDeleteDish(id){if(!confirm('Artikel wirklich löschen?'))return;dishes=dishes.filter(d=>d.id!==id);delete photos[id];localStorage.setItem('am_photos',JSON.stringify(photos));persistMenu();adminRender()}
+function adminAddCategory(){
+ const name=prompt('Name der neuen Kategorie:')?.trim();
+ if(!name)return;
+ if(menuCategories.some(c=>c.toLowerCase()===name.toLowerCase()))return alert('Kategorie existiert bereits.');
+ menuCategories.push(name);persistMenu();adminRender()
+}
+function adminRenameCategory(index){
+ const old=menuCategories[index],name=prompt('Kategorie umbenennen:',old)?.trim();
+ if(!name||name===old)return;
+ if(menuCategories.some(c=>c.toLowerCase()===name.toLowerCase()))return alert('Kategorie existiert bereits.');
+ menuCategories[index]=name;dishes.forEach(d=>{if(d.cat===old)d.cat=name});persistMenu();adminRender()
+}
+function adminRemoveCategory(index){
+ const name=menuCategories[index];
+ if(dishes.some(d=>d.cat===name))return alert('Bitte zuerst alle Artikel in eine andere Kategorie verschieben.');
+ if(!confirm('Kategorie löschen?'))return;
+ menuCategories.splice(index,1);persistMenu();adminRender()
+}
+const priorAdminRenderV5=adminRender;
+adminRender=function(){
+ priorAdminRenderV5();
+ if(adminTab!=='Speisekarte')return;
+ const b=document.getElementById('adminbody');
+ b.innerHTML='<h2>Speisekarte verwalten</h2><p class="muted">Artikel, Preise, Bilder, Kategorien und Startseitenbanner · nur Demo / lokal in diesem Browser</p>'+
+ '<div class="row"><button onclick="adminEditDish(null)">+ Neuer Artikel</button><button class="secondary" onclick="adminAddCategory()">+ Kategorie hinzufügen</button></div>'+
+ '<h3>Kategorien</h3>'+menuCategories.map((c,i)=>'<div class="row" style="padding:8px 0;border-bottom:1px solid #eee"><b>'+safe(c)+'</b><div class="row"><button class="secondary compact" onclick="adminRenameCategory('+i+')">Umbenennen</button><button class="secondary compact" onclick="adminRemoveCategory('+i+')">Löschen</button></div></div>').join('')+
+ '<h3>Artikel ('+dishes.length+')</h3>'+dishes.map(d=>'<div class="order"><div class="row"><div><b>'+safe(d.name)+'</b><p class="muted">'+safe(d.cat)+' · '+money(d.price)+(d.available===false?' · Nicht verfügbar':'')+'</p></div><div class="row"><button class="secondary compact" onclick="adminEditDish('+d.id+')">Bearbeiten</button><button class="danger compact" onclick="adminDeleteDish('+d.id+')">Löschen</button></div></div></div>').join('')+
+ '<h3>Startseite · 3 Werbebanner</h3><p class="muted">Bild-URL, Titel und Untertitel individuell bearbeiten.</p>'+
+ banners.map((x,i)=>'<div class="order"><b>Banner '+(i+1)+'</b>'+['title','subtitle','image'].map(k=>'<label>'+({title:'Überschrift',subtitle:'Untertitel',image:'Bild-URL (https://)'}[k])+'</label><input id="bn'+i+k+'" value="'+safe(x[k]||'')+'">').join('')+'</div>').join('')+
+ '<button onclick="saveBanners()">Banner speichern</button>';
+};
+const oldSaveBannersV5=saveBanners;
+saveBanners=function(){
+ for(let i=0;i<banners.length;i++){let u=document.getElementById('bn'+i+'image')?.value.trim();if(u&&!/^https:\/\/[^\s]+$/i.test(u))return alert('Banner '+(i+1)+': gültige HTTPS-Bildadresse eingeben.')}
+ oldSaveBannersV5();
+};
+const previousMenuV5=menuV3;
+menuV3=function(){previousMenuV5();document.querySelectorAll('#foodSections .food-card').forEach(el=>{});};
+const previousAddItemV5=addItem;
+addItem=function(id){const d=dishes.find(x=>x.id===id);if(!d||d.available===false)return alert('Dieser Artikel ist derzeit nicht verfügbar.');previousAddItemV5(id)};
+persistMenu();
+</script><style>#symbolChoices{display:flex;flex-wrap:wrap;gap:7px}#symbolChoices button{background:#edf5ed;color:#183e2b;font-size:20px;padding:8px}#symbolChoices button.selected{outline:2px solid #13764b}.photo-preview{max-height:110px;max-width:150px;object-fit:cover}</style>
+<script id="asia-v6">
+let selectedSymbol='🍜',uploadImage=null;
+const symbols=[['🌶️','Scharf'],['🌱','Vegan'],['🍜','Nudeln'],['🍚','Reis'],['🍲','Pho'],['🥟','Vorspeise'],['🥬','Vegetarisch'],['🍛','Curry'],['🍗','Huhn'],['🦐','Garnelen']];
+function selectSymbol(sym){selectedSymbol=sym;document.getElementById('ed-emoji').value=sym;document.querySelectorAll('#symbolChoices button').forEach(b=>b.classList.toggle('selected',b.dataset.sym===sym))}
+function selectLocalPhoto(input){const f=input.files?.[0];if(!f)return;if(!f.type.startsWith('image/'))return alert('Bitte ein Bild auswählen.');if(f.size>650000)return alert('Demo: Bild bitte unter 650 KB. Cloud-Upload benötigt Backend.');const r=new FileReader();r.onload=()=>{uploadImage=r.result;const p=document.getElementById('photo-preview');p.src=uploadImage;p.hidden=false};r.readAsDataURL(f)}
+function removeLocalPhoto(){uploadImage='';document.getElementById('ed-image').value='';document.getElementById('photo-preview').hidden=true}
+const previousEdit=adminEditDish;
+adminEditDish=function(id){
+ uploadImage=null;previousEdit(id);const d=id===null?null:dishes.find(x=>x.id===id);selectedSymbol=d?.emoji||'🍜';
+ const img=document.getElementById('ed-image');
+ img.insertAdjacentHTML('beforebegin','<label>Foto vom Computer</label><input type="file" accept="image/*" onchange="selectLocalPhoto(this)"><p class="muted">Demo: Bild wird nur in diesem Browser gespeichert (max. 650 KB). Datenbank folgt mit Backend.</p><img class="photo-preview" id="photo-preview" hidden><button type="button" class="secondary compact" onclick="removeLocalPhoto()">Bild entfernen</button>');
+ if(d&&photos[d.id]){const p=document.getElementById('photo-preview');p.src=photos[d.id];p.hidden=false}
+ const emoji=document.getElementById('ed-emoji');emoji.readOnly=true;
+ emoji.insertAdjacentHTML('beforebegin','<div id="symbolChoices">'+symbols.map(([s,n])=>'<button type="button" data-sym="'+s+'" title="'+n+'" class="'+(s===selectedSymbol?'selected':'')+'" onclick="selectSymbol(\''+s+'\')">'+s+'</button>').join('')+'</div>');
+ document.getElementById('ed-options').parentElement.insertAdjacentHTML('afterend','<label>Varianten (Name|Aufpreis, je Zeile)</label><textarea id="ed-variants" rows="4" placeholder="Huhn|0&#10;Rind|2&#10;Garnelen|3&#10;Tofu|0">'+(d?.variants||[]).map(v=>v.name+'|'+v.extra).join('\n')+'</textarea>');
+};
+const previousSave=adminSaveDish;
+adminSaveDish=function(){
+ const variants=(document.getElementById('ed-variants')?.value||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>{const [name,extra='0']=x.split('|');return {name:name?.trim(),extra:Number(extra.replace(',','.'))}});
+ if(variants.some(v=>!v.name||!Number.isFinite(v.extra)||v.extra<0))return alert('Variante: Name|Aufpreis eingeben.');
+ const id=editingDish===null?Math.max(0,...dishes.map(x=>Number(x.id)||0))+1:editingDish;
+ const imageInput=document.getElementById('ed-image');
+ if(uploadImage?.startsWith('data:'))imageInput.value='https://example.invalid/upload';
+ if(uploadImage==='')imageInput.value='';
+ previousSave();
+ const d=dishes.find(x=>x.id===id);if(!d)return;d.variants=variants;
+ if(uploadImage!==null){if(uploadImage)photos[id]=uploadImage;else delete photos[id]}
+ try{localStorage.setItem('am_photos',JSON.stringify(photos));persistMenu()}catch(e){alert('Browser-Speicher voll. Bitte kleinere Bilder verwenden.')}
+};
+addItem=function(id){
+ const d=dishes.find(x=>x.id===id);if(!d||d.available===false)return alert('Artikel nicht verfügbar.');
+ if(!orderEntry){beginOrder(orderMode||'Lieferung');return}
+ if(d.options){
+ const vs=d.variants?.length?d.variants:[{name:'Huhn',extra:0},{name:'Tofu',extra:0},{name:'Rind',extra:2},{name:'Garnelen',extra:3}];
+ modal('<h2>'+safe(d.name)+'</h2><p>'+safe(d.desc)+'</p><label>Variante auswählen</label><select id="protein">'+vs.map(v=>'<option value="'+safe(v.name)+'|'+Number(v.extra)+'">'+safe(v.name)+(v.extra?' +'+money(v.extra):'')+'</option>').join('')+'</select><label>Schärfe</label><select id="spice"><option>Mild</option><option>Mittel</option><option>Scharf</option></select><button class="full" onclick="confirmItem('+id+')">Zum Warenkorb hinzufügen</button>');
+ }else{cart.push({name:d.name,price:d.price,option:'',qty:1});renderCart()}
+};
+function addReferenceMenu(){
+ if(localStorage.getItem('am_menu_seed_v6'))return;
+ const rows=[
+ ['Suppen','Peking Suppe',4.9,'🍲'],['Suppen','Tomatensuppe',5.9,'🍲'],['Vorspeisen','Vietnamesische Sommerrollen',5.9,'🥬'],
+ ['Hühnerfleisch Gerichte','Hühnerfleisch Chop Suey',11.7,'🍗'],['Hühnerfleisch Gerichte','Knuspriges Hähnchen',13.7,'🍗'],
+ ['Rindfleisch Gerichte','Rindfleisch Chop Suey',12.9,'🥩'],['Enten Gerichte','Gebackene Ente',14.7,'🍗'],
+ ['Vegetarische Gerichte','Gebratenes Gemüse',11.7,'🌱'],['Garnelen Gerichte','Garnelen Chop Suey',15.5,'🦐'],
+ ['Fisch Gerichte','Gebackenes Seelachsfilet',11.9,'🐟'],['Pho','Pho',12.9,'🍲'],['Bún','Bún',12.9,'🍜'],
+ ['Pho Xao (gebratene Reisbandnudeln)','Pho Xao',13.5,'🍜']];
+ for(const [cat,name,price,emoji] of rows){
+ if(dishes.some(d=>d.name.toLowerCase()===name.toLowerCase()))continue;
+ const d={id:Math.max(0,...dishes.map(z=>Number(z.id)||0))+1,cat,name,price,emoji,desc:'Aus der Asia Mai Speisekarte · Demo-Preis bitte prüfen',available:true};
+ if(['Pho','Bún','Pho Xao'].includes(name)){d.options=true;d.variants=[{name:'Hühnerfleisch',extra:0},{name:'Rindfleisch',extra:0},{name:'Garnelen',extra:1.5},{name:'Tofu',extra:0}]}
+ dishes.push(d);if(!menuCategories.includes(cat))menuCategories.push(cat);
+ }
+ localStorage.setItem('am_menu_seed_v6','1');persistMenu();
+}
+addReferenceMenu();
+</script>
+<style id="asia-v7-style">
+@media(min-width:850px){#foodSections .food-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+#foodSections .food-card{min-width:0;min-height:170px;position:relative;align-items:stretch}
+#foodSections .food-card .food-photo{width:116px;height:116px;object-fit:cover;border-radius:14px}
+#foodSections .food-card .food-symbols{font-size:15px;margin:7px 0}
+#foodSections .food-card .food-action{margin-top:10px}
+#foodSections .food-card .food-copy{min-width:0;flex:1}
+#foodSections .food-card .food-copy p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.v7-variant-row{display:grid;grid-template-columns:26px 1fr 100px 32px;gap:7px;align-items:center;margin:8px 0}
+.v7-variant-row input{min-width:0}.v7-editor-note{font-size:12px;color:#65766d}
+.v7-category-group{border:1px solid #dde5dd;border-radius:12px;margin:15px 0;padding:14px}
+.v7-category-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.v7-category-items{margin-top:10px}
+.v7-category-items .order{margin:7px 0}
+</style>
+<script id="asia-v7">
+/* V7: grouped category editor, absolute-priced variants, optional two badges. Browser-only demo. */
+function v7Currency(n){return Number(n||0).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function v7Number(x){return Number(String(x).replace(',','.'))}
+function v7SymbolBadges(d){return (d.badges||[]).filter(x=>x==='spicy'||x==='vegan').map(x=>x==='spicy'?'🌶️':'🌱').join(' ')}
+function v7VariantAdd(name='',price=''){
+ const rows=document.getElementById('v7-variant-rows');if(!rows)return;
+ const n=rows.children.length+1;
+ const row=document.createElement('div');row.className='v7-variant-row';
+ row.innerHTML='<span class="v7-row-number">'+n+'.</span><input class="v7-vname" placeholder="z. B. Hühnerfleisch" value="'+safe(name)+'"><input class="v7-vprice" type="text" inputmode="decimal" placeholder="Preis €" value="'+safe(String(price))+'"><button type="button" class="secondary compact" onclick="this.parentElement.remove();v7Renumber()">×</button>';
+ rows.appendChild(row);
+}
+function v7Renumber(){document.querySelectorAll('.v7-row-number').forEach((x,i)=>x.textContent=(i+1)+'.')}
+function v7ToggleVariants(){
+ const on=document.getElementById('ed-options').checked;
+ document.getElementById('v7-variant-editor').hidden=!on;
+ document.getElementById('v7-standard-price').hidden=on;
+}
+const v7OldEditor=adminEditDish;
+adminEditDish=function(id){
+ if(id===null&&!menuCategories.length)return alert('Bitte zuerst eine Kategorie erstellen.');
+ v7OldEditor(id);
+ const d=id===null?null:dishes.find(x=>x.id===id);
+ const em=document.getElementById('ed-emoji');if(em){document.getElementById('symbolChoices')?.remove();em.previousElementSibling?.tagName==='LABEL'&&em.previousElementSibling.remove();em.remove()}
+ const price=document.getElementById('ed-price');price.type='text';price.inputMode='decimal';price.value=d?.price===undefined?'':v7Currency(d.price);
+ price.parentElement;price.previousElementSibling?.tagName==='LABEL'&& (price.previousElementSibling.textContent='Standardpreis (€)');
+ const wrap=document.createElement('div');wrap.id='v7-standard-price';price.before(wrap);wrap.append(price.previousElementSibling?.tagName==='LABEL'?price.previousElementSibling:document.createElement('span'),price);
+ const opt=document.getElementById('ed-options');opt.parentElement.lastChild.textContent=' Varianten aktiv (eigene Preise je Variante)';
+ document.getElementById('ed-variants')?.previousElementSibling?.remove();document.getElementById('ed-variants')?.remove();
+ opt.parentElement.insertAdjacentHTML('afterend','<div id="v7-variant-editor"><p class="v7-editor-note">Jede Variante hat einen eigenen Endpreis. Der Standardpreis wird bei aktiven Varianten nicht verwendet.</p><div id="v7-variant-rows"></div><button type="button" class="secondary" onclick="v7VariantAdd()">+ Variante hinzufügen</button></div><label>Optionale Kennzeichnung</label><div class="row"><label><input type="checkbox" id="v7-spicy" '+(d?.badges?.includes('spicy')?'checked':'')+'> 🌶️ Scharf</label><label><input type="checkbox" id="v7-vegan" '+(d?.badges?.includes('vegan')?'checked':'')+'> 🌱 Vegan</label></div>');
+ opt.onchange=v7ToggleVariants;
+ const variants=d?.variants||[];
+ variants.forEach(v=>v7VariantAdd(v.name,v.price!==undefined?v.price:Number(d.price||0)+Number(v.extra||0)));
+ v7ToggleVariants();
+ const category=document.getElementById('ed-cat');if(category){category.innerHTML=menuCategories.map(c=>'<option value="'+safe(c)+'" '+(c===(d?.cat||menuCategories[0])?'selected':'')+'>'+safe(c)+'</option>').join('')}
+};
+adminSaveDish=function(){
+ const get=id=>document.getElementById(id)?.value?.trim()||'';
+ const name=get('ed-name'),cat=get('ed-cat'),enabled=document.getElementById('ed-options').checked;
+ const price=v7Number(get('ed-price')||'0');
+ if(!name)return alert('Bitte einen Artikelnamen eingeben.');
+ if(!menuCategories.includes(cat))return alert('Bitte eine vorhandene Kategorie auswählen.');
+ if(!enabled&&(!Number.isFinite(price)||price<0))return alert('Bitte einen gültigen Preis eingeben.');
+ const variants=[...document.querySelectorAll('.v7-variant-row')].map(r=>({name:r.querySelector('.v7-vname').value.trim(),price:v7Number(r.querySelector('.v7-vprice').value.trim())}));
+ if(enabled&&(!variants.length||variants.some(v=>!v.name||!Number.isFinite(v.price)||v.price<0)))return alert('Bitte mindestens eine Variante mit Name und gültigem Preis eingeben.');
+ const url=get('ed-image');
+ if(uploadImage===null&&url&&!/^https:\/\/[^\s]+$/i.test(url)&&!url.startsWith('data:image/'))return alert('Bitte eine gültige HTTPS-Bildadresse eingeben.');
+ const id=editingDish===null?Math.max(0,...dishes.map(d=>Number(d.id)||0))+1:editingDish;
+ let d=dishes.find(x=>x.id===id);
+ if(!d){d={id};dishes.push(d)}
+ Object.assign(d,{name,cat,desc:get('ed-desc'),price:enabled?null:price,options:enabled,variants:enabled?variants:[],badges:[document.getElementById('v7-spicy').checked?'spicy':null,document.getElementById('v7-vegan').checked?'vegan':null].filter(Boolean),emoji:'',available:document.getElementById('ed-available').checked});
+ if(uploadImage!==null){if(uploadImage)photos[id]=uploadImage;else delete photos[id]}
+ else if(url)photos[id]=url;else delete photos[id];
+ try{localStorage.setItem('am_photos',JSON.stringify(photos));persistMenu()}catch(e){alert('Bild zu groß für lokalen Browser-Speicher. Bitte kleinere Datei wählen.');return}
+ closeModal();adminRender();
+};
+function v7AddToCart(id){
+ const d=dishes.find(x=>x.id===id);if(!d||d.available===false)return alert('Artikel nicht verfügbar.');
+ if(!orderEntry){beginOrder(orderMode||'Lieferung');return}
+ if(d.options){
+ let variants=d.variants||[];
+ if(!variants.length)return alert('Für diesen Artikel wurden noch keine Varianten hinterlegt.');
+ modal('<h2>'+safe(d.name)+'</h2><p>'+safe(d.desc||'')+'</p><label>Variante auswählen *</label><div>'+variants.map((v,i)=>'<label style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px;border-bottom:1px solid #eee"><span><input type="radio" name="v7-choice" value="'+i+'" '+(!i?'checked':'')+'> '+safe(v.name)+'</span><b>'+money(v.price!==undefined?v.price:Number(d.price||0)+Number(v.extra||0))+'</b></label>').join('')+'</div><button class="full" onclick="v7ConfirmVariant('+id+')">Zum Warenkorb hinzufügen</button>');
+ }else{cart.push({name:d.name,price:Number(d.price),option:'',qty:1});renderCart()}
+}
+addItem=v7AddToCart;
+function v7ConfirmVariant(id){
+ const d=dishes.find(x=>x.id===id),i=Number(document.querySelector('input[name="v7-choice"]:checked')?.value??-1),v=d?.variants?.[i];
+ if(!v)return alert('Bitte eine Variante wählen.');
+ const p=v.price!==undefined?Number(v.price):Number(d.price||0)+Number(v.extra||0);
+ cart.push({name:d.name,price:p,option:v.name,qty:1});closeModal();renderCart();
+}
+menuV3=function(){
+ const cats=menuCategories.filter(c=>dishes.some(d=>d.cat===c&&d.available!==false));
+ document.getElementById('categoryLinks').innerHTML=cats.map((c,i)=>'<button onclick="document.getElementById(\'section'+i+'\').scrollIntoView({behavior:\'smooth\'})">'+safe(c)+'</button>').join('');
+ document.getElementById('foodSections').innerHTML=cats.map((c,i)=>'<section id="section'+i+'"><h2>'+safe(c)+'</h2><div class="food-grid">'+dishes.filter(d=>d.cat===c&&d.available!==false).map(d=>'<div class="food-card"><div class="food-copy"><b>'+safe(d.name)+'</b><p class="muted">'+safe(d.desc||'')+'</p><div class="food-symbols">'+v7SymbolBadges(d)+'</div><b>'+(d.options?'Varianten wählen':money(d.price))+'</b><div class="food-action"><button onclick="addItem('+d.id+')">Bestellen</button></div></div>'+(photos[d.id]?'<img class="food-photo" src="'+safe(photos[d.id])+'" alt="'+safe(d.name)+'">':'')+'</div>').join('')+'</div></section>').join('');
+};
+const v7OldAdmin=adminRender;
+adminRender=function(){
+ v7OldAdmin();
+ if(adminTab!=='Speisekarte')return;
+ const b=document.getElementById('adminbody');if(!b)return;
+ const bannerIndex=b.innerHTML.indexOf('<h3>Startseite');
+ const bannerHTML=bannerIndex>=0?b.innerHTML.slice(bannerIndex):'';
+ b.innerHTML='<h2>Speisekarte verwalten</h2><p class="muted">Zuerst Kategorie erstellen, dann Artikel hinzufügen. Demo-Daten nur in diesem Browser.</p><div class="row"><button onclick="adminAddCategory()">+ Kategorie hinzufügen</button><button onclick="adminEditDish(null)" '+(!menuCategories.length?'disabled':'')+'>+ Neuer Artikel</button></div>'+
+ menuCategories.map((c,i)=>'<div class="v7-category-group"><div class="v7-category-head"><b>'+safe(c)+' ('+dishes.filter(d=>d.cat===c).length+')</b><div class="row"><button class="secondary compact" onclick="adminRenameCategory('+i+')">Umbenennen</button><button class="secondary compact" onclick="adminRemoveCategory('+i+')">Löschen</button><button class="secondary compact" onclick="adminEditDish(null);document.getElementById(\'ed-cat\').value='+JSON.stringify(c).replace(/"/g,'&quot;')+'">+ Artikel</button></div></div><div class="v7-category-items">'+(dishes.filter(d=>d.cat===c).map(d=>'<div class="order"><div class="row"><div><b>'+safe(d.name)+'</b><p class="muted">'+(d.options?'Varianten: '+(d.variants||[]).length:money(d.price))+(d.available===false?' · Nicht verfügbar':'')+'</p></div><div class="row"><button class="secondary compact" onclick="adminEditDish('+d.id+')">Bearbeiten</button><button class="danger compact" onclick="adminDeleteDish('+d.id+')">Löschen</button></div></div></div>').join('')||'<p class="muted">Noch keine Artikel in dieser Kategorie.</p>')+'</div></div>').join('')+
+ '<h3>Startseite · 3 Werbebanner</h3>'+banners.map((x,i)=>'<div class="order"><b>Banner '+(i+1)+'</b>'+['title','subtitle','image'].map(k=>'<label>'+({title:'Überschrift',subtitle:'Untertitel',image:'Bild-URL (https://)'}[k])+'</label><input id="bn'+i+k+'" value="'+safe(x[k]||'')+'">').join('')+'</div>').join('')+'<button onclick="saveBanners()">Banner speichern</button>';
+};
+menuV3();
+</script>
+<style id="asia-v8-style">
+.v8-cat-list{display:grid;gap:9px;margin:16px 0 24px}
+.v8-cat{background:white;border:1px solid #dce7df;border-radius:12px;overflow:hidden}
+.v8-cat-head{display:flex;align-items:center;gap:8px;padding:12px 14px}
+.v8-cat-head .v8-drag{cursor:grab;touch-action:none;color:#6b7f74;border:0;background:#f0f5f1;border-radius:7px;padding:8px;font-size:18px;user-select:none}
+.v8-cat-head .v8-drag:active{cursor:grabbing}
+.v8-cat-head .v8-toggle{flex:1;text-align:left;background:transparent;border:0;color:#183b2b;font-weight:700;padding:7px 2px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.v8-cat-head .v8-count{font-weight:400;color:#718177;font-size:12px}
+.v8-cat-body{padding:0 14px 14px;border-top:1px solid #e7eee9}
+.v8-cat-body[hidden]{display:none}
+.v8-cat-body .order{margin:8px 0}
+.v8-cat-head .v8-controls{display:flex;align-items:center;gap:5px}
+.v8-cat-head .v8-controls button{font-size:12px;padding:6px 9px}
+.v8-cat.v8-dragging{opacity:.45}
+.v8-cat.v8-over{outline:2px solid #13764b;outline-offset:1px}
+.v8-toast{position:fixed;right:22px;bottom:22px;z-index:99999;background:#163d2a;color:white;padding:13px 17px;border-radius:12px;box-shadow:0 12px 35px #0003;max-width:min(90vw,380px);font-weight:600}
+@media(max-width:680px){.v8-cat-head{flex-wrap:wrap}.v8-cat-head .v8-controls{width:100%;justify-content:flex-end}.v8-cat-head .v8-toggle{min-width:70%}}
+</style>
+<script id="asia-v8">
+/* Category accordion and persistent ordering. Native drag/drop plus up/down controls. */
+const v8Expanded=new Set();
+let v8DragIndex=null,v8Pointer=null,v8ToastTimer=null;
+function v8Toast(msg){
+ let el=document.getElementById('v8-toast');
+ if(!el){el=document.createElement('div');el.id='v8-toast';el.className='v8-toast';el.setAttribute('role','status');el.setAttribute('aria-live','polite');document.body.appendChild(el)}
+ el.textContent=msg;el.hidden=false;
+ clearTimeout(v8ToastTimer);v8ToastTimer=setTimeout(()=>{el.hidden=true},3300);
+}
+function v8MoveCategory(from,to){
+ from=Number(from);to=Number(to);
+ if(!Number.isInteger(from)||!Number.isInteger(to)||from===to||from<0||to<0||from>=menuCategories.length||to>=menuCategories.length)return;
+ const [cat]=menuCategories.splice(from,1);menuCategories.splice(to,0,cat);
+ persistMenu();adminRender();v8Toast('Reihenfolge gespeichert – Speisekarte aktualisiert.');
+}
+function v8ToggleCategory(i){
+ const name=menuCategories[i];if(!name)return;
+ if(v8Expanded.has(name))v8Expanded.delete(name);else v8Expanded.add(name);
+ const body=document.getElementById('v8-cat-body-'+i),btn=document.getElementById('v8-cat-toggle-'+i);
+ if(body){body.hidden=!v8Expanded.has(name);btn?.setAttribute('aria-expanded',String(!body.hidden));const arrow=btn?.querySelector('.v8-arrow');if(arrow)arrow.textContent=body.hidden?'▾':'▴'}
+}
+function v8CategoryMarkup(){
+ return '<h3>Kategorien <span class="v8-count">('+menuCategories.length+')</span></h3><p class="muted">Kategorie anklicken, um Artikel zu sehen. Mit ⠿ ziehen oder mit ↑ ↓ sortieren. Die Reihenfolge gilt auch für die Speisekarte.</p><div class="v8-cat-list" id="v8-cat-list">'+menuCategories.map((c,i)=>{
+ const count=dishes.filter(d=>d.cat===c).length,opened=v8Expanded.has(c);
+ return '<div class="v8-cat" data-index="'+i+'" ondragover="v8DragOver(event,'+i+')" ondrop="v8Drop(event,'+i+')" ondragleave="this.classList.remove(\'v8-over\')">'+
+ '<div class="v8-cat-head"><button type="button" class="v8-drag" title="Kategorie ziehen" aria-label="Kategorie verschieben" draggable="true" ondragstart="v8DragStart(event,'+i+')" ondragend="v8DragEnd()" onpointerdown="v8PointerStart(event,'+i+')" onpointerup="v8PointerEnd(event)" onpointercancel="v8Pointer=null">⠿</button>'+
+ '<button type="button" class="v8-toggle" id="v8-cat-toggle-'+i+'" aria-expanded="'+opened+'" onclick="v8ToggleCategory('+i+')"><span>'+safe(c)+' <span class="v8-count">('+count+')</span></span><span class="v8-arrow">'+(opened?'▴':'▾')+'</span></button>'+
+ '<div class="v8-controls"><button type="button" class="secondary compact" title="Nach oben" aria-label="Nach oben" '+(i===0?'disabled':'')+' onclick="v8MoveCategory('+i+','+(i-1)+')">↑</button><button type="button" class="secondary compact" title="Nach unten" aria-label="Nach unten" '+(i===menuCategories.length-1?'disabled':'')+' onclick="v8MoveCategory('+i+','+(i+1)+')">↓</button></div></div>'+
+ '<div class="v8-cat-body" id="v8-cat-body-'+i+'" '+(opened?'':'hidden')+'><div class="row" style="padding-top:12px"><button class="secondary compact" onclick="adminRenameCategory('+i+')">Umbenennen</button><button class="danger compact" onclick="adminRemoveCategory('+i+')">Löschen</button><button class="compact" onclick="adminEditDish(null);document.getElementById(\'ed-cat\').value=menuCategories['+i+']">+ Artikel</button></div>'+
+ (dishes.filter(d=>d.cat===c).map(d=>'<div class="order"><div class="row"><div><b>'+safe(d.name)+'</b><p class="muted">'+(d.options?'Varianten: '+(d.variants||[]).length:money(d.price))+(d.available===false?' · Nicht verfügbar':'')+'</p></div><div class="row"><button class="secondary compact" onclick="adminEditDish('+d.id+')">Bearbeiten</button><button class="danger compact" onclick="adminDeleteDish('+d.id+')">Löschen</button></div></div></div>').join('')||'<p class="muted">Noch keine Artikel in dieser Kategorie.</p>')+'</div></div>';
+ }).join('')+'</div>';
+}
+function v8DragStart(e,i){v8DragIndex=i;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(i));e.currentTarget.closest('.v8-cat')?.classList.add('v8-dragging')}
+function v8DragOver(e,i){if(v8DragIndex===null)return;e.preventDefault();e.dataTransfer.dropEffect='move';document.querySelectorAll('.v8-cat').forEach(x=>x.classList.toggle('v8-over',Number(x.dataset.index)===i))}
+function v8Drop(e,i){e.preventDefault();const from=v8DragIndex;v8DragEnd();if(from!==null)v8MoveCategory(from,i)}
+function v8DragEnd(){v8DragIndex=null;document.querySelectorAll('.v8-cat').forEach(x=>x.classList.remove('v8-over','v8-dragging'))}
+function v8PointerStart(e,i){if(e.pointerType==='mouse')return;v8Pointer={i,x:e.clientX,y:e.clientY};}
+function v8PointerEnd(e){if(!v8Pointer)return;const start=v8Pointer;v8Pointer=null;if(Math.abs(e.clientY-start.y)<18)return;const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.v8-cat');if(target){const to=Number(target.dataset.index);v8MoveCategory(start.i,to)}}
+const v8PrevAdmin=adminRender;
+adminRender=function(){
+ v8PrevAdmin();
+ if(adminTab!=='Speisekarte')return;
+ const b=document.getElementById('adminbody');if(!b)return;
+ const html=b.innerHTML;
+ const start=html.indexOf('<div class="v7-category-group">');
+ const end=html.indexOf('<h3>Startseite');
+ const h=html.indexOf('<h2>Speisekarte');
+ if(start<0||end<0||h<0)return;
+ const intro='<h2>Speisekarte verwalten</h2><p class="muted">Kategorien sortieren und aufklappen, Artikel bearbeiten oder hinzufügen.</p><div class="row"><button onclick="adminAddCategory()">+ Kategorie hinzufügen</button><button onclick="adminEditDish(null)" '+(!menuCategories.length?'disabled':'')+'>+ Neuer Artikel</button></div>';
+ b.innerHTML=intro+v8CategoryMarkup()+html.slice(end);
+};
+const v8OldAddCategory=adminAddCategory;
+adminAddCategory=function(){
+ const old=[...menuCategories];v8OldAddCategory();
+ const added=menuCategories.find(x=>!old.includes(x));if(added){v8Expanded.add(added);v8Toast('Kategorie „'+added+'“ erfolgreich erstellt.')}
+};
+const v8OldSaveDish=adminSaveDish;
+adminSaveDish=function(){
+ const old=editingDish!==null;
+ const name=document.getElementById('ed-name')?.value.trim();
+ const before=dishes.length;
+ v8OldSaveDish();
+ const saved=dishes.find(x=>x.name===name);
+ if(saved&&(!old?dishes.length>before:true)){
+ v8Expanded.add(saved.cat);
+ v8Toast(old?'Artikel erfolgreich gespeichert.':'Artikel „'+saved.name+'“ erfolgreich erstellt.');
+ if(adminTab==='Speisekarte')adminRender();
+ }
+};
+const v8OldRenameCategory=adminRenameCategory;
+adminRenameCategory=function(i){const old=menuCategories[i];v8OldRenameCategory(i);if(old!==menuCategories[i]){v8Expanded.delete(old);v8Expanded.add(menuCategories[i]);v8Toast('Kategorie erfolgreich umbenannt.')}}
+</script>
+<style id="asia-v9-style">
+.v8-cat{border-left:6px solid var(--v9-cat,#b5d6c1);background:color-mix(in srgb,var(--v9-cat) 9%,white)}
+.v8-cat-head{background:color-mix(in srgb,var(--v9-cat) 17%,white)}
+.v8-cat-body{background:white}
+.v9-banner-upload{margin:8px 0 12px}
+.v9-banner-upload input{max-width:100%}
+.v9-banner-upload img{display:block;width:190px;max-height:105px;object-fit:cover;border-radius:8px;margin-top:8px}
+.v9-savebar{position:sticky;bottom:8px;z-index:4;background:#fffdf9;border:1px solid #d4e3d7;border-radius:12px;padding:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 6px 20px #0002}
+.v9-savebar button{min-width:130px}
+.v9-error{color:#b91c1c;font-size:12px;display:block;margin:4px 0}
+</style>
+<script id="asia-v9">
+/* V9: scoped creation, numeric price checks, colorful categories, manual save affordance, banner file upload. */
+const v9Colors=['#d8e9fb','#ffe1d5','#e5dafa','#d8f2df','#fff0bf','#f9d8e5','#d9eeee','#f5e2ca','#e4e9c9','#e4e0ff','#fbdfe0','#d8e9d3','#f1e5c7'];
+let v9BannerImages={};
+let v9ScopedCategory=null;
+function v9CategoryColor(i){return v9Colors[i%v9Colors.length]}
+function v9DecorateAdmin(){
+ if(adminTab!=='Speisekarte')return;
+ const b=document.getElementById('adminbody');if(!b)return;
+ const intro=b.querySelector('.row');
+ if(intro){
+  [...intro.querySelectorAll('button')].filter(x=>/Neuer Artikel/.test(x.textContent)).forEach(x=>x.remove());
+ }
+ b.querySelectorAll('.v8-cat').forEach((el,i)=>{
+  el.style.setProperty('--v9-cat',v9CategoryColor(i));
+  const add=[...el.querySelectorAll('.v8-cat-body button')].find(x=>x.textContent.trim()==='+ Artikel');
+  if(add){add.onclick=()=>v9CreateInCategory(i)}
+ });
+ b.querySelectorAll('h3').forEach(h=>{
+  if(!h.textContent.includes('Startseite'))return;
+  let node=h.nextElementSibling,i=0;
+  while(node&&i<banners.length){
+   const next=node.nextElementSibling;
+   if(node.classList.contains('order')){
+    const idx=i;
+    const upload=document.createElement('div');upload.className='v9-banner-upload';
+    upload.innerHTML='<label>Foto vom Computer (JPG, PNG, WebP)</label><input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Banner '+(idx+1)+' hochladen"><img alt="Banner Vorschau" style="display:none"><button type="button" class="secondary compact" style="display:none">Ausgewähltes Bild entfernen</button>';
+    const input=upload.querySelector('input'),img=upload.querySelector('img'),remove=upload.querySelector('button');
+    input.addEventListener('change',async()=>{
+     const file=input.files?.[0];if(!file)return;
+     if(!/^image\/(jpeg|png|webp)$/.test(file.type)){v8Toast('Nur JPG, PNG oder WebP erlaubt.');input.value='';return}
+     if(file.size>6*1024*1024){v8Toast('Bilddatei maximal 6 MB.');input.value='';return}
+     try{
+      const data=await v9CompressImage(file,1150,0.76);
+      v9BannerImages[idx]=data;img.src=data;img.style.display='block';remove.style.display='inline-block';
+      v8Toast('Bild vorbereitet. Bitte Änderungen speichern.');
+     }catch(e){v8Toast('Bild konnte nicht geladen werden.')}
+    });
+    remove.onclick=()=>{delete v9BannerImages[idx];img.style.display='none';remove.style.display='none';input.value='';v8Toast('Auswahl entfernt.')};
+    node.appendChild(upload);i++;
+   }
+   node=next;
+  }
+ });
+ const savebar=document.createElement('div');savebar.className='v9-savebar';
+ savebar.innerHTML='<span class="muted">Änderungen an Kategorien und Artikeln werden lokal gesichert.</span><button type="button">✓ Änderungen speichern</button>';
+ savebar.querySelector('button').onclick=v9SaveAll;
+ b.appendChild(savebar);
+}
+async function v9CompressImage(file,maxWidth,quality){
+ return await new Promise((resolve,reject)=>{
+  const img=new Image(),url=URL.createObjectURL(file);
+  img.onload=()=>{
+   try{
+    const scale=Math.min(1,maxWidth/img.width);
+    const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));
+    canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+    const data=canvas.toDataURL('image/jpeg',quality);
+    URL.revokeObjectURL(url);resolve(data);
+   }catch(e){URL.revokeObjectURL(url);reject(e)}
+  };
+  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Bild nicht lesbar'))};
+  img.src=url;
+ });
+}
+function v9CreateInCategory(index){
+ const category=menuCategories[index];if(!category)return;
+ v9ScopedCategory=category;
+ adminEditDish(null);
+ const select=document.getElementById('ed-cat');
+ if(select){select.value=category;select.disabled=true;select.insertAdjacentHTML('afterend','<p class="muted">Artikel wird in „'+safe(category)+'“ erstellt.</p>')}
+ const price=document.getElementById('ed-price');if(price){price.type='number';price.min='0';price.step='0.01';price.inputMode='decimal';price.value=''}
+ const rows=document.getElementById('v7-variant-rows');if(rows)rows.querySelectorAll('.v7-vprice').forEach(x=>{x.type='number';x.min='0';x.step='0.01'});
+ const button=document.querySelector('#modal button[onclick="adminSaveDish()"]');
+ if(button){button.insertAdjacentHTML('beforebegin','<button type="button" class="secondary full" onclick="closeModal()">✕ Abbrechen</button>')}
+}
+const v9PriorAdminRender=adminRender;
+adminRender=function(){v9PriorAdminRender();v9DecorateAdmin()};
+const v9PriorEdit=adminEditDish;
+adminEditDish=function(id){
+ if(id===null&&!v9ScopedCategory){v8Toast('Bitte zuerst eine Kategorie öffnen und dort + Artikel wählen.');return}
+ v9PriorEdit(id);
+ const price=document.getElementById('ed-price');
+ if(price){price.type='number';price.min='0';price.step='0.01';price.inputMode='decimal';if(id!==null){const d=dishes.find(x=>x.id===id);price.value=d?.price==null?'':Number(d.price)}}
+ document.querySelectorAll('.v7-vprice').forEach(x=>{x.type='number';x.min='0';x.step='0.01';x.inputMode='decimal'});
+ const originalAdd=document.querySelector('#v7-variant-editor button[onclick="v7VariantAdd()"]');
+ if(originalAdd)originalAdd.onclick=()=>{v7VariantAdd();const p=document.querySelector('.v7-variant-row:last-child .v7-vprice');if(p){p.type='number';p.min='0';p.step='0.01'}};
+ if(id===null&&v9ScopedCategory){const sel=document.getElementById('ed-cat');if(sel){sel.value=v9ScopedCategory;sel.disabled=true}}
+ const close=document.querySelector('#modal button[onclick="closeModal()"]');if(close)close.title='Schließen ohne Speichern';
+ const formSave=document.querySelector('#modal button[onclick="adminSaveDish()"]');
+ if(formSave&&!document.getElementById('v9-cancel'))formSave.insertAdjacentHTML('beforebegin','<button type="button" id="v9-cancel" class="secondary full" onclick="closeModal()">✕ Abbrechen</button>');
+};
+const v9PriorSaveDish=adminSaveDish;
+adminSaveDish=function(){
+ const name=document.getElementById('ed-name')?.value.trim();
+ if(!name){v8Toast('Bitte einen Artikelnamen eingeben.');return}
+ const enabled=!!document.getElementById('ed-options')?.checked;
+ if(!enabled){
+  const p=document.getElementById('ed-price'),value=p?.value?.trim();
+  if(!value||!Number.isFinite(Number(value))||Number(value)<0){v8Toast('Bitte einen gültigen numerischen Preis eingeben.');p?.focus();return}
+ }else{
+  const rows=[...document.querySelectorAll('.v7-variant-row')];
+  if(!rows.length||rows.some(r=>{const n=r.querySelector('.v7-vname')?.value.trim(),p=r.querySelector('.v7-vprice')?.value.trim();return !n||!p||!Number.isFinite(Number(p))||Number(p)<0})){v8Toast('Bitte für jede Variante einen gültigen Preis und Namen eingeben.');return}
+ }
+ const cat=document.getElementById('ed-cat');
+ if(v9ScopedCategory&&editingDish===null&&cat)cat.value=v9ScopedCategory;
+ const before=dishes.length;
+ v9PriorSaveDish();
+ if(dishes.length>before||editingDish!==null){v9ScopedCategory=null}
+};
+const v9PriorClose=closeModal;
+closeModal=function(){v9ScopedCategory=null;v9PriorClose()};
+function v9SaveAll(){
+ try{
+  const next=banners.map((x,i)=>({
+   ...x,
+   title:document.getElementById('bn'+i+'title')?.value??x.title,
+   subtitle:document.getElementById('bn'+i+'subtitle')?.value??x.subtitle,
+   image:v9BannerImages[i]||document.getElementById('bn'+i+'image')?.value||x.image
+  }));
+  const values={am_menu_v5:JSON.stringify(dishes),am_categories_v5:JSON.stringify(menuCategories),am_banners:JSON.stringify(next),am_photos:JSON.stringify(photos)};
+  for(const [key,val] of Object.entries(values))localStorage.setItem(key,val);
+  banners.splice(0,banners.length,...next);
+  v9BannerImages={};promoRender();menuV3();adminRender();
+  v8Toast('✓ Alle Änderungen in diesem Browser gespeichert.');
+ }catch(e){v8Toast('Speichern fehlgeschlagen: Browser-Speicher voll. Bitte kleinere Bilder verwenden.')}
+}
+const v9OldSaveBanners=saveBanners;
+saveBanners=function(){v9SaveAll()};
+</script>
+<style id="asia-v10-css">
+#v10-save{position:absolute;right:20px;top:16px;z-index:3;background:#12683e;color:#fff;padding:11px 17px;border-radius:9px;font-weight:700;box-shadow:0 3px 10px #0002}
+#adminbody{position:relative}
+.v10-dish{display:flex;align-items:center;gap:10px;border:1px solid #e2eae3;border-radius:9px;padding:10px;margin:8px 0;background:white}
+.v10-dish .v10-num{display:inline-flex;align-items:center;justify-content:center;background:#e7f0e8;color:#155e38;border-radius:7px;min-width:30px;height:30px;font-weight:800}
+.v10-dish .v10-handle{cursor:grab;background:#edf3ef;border:0;color:#235943;touch-action:none}
+.v10-dish.v10-over{outline:2px dashed #1a8155}
+.v10-dish .v10-main{flex:1;min-width:0}
+.v10-dish .v10-actions{display:flex;gap:5px;flex-wrap:wrap}
+@media(max-width:700px){#v10-save{position:static;display:block;margin:0 0 12px auto}.v10-dish{flex-wrap:wrap}.v10-actions{width:100%;justify-content:flex-end}}
+</style>
+<script id="asia-v10">
+/* V10 category newest-first, per-category article ordering and numbering */
+let v10Dragged=null,v10Pointer=null;
+function v10CategoryDishes(cat){return dishes.filter(d=>d.cat===cat)}
+function v10MoveDish(cat,from,to){
+ const group=v10CategoryDishes(cat);
+ if(from===to||from<0||to<0||from>=group.length||to>=group.length)return;
+ const ordered=group.slice();const [item]=ordered.splice(from,1);ordered.splice(to,0,item);
+ const ids=new Set(group.map(d=>d.id)),first=dishes.findIndex(d=>ids.has(d.id));
+ const other=dishes.filter(d=>!ids.has(d.id));other.splice(first<0?other.length:first,0,...ordered);
+ dishes.splice(0,dishes.length,...other);
+ persistMenu();adminRender();v8Toast('Artikel-Reihenfolge gespeichert.');
+}
+function v10DragStart(e,cat,index){e.stopPropagation();v10Dragged={cat,index};e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain','dish-'+index)}
+function v10DragOver(e,cat,index){if(!v10Dragged||v10Dragged.cat!==cat)return;e.stopPropagation();e.preventDefault();e.dataTransfer.dropEffect='move';document.querySelectorAll('.v10-dish').forEach(x=>x.classList.remove('v10-over'));e.currentTarget.classList.add('v10-over')}
+function v10Drop(e,cat,index){if(!v10Dragged||v10Dragged.cat!==cat)return;e.preventDefault();e.stopPropagation();const from=v10Dragged.index;v10Dragged=null;v10MoveDish(cat,from,index)}
+function v10DragEnd(){v10Dragged=null;document.querySelectorAll('.v10-dish').forEach(x=>x.classList.remove('v10-over'))}
+function v10TouchStart(e,cat,index){if(e.pointerType==='mouse')return;v10Pointer={cat,index,y:e.clientY}}
+function v10TouchEnd(e){if(!v10Pointer)return;const start=v10Pointer;v10Pointer=null;if(Math.abs(e.clientY-start.y)<18)return;const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.v10-dish');if(target&&target.dataset.cat===start.cat)v10MoveDish(start.cat,start.index,Number(target.dataset.pos))}
+function v10Decorate(){
+ if(adminTab!=='Speisekarte')return;
+ const body=document.getElementById('adminbody');if(!body)return;
+ body.querySelector('.v9-savebar')?.remove();
+ const save=document.createElement('button');save.id='v10-save';save.type='button';save.textContent='✓ Änderungen speichern';save.onclick=v9SaveAll;body.prepend(save);
+ body.querySelectorAll('.v8-cat').forEach((box,ci)=>{
+  const cat=menuCategories[ci],panel=box.querySelector('.v8-cat-body');if(!panel)return;
+  const top=panel.querySelector('.row');if(!top)return;
+  [...panel.children].filter(x=>x!==top).forEach(x=>x.remove());
+  const group=v10CategoryDishes(cat);
+  if(!group.length){panel.insertAdjacentHTML('beforeend','<p class="muted">Noch keine Artikel in dieser Kategorie.</p>');return}
+  group.forEach((d,i)=>{
+   const el=document.createElement('div');el.className='v10-dish';el.dataset.cat=cat;el.dataset.pos=i;
+   el.addEventListener('dragover',e=>v10DragOver(e,cat,i));el.addEventListener('drop',e=>v10Drop(e,cat,i));
+   const handle=document.createElement('button');handle.type='button';handle.className='v10-handle';handle.textContent='⠿';handle.title='Artikel ziehen';handle.draggable=true;
+   handle.addEventListener('dragstart',e=>v10DragStart(e,cat,i));handle.addEventListener('dragend',v10DragEnd);
+   handle.addEventListener('pointerdown',e=>v10TouchStart(e,cat,i));handle.addEventListener('pointerup',v10TouchEnd);
+   const num=document.createElement('span');num.className='v10-num';num.textContent=String(i+1).padStart(2,'0');
+   const main=document.createElement('div');main.className='v10-main';
+   const title=document.createElement('b');title.textContent=d.name;
+   const detail=document.createElement('div');detail.className='muted';detail.textContent=(d.options?'Varianten: '+(d.variants||[]).length:money(d.price))+(d.available===false?' · Nicht verfügbar':'');
+   main.append(title,detail);
+   const actions=document.createElement('div');actions.className='v10-actions';
+   const up=document.createElement('button');up.type='button';up.className='secondary compact';up.textContent='↑';up.disabled=i===0;up.onclick=()=>v10MoveDish(cat,i,i-1);
+   const down=document.createElement('button');down.type='button';down.className='secondary compact';down.textContent='↓';down.disabled=i===group.length-1;down.onclick=()=>v10MoveDish(cat,i,i+1);
+   const edit=document.createElement('button');edit.type='button';edit.className='secondary compact';edit.textContent='Bearbeiten';edit.onclick=()=>adminEditDish(d.id);
+   const del=document.createElement('button');del.type='button';del.className='danger compact';del.textContent='Löschen';del.onclick=()=>adminDeleteDish(d.id);
+   actions.append(up,down,edit,del);el.append(handle,num,main,actions);panel.append(el);
+  });
+ });
+}
+const v10OldRender=adminRender;
+adminRender=function(){v10OldRender();v10Decorate()};
+const v10OldAdd=adminAddCategory;
+adminAddCategory=function(){
+ const old=menuCategories.slice();v10OldAdd();
+ const newCat=menuCategories.find(x=>!old.includes(x));
+ if(!newCat)return;
+ const index=menuCategories.indexOf(newCat);
+ if(index>0){menuCategories.splice(index,1);menuCategories.unshift(newCat);persistMenu()}
+ v8Expanded.add(newCat);adminRender();v8Toast('Neue Kategorie „'+newCat+'“ steht jetzt ganz oben.');
+};
+const v10OldMenu=menuV3;
+menuV3=function(){
+ v10OldMenu();
+ const root=document.getElementById('foodSections');if(!root)return;
+ const sections=[...root.querySelectorAll('section')];
+ sections.forEach(sec=>{
+  const heading=sec.querySelector('h2')?.textContent;
+  const group=v10CategoryDishes(heading),cards=[...sec.querySelectorAll('.food-card')];
+  cards.forEach((card,i)=>{
+   const d=group[i];if(!d)return;
+   const title=card.querySelector('b');if(title&&title.dataset.v10Numbered!=='1'){title.textContent=String(i+1).padStart(2,'0')+'. '+title.textContent;title.dataset.v10Numbered='1'}
+  });
+ });
+};
+</script>
+<style id="asia-v11-css">
+.v9-savebar,#v10-save{display:none!important}
+#v11-save{margin-left:auto;white-space:nowrap;background:#12683e;color:#fff;font-weight:750;border-radius:9px;padding:11px 16px}
+#v11-save-row{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin:0 0 15px}
+#v11-save-row .muted{font-size:12px}
+.v10-dish .v10-num{min-width:36px}
+#ed-number{max-width:180px}
+@media(max-width:600px){#v11-save-row{flex-wrap:wrap}#v11-save{width:100%}}
+</style>
+<script id="asia-v11">
+/* Article numbers are manually assigned immutable-through-reordering labels, not list positions. */
+function v11Label(d){const n=d.articleNumber;return (n!==undefined&&n!==null&&String(n).trim()!==''?String(n).trim()+'. ':'')+d.name}
+const v11OldEdit=adminEditDish;
+adminEditDish=function(id){
+ v11OldEdit(id);
+ const name=document.getElementById('ed-name');if(!name)return;
+ const d=id===null?null:dishes.find(x=>x.id===id);
+ const label=document.createElement('label');label.htmlFor='ed-number';label.textContent='Artikelnummer (frei wählbar, bleibt beim Sortieren gleich)';
+ const number=document.createElement('input');number.id='ed-number';number.type='text';number.inputMode='numeric';number.maxLength=12;number.placeholder='z. B. 29';number.value=d?.articleNumber??'';
+ name.before(label,number);
+};
+const v11OldSave=adminSaveDish;
+adminSaveDish=function(){
+ const field=document.getElementById('ed-number');if(!field)return v11OldSave();
+ const number=field.value.trim();
+ if(number&&!/^[0-9]{1,12}$/.test(number)){alert('Artikelnummer: Bitte nur Ziffern eingeben.');field.focus();return}
+ if(number&&dishes.some(d=>d.id!==editingDish&&String(d.articleNumber??'')===number)){alert('Diese Artikelnummer ist bereits vergeben.');field.focus();return}
+ const id=editingDish===null?Math.max(0,...dishes.map(x=>Number(x.id)||0))+1:editingDish;
+ v11OldSave();
+ const d=dishes.find(x=>x.id===id);
+ if(d){d.articleNumber=number;persistMenu();if(adminTab==='Speisekarte')adminRender()}
+};
+const v11OldDecorate=v10Decorate;
+v10Decorate=function(){
+ v11OldDecorate();
+ if(adminTab!=='Speisekarte')return;
+ const body=document.getElementById('adminbody');if(!body)return;
+ body.querySelectorAll('.v10-dish').forEach(el=>{
+  const cat=el.dataset.cat,idx=Number(el.dataset.pos),d=v10CategoryDishes(cat)[idx];
+  if(!d)return;
+  el.querySelector('.v10-num')?.remove();
+  const title=el.querySelector('.v10-main b');if(title)title.textContent=v11Label(d);
+ });
+ const header=document.createElement('div');header.id='v11-save-row';
+ const msg=document.createElement('span');msg.className='muted';msg.textContent='Speisekarte speichern';
+ const button=document.createElement('button');button.type='button';button.id='v11-save';button.textContent='✓ Änderungen speichern';button.onclick=v9SaveAll;
+ header.append(msg,button);
+ const intro=body.querySelector('h2');
+ if(intro)intro.before(header);else body.prepend(header);
+};
+const v11OldMenu=menuV3;
+menuV3=function(){
+ v11OldMenu();
+ const root=document.getElementById('foodSections');if(!root)return;
+ root.querySelectorAll('section').forEach(sec=>{
+  const cat=sec.querySelector('h2')?.textContent,group=v10CategoryDishes(cat);
+  sec.querySelectorAll('.food-card').forEach((card,i)=>{
+   const d=group[i],title=card.querySelector('b');if(d&&title)title.textContent=v11Label(d);
+  });
+ });
+};
+const v11OldRenderMenu=renderMenu;
+renderMenu=function(){
+ v11OldRenderMenu();
+ const list=document.getElementById('items');if(!list)return;
+ list.querySelectorAll('.item').forEach((item,i)=>{
+  const subset=dishes.filter(d=>category==='Alle'||d.cat===category),d=subset[i],title=item.querySelector('h3');
+  if(d&&title)title.textContent=v11Label(d);
+ });
+};
+</script>
+<style id="asia-v12-css">
+#v11-save-row{display:none!important}
+#v12-category-toolbar{display:flex!important;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0}
+#v12-category-toolbar #v11-save{display:inline-flex!important;align-items:center;justify-content:center;margin:0 0 0 auto;width:auto;position:static!important}
+@media(max-width:600px){#v12-category-toolbar #v11-save{width:auto;max-width:100%;font-size:12px;padding:10px}}
+</style>
+<script id="asia-v12">
+/* Put save button directly opposite '+ Kategorie hinzufügen'. */
+const v12OldDecorate=v10Decorate;
+v10Decorate=function(){
+ v12OldDecorate();
+ if(adminTab!=='Speisekarte')return;
+ const body=document.getElementById('adminbody');if(!body)return;
+ const add=[...body.querySelectorAll('button')].find(b=>b.textContent.includes('Kategorie hinzufügen'));
+ const save=body.querySelector('#v11-save');
+ if(!add||!save)return;
+ const toolbar=document.createElement('div');toolbar.id='v12-category-toolbar';
+ add.parentNode.insertBefore(toolbar,add);
+ toolbar.append(add,save);
+};
+</script>
+<style id="asia-v13-css">
+#v13-unsaved{font-size:12px;font-weight:700;color:#a35411;display:inline-flex;align-items:center;margin-left:8px}
+#v12-category-toolbar{gap:10px}
+#v12-category-toolbar #v11-save{margin-left:auto}
+.food-card .muted{line-height:1.55!important;max-height:none!important;overflow:visible!important;display:block!important;white-space:normal!important}
+</style>
+<script id="asia-v13">
+/* Browser-only draft protection: track the current menu against the last explicit save.
+   Existing legacy edits may auto-persist to localStorage, but remain marked unconfirmed. */
+let v13SavedSnapshot=null;
+function v13Snapshot(){
+ return JSON.stringify({categories:menuCategories,dishes:dishes,banners:banners,photos:photos,uploads:typeof v9BannerImages==='object'?v9BannerImages:{}});
+}
+function v13IsDirty(){return v13SavedSnapshot!==null&&v13Snapshot()!==v13SavedSnapshot}
+function v13Status(){
+ const toolbar=document.getElementById('v12-category-toolbar');
+ if(!toolbar)return;
+ let badge=document.getElementById('v13-unsaved');
+ if(!badge){badge=document.createElement('span');badge.id='v13-unsaved';toolbar.querySelector('button')?.after(badge)}
+ badge.textContent=v13IsDirty()?'● Nicht gespeicherte Änderungen':'';
+ const save=toolbar.querySelector('#v11-save');
+ if(save)save.title=v13IsDirty()?'Änderungen jetzt bestätigen und speichern':'Bereits gespeichert';
+}
+const v13OldDecorate=v10Decorate;
+v10Decorate=function(){
+ v13OldDecorate();
+ if(v13SavedSnapshot===null)v13SavedSnapshot=v13Snapshot();
+ v13Status();
+};
+const v13OldSave=v9SaveAll;
+v9SaveAll=function(){
+ v13OldSave();
+ // v9SaveAll catches storage errors internally; confirm only when storage matches current menu.
+ try{
+  if(localStorage.getItem('am_menu_v5')===JSON.stringify(dishes)&&localStorage.getItem('am_categories_v5')===JSON.stringify(menuCategories)){
+   v13SavedSnapshot=v13Snapshot();
+   v8Toast('✓ Erfolgreich gespeichert! Alle Änderungen wurden in diesem Browser gesichert.');
+  }
+ }catch(e){}
+ v13Status();
+};
+const v13OldPersist=persistMenu;
+persistMenu=function(){
+ v13OldPersist();
+ queueMicrotask(v13Status);
+};
+document.addEventListener('click',function(e){
+ if(!v13IsDirty())return;
+ const target=e.target.closest('a,button');
+ if(!target||target.closest('#adminbody')||target.closest('#v12-category-toolbar'))return;
+ const label=(target.textContent||'').trim();
+ const inAdminNav=!!target.closest('#adminnav');
+ const isNavigation=target.tagName==='A'||inAdminNav||/^(Home|Menü|Kontakt|Bestellung verfolgen|Management Demo)$/.test(label);
+ if(!isNavigation)return;
+ if(!confirm('Du hast Änderungen an der Speisekarte vorgenommen, aber noch nicht auf „Änderungen speichern“ geklickt.\n\nMöchtest du vor dem Verlassen speichern?\n\nOK = Jetzt speichern und weiter\nAbbrechen = Auf dieser Seite bleiben')){
+  e.preventDefault();e.stopImmediatePropagation();return;
+ }
+ v9SaveAll();
+},true);
+window.addEventListener('beforeunload',function(e){
+ if(!v13IsDirty())return;
+ e.preventDefault();e.returnValue='';
+});
+/* Improve descriptions only for dishes whose basic ingredients are already known. */
+const v13Descriptions={
+ 'Rotes Curry':'Aromatisches rotes Curry mit cremiger Kokosmilch, frischem Gemüse und Reis. Die gewünschte Variante kannst du bei der Bestellung auswählen.',
+ 'Gebratene Nudeln':'Im Wok gebratene Nudeln mit Gemüse. Wähle bei der Bestellung deine gewünschte Variante aus.',
+ 'Gebratener Reis':'Gebratener Reis mit Gemüse und Ei. Ein klassisches Reisgericht, bei dem du deine gewünschte Variante auswählen kannst.',
+ 'Frühlingsrollen':'Knusprige Frühlingsrollen, serviert mit einem passenden Dip.',
+ 'Sommerrollen':'Frische Sommerrollen mit aromatischen Kräutern – leicht und frisch.'
+};
+function v13Description(d){
+ const original=String(d.desc||'').trim();
+ if(!original||/Demo-Preis bitte prüfen/i.test(original))return original;
+ return original.length<65&&v13Descriptions[d.name]?v13Descriptions[d.name]:original;
+}
+const v13OldMenu=menuV3;
+menuV3=function(){
+ v13OldMenu();
+ const sections=document.getElementById('foodSections');
+ if(!sections)return;
+ sections.querySelectorAll('section').forEach(sec=>{
+  const cat=sec.querySelector('h2')?.textContent;
+  const group=dishes.filter(d=>d.cat===cat);
+  sec.querySelectorAll('.food-card').forEach((card,i)=>{
+   const desc=card.querySelector('.muted');
+   if(desc&&group[i])desc.textContent=v13Description(group[i]);
+  });
+ });
+};
+const v13OldRenderMenu=renderMenu;
+renderMenu=function(){
+ v13OldRenderMenu();
+ document.querySelectorAll('#items .item').forEach((el,i)=>{
+  const subset=dishes.filter(d=>category==='Alle'||d.cat===category);
+  const p=el.querySelector('.muted');
+  if(p&&subset[i])p.textContent=v13Description(subset[i]);
+ });
+};
+
+/* ASIA MAI V14 Warenkorb: gleiche Artikel zusammenfassen + individuelle Wünsche */
+(function(){
+ const css=document.createElement('style');
+ css.textContent='.v14-cart-note{font-size:12px;color:#54675b;margin:5px 0;white-space:pre-wrap}.v14-note-edit{background:transparent;color:#17663f;padding:3px 0;font-size:12px;text-decoration:underline}.v14-cart-name{font-weight:700}.v14-cart-controls{display:flex;align-items:center;gap:5px;white-space:nowrap}.v14-cartline{align-items:start;gap:12px}.v14-item-note{min-height:75px;width:100%;resize:vertical;padding:11px;border:1px solid #d7e0d7;border-radius:10px;font:inherit}';
+ document.head.appendChild(css);
+ function normalize(){const merged=[];for(const item of cart){item.note=String(item.note||'').trim();const existing=merged.find(x=>x.name===item.name&&Number(x.price)===Number(item.price)&&String(x.option||'')===String(item.option||'')&&String(x.note||'')===item.note);if(existing)existing.qty+=Number(item.qty)||1;else merged.push({...item,qty:Number(item.qty)||1});}cart=merged;}
+ function addLine(d,variant,note){cart.push({name:d.name,price:Number(variant?.price??d.price),option:variant?.name||'',note:String(note||'').trim(),qty:1});normalize();renderCart();}
+ addItem=function(id){const d=dishes.find(x=>x.id===id);if(!d||d.available===false)return alert('Artikel nicht verfügbar.');if(typeof orderEntry!=='undefined'&&!orderEntry){beginOrder(orderMode||'Lieferung');return;}const variants=d.options?(d.variants||[]):[];if(d.options&&!variants.length)return alert('Für diesen Artikel wurden noch keine Varianten hinterlegt.');const choices=d.options?'<label>Variante auswählen *</label>'+variants.map((v,i)=>'<label style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border-bottom:1px solid #eee"><span><input type="radio" name="v14-choice" value="'+i+'" '+(!i?'checked':'')+'> '+safe(v.name)+'</span><b>'+money(v.price!==undefined?v.price:Number(d.price||0)+Number(v.extra||0))+'</b></label>').join(''):'';modal('<h2>'+safe(d.name)+'</h2><p>'+safe(d.desc||'')+'</p>'+choices+'<label for="v14-note">Besondere Wünsche (optional)</label><textarea id="v14-note" class="v14-item-note" maxlength="500" placeholder="z. B. Ohne Zwiebeln, extra scharf"></textarea><button class="full" onclick="v14ConfirmItem('+id+')">Zum Warenkorb hinzufügen</button>');};
+ window.v14ConfirmItem=function(id){const d=dishes.find(x=>x.id===id);if(!d)return;let v=null;if(d.options){const i=Number(document.querySelector('input[name="v14-choice"]:checked')?.value??-1);v=d.variants?.[i];if(!v)return alert('Bitte eine Variante wählen.');v={name:v.name,price:v.price!==undefined?Number(v.price):Number(d.price||0)+Number(v.extra||0)};}addLine(d,v,document.getElementById('v14-note')?.value||'');closeModal();};
+ const previousRenderCart=renderCart;
+ renderCart=function(){normalize();previousRenderCart();const el=document.getElementById('cart');if(!el||!cart.length)return;el.innerHTML=cart.map((i,n)=>'<div class="cartline v14-cartline"><div style="flex:1;min-width:0"><div class="v14-cart-name">'+i.qty+' × '+safe(i.name)+'</div>'+(i.option?'<div class="muted">'+safe(i.option)+'</div>':'')+(i.note?'<div class="v14-cart-note">Notiz: '+safe(i.note)+'</div>':'')+'<button type="button" class="v14-note-edit" onclick="v14EditNote('+n+')">'+(i.note?'Notiz bearbeiten':'+ Notiz hinzufügen')+'</button><div class="small">'+money(i.price)+' / Stück</div></div><div class="v14-cart-controls"><button class="secondary compact" onclick="changeQty('+n+',-1)">−</button><span>'+i.qty+'</span><button class="secondary compact" onclick="changeQty('+n+',1)">+</button></div></div>').join('');};
+ window.v14EditNote=function(n){const item=cart[n];if(!item)return;modal('<h2>Besondere Wünsche</h2><p>'+safe(item.name)+'</p><label for="v14-edit-note">Notiz</label><textarea id="v14-edit-note" class="v14-item-note" maxlength="500" placeholder="z. B. Ohne Zwiebeln">'+safe(item.note||'')+'</textarea><button class="full" onclick="v14SaveNote('+n+')">Notiz speichern</button>');};
+ window.v14SaveNote=function(n){if(!cart[n])return;cart[n].note=String(document.getElementById('v14-edit-note')?.value||'').trim();normalize();closeModal();renderCart();};
+ const oldAdminRender=adminRender;
+ adminRender=function(){oldAdminRender();if(adminTab!=='Bestellungen')return;const container=document.getElementById('adminbody');if(!container)return;const cards=container.querySelectorAll('.order');cards.forEach((card,index)=>{const o=orders[index];if(!o||!o.items?.some(i=>i.note))return;const p=card.querySelector('p');if(!p)return;p.innerHTML=o.items.map(i=>safe(String(i.qty))+'× '+safe(i.name)+(i.option?' ('+safe(i.option)+')':'')+(i.note?'<div class="v14-cart-note">↳ Notiz: '+safe(i.note)+'</div>':'')).join('<br>');});};
+ renderCart();
+})();
+
+
+/* ASIA MAI V15 checkout and cart */
+(function(){
+ const css=document.createElement('style');
+ css.textContent='.v15-cart-photo{width:52px;height:52px;object-fit:cover;border-radius:9px;flex:none}.v15-cartline{display:flex;gap:9px;align-items:flex-start}.v15-cartline .v14-cart-controls{margin-left:auto}.v15-pay-options{display:grid;gap:10px;margin:16px 0}.v15-pay-option{display:block;border:1px solid #d7e0d7;border-radius:12px;padding:14px;cursor:pointer}.v15-pay-option:has(input:checked){border-color:#17663f;background:#edf7f0}.v15-pay-option input{width:auto;margin-right:8px}.v15-pay-option small{display:block;margin:5px 0 0 24px;color:#627368}.v15-checkout-summary{background:#f4f8f3;border-radius:10px;padding:13px;line-height:1.7}.v15-cart-thumb-placeholder{width:52px;height:52px;border-radius:9px;background:#edf2eb;display:grid;place-items:center;flex:none}';
+ document.head.appendChild(css);
+ function itemPhoto(i){const d=dishes.find(d=>d.name===i.name);return d&&photos[d.id]?photos[d.id]:'';}
+ const oldCart=renderCart;
+ renderCart=function(){oldCart();const el=document.getElementById('cart');if(!el||!cart.length)return;el.querySelectorAll('.cartline').forEach((row,n)=>{const src=itemPhoto(cart[n]);const thumb=document.createElement(src?'img':'div');thumb.className=src?'v15-cart-photo':'v15-cart-thumb-placeholder';if(src){thumb.src=src;thumb.alt=cart[n].name;thumb.onerror=function(){this.style.display='none'};}else thumb.textContent='🍽️';row.classList.add('v15-cartline');row.prepend(thumb);});};
+ function pickupValid(time){return time==='ASAP'||!!time&&Number.isFinite(new Date(time).getTime())&&new Date(time).getTime()>=Date.now()+Number(settings.prep||20)*60000;}
+ function guardPickup(){if(orderEntry?.mode==='Abholung'&&!pickupValid(orderEntry.time||'ASAP')){alert('Die ausgewählte Abholzeit liegt in der Vergangenheit oder ist zu früh. Bitte eine neue Abholzeit wählen.');beginOrder('Abholung');return false;}return true;}
+ checkout=function(){
+  if(!cart.length)return alert('Bitte zuerst ein Gericht auswählen.');
+  if(!orderEntry){beginOrder(orderMode||'Lieferung');return;}
+  if(!guardPickup())return;
+  if(orderEntry.mode==='Lieferung'&&!settings.delivery)return alert('Lieferung ist deaktiviert.');
+  if(orderEntry.mode==='Abholung'&&!settings.pickup)return alert('Abholung ist deaktiviert.');
+  const pickup=orderEntry.mode==='Abholung';
+  if(!pickup&&distanceKm===null){const demo=prompt('Demo-Fahrstrecke in km (keine echte Routenprüfung):','2.7');if(demo===null)return;const km=Number(String(demo).replace(',','.'));if(!Number.isFinite(km)||km<=0||deliveryFee(km)===null)return alert('Ungültige Strecke oder außerhalb des Liefergebiets.');distanceKm=km;renderCart();}
+  const info=pickup?(orderEntry.time==='ASAP'?'So schnell wie möglich (mind. '+settings.prep+' Min.)':new Date(orderEntry.time).toLocaleString('de-DE')):[orderEntry.street,orderEntry.plz,orderEntry.city].filter(Boolean).join(', ');
+  const fee=pickup?0:distanceKm===null?null:deliveryFee(distanceKm);
+  modal('<h2>Bestellung abschließen</h2><div class="v15-checkout-summary"><b>'+safe(orderEntry.name)+'</b><div>'+safe(orderEntry.phone)+'</div><div>'+safe(pickup?'Abholung':'Lieferung')+': '+safe(info)+'</div><div>'+cart.reduce((n,i)=>n+Number(i.qty||0),0)+' Artikel · '+money(subtotal())+'</div><b>Gesamt: '+(fee===null?money(subtotal())+' + Lieferkosten':money(subtotal()+fee))+'</b></div><button type="button" class="secondary" style="margin-top:10px" onclick="v15EditDetails()">Angaben ändern</button><h3>Zahlungsart wählen</h3><div class="v15-pay-options"><label class="v15-pay-option"><input type="radio" name="v15-payment" value="Bargeld" checked> Barzahlung bei Übergabe<small>Erst bei Lieferung oder Abholung bezahlen</small></label><label class="v15-pay-option"><input type="radio" name="v15-payment" value="PayPal"> PayPal<small>Online-Zahlung ist noch nicht aktiviert (Demo)</small></label></div><button class="full" onclick="v15FinishOrder()">Bestellung aufgeben →</button>');
+ };
+ window.v15EditDetails=function(){closeModal();beginOrder(orderEntry?.mode||orderMode||'Lieferung');};
+ window.v15FinishOrder=function(){
+  if(!orderEntry||!guardPickup())return;
+  const payment=document.querySelector('input[name="v15-payment"]:checked')?.value||'Bargeld';
+  if(payment==='PayPal'){alert('PayPal ist noch nicht mit einem Geschäftskonto verbunden. Es wurde nichts abgebucht. Bitte Barzahlung wählen.');return;}
+  const pickup=orderEntry.mode==='Abholung';
+  if(!pickup&&distanceKm===null){alert('Für die Lieferung muss zuerst eine Demo-Fahrstrecke festgelegt werden. Eine echte Routenprüfung ist noch nicht aktiv.');return;}
+  if(!restaurantIsOpen())return alert('Das Restaurant ist derzeit geschlossen. Bitte während der Öffnungszeiten bestellen.');
+  const token='AM-'+Array.from(crypto.getRandomValues(new Uint8Array(10)),x=>x.toString(16).padStart(2,'0')).join('').toUpperCase();
+  const fee=pickup?0:deliveryFee(distanceKm);if(fee===null)return alert('Außerhalb des Liefergebiets.');if(!pickup&&subtotal()<settings.minOrder)return alert('Mindestbestellwert: '+money(settings.minOrder));const order={token,name:orderEntry.name,phone:orderEntry.phone,address:pickup?'':[orderEntry.street,orderEntry.plz,orderEntry.city].join(', '),km:pickup?0:distanceKm,fee,mode:orderEntry.mode,items:cart.map(i=>({...i})),subtotal:subtotal(),total:subtotal()+fee,payment:'Bargeld',paymentStatus:'Noch nicht bezahlt',status:'Eingegangen',time:pickup?(orderEntry.time||'ASAP'):'',eta:'',created:new Date().toISOString()};
+  orders.unshift(order);save();cart=[];renderCart();closeModal();activeTrack=token;page('tracking');document.getElementById('trackinput').value=token;lookup();
+ };
+ const oldBeginOrder=beginOrder;
+ beginOrder=function(which){oldBeginOrder(which);if(which!=='Abholung')return;const date=document.getElementById('entry-pickup-date'),clock=document.getElementById('entry-pickup-clock');if(!date||!clock)return;const now=new Date(),minDate=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');date.min=minDate;if(date.value<minDate)date.value=minDate;date.addEventListener('change',()=>{if(date.value<minDate)date.value=minDate;});};
+ const oldConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){const modeName=document.getElementById('orderEntryOverlay')?.dataset.mode;if(modeName==='Abholung'&&document.getElementById('entry-pickup')?.value==='custom'){const date=document.getElementById('entry-pickup-date')?.value,clock=document.getElementById('entry-pickup-clock')?.value;if(!pickupValid(date+'T'+clock)){e.preventDefault();alert('Bitte eine Abholzeit in der Zukunft wählen (mindestens '+settings.prep+' Minuten Vorlauf).');return;}}oldConfirm(e);};
+ renderCart();
+})();
+
+
+/* ASIA MAI V16 pickup opening hours */
+(function(){
+ const style=document.createElement('style');style.textContent='.v16-pickup-hint{font-size:12px;color:#50675a;line-height:1.5;margin-top:8px}.v16-pickup-warning{color:#a32828;font-weight:600}';document.head.appendChild(style);
+ const berlinNow=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());const get=k=>p.find(x=>x.type===k)?.value;return {date:get('year')+'-'+get('month')+'-'+get('day'),minute:Number(get('hour'))*60+Number(get('minute'))};};
+ const weekday=date=>{const [y,m,d]=date.split('-').map(Number);return new Date(Date.UTC(y,m-1,d)).getUTCDay();};
+ function hoursFor(date){const day=weekday(date);if(day===1)return null;return {start:day===0?12*60:11*60,end:21*60+30};}
+ const toMinute=time=>{const m=/^(\d{2}):(\d{2})$/.exec(time||'');return m?Number(m[1])*60+Number(m[2]):NaN;};
+ const asTime=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
+ function validSlot(date,time){const h=hoursFor(date),minute=toMinute(time),now=berlinNow();if(!h||!Number.isFinite(minute)||minute<h.start||minute>h.end)return false;if(date<now.date)return false;if(date===now.date&&minute<now.minute+Number(settings.prep||20))return false;return true;}
+ function validTime(value){if(value==='ASAP'){const n=berlinNow(),h=hoursFor(n.date);return !!h&&n.minute+Number(settings.prep||20)<=h.end&&n.minute>=h.start;}const m=/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(value||'');return !!m&&validSlot(m[1],m[2]);}
+ window.v16ValidPickup=validTime;
+ function updateChoices(){const dateEl=document.getElementById('entry-pickup-date'),timeEl=document.getElementById('entry-pickup-clock'),pickupEl=document.getElementById('entry-pickup');if(!dateEl||!timeEl||!pickupEl)return;const now=berlinNow();dateEl.min=now.date;if(!dateEl.value||dateEl.value<now.date)dateEl.value=now.date;
+ const date=dateEl.value,h=hoursFor(date),previous=timeEl.value;let options=[];if(h){for(let minute=h.start;minute<=h.end;minute+=15){const time=asTime(minute);if(validSlot(date,time))options.push(time);}}
+ const oldTag=timeEl.tagName.toLowerCase();if(oldTag==='input'){const sel=document.createElement('select');sel.id='entry-pickup-clock';sel.required=true;timeEl.replaceWith(sel);}
+ const select=document.getElementById('entry-pickup-clock');select.innerHTML=options.length?options.map(t=>'<option value="'+t+'">'+t+'</option>').join(''):'<option value="">Keine Abholzeit verfügbar</option>';if(options.includes(previous))select.value=previous;else if(options.length)select.value=options[0];
+ let hint=document.getElementById('v16-pickup-hint');if(!hint){hint=document.createElement('div');hint.id='v16-pickup-hint';hint.className='v16-pickup-hint';select.parentElement.appendChild(hint);}hint.textContent=h?(options.length?'Abholung nur während der Öffnungszeiten. Mindestens '+settings.prep+' Minuten Vorlauf.':'Heute sind keine Abholzeiten mehr verfügbar. Bitte einen anderen Tag wählen.'):'Montag geschlossen. Bitte einen anderen Tag wählen.';hint.classList.toggle('v16-pickup-warning',!options.length);
+ const asap=validTime('ASAP');const asapOption=pickupEl.querySelector('option[value="ASAP"]');if(asapOption){asapOption.disabled=false;asapOption.textContent='Ab sofort';}/* Keep ASAP selectable; operating-hours validation occurs on confirmation. */
+ }
+ const previousBegin=beginOrder;
+ beginOrder=function(which){previousBegin(which);if(which!=='Abholung')return;const dateEl=document.getElementById('entry-pickup-date');if(dateEl)dateEl.addEventListener('change',updateChoices);updateChoices();};
+ const previousConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){if(document.getElementById('orderEntryOverlay')?.dataset.mode==='Abholung'){const custom=document.getElementById('entry-pickup')?.value==='custom';const value=custom?document.getElementById('entry-pickup-date')?.value+'T'+document.getElementById('entry-pickup-clock')?.value:'ASAP';if(!validTime(value)){e.preventDefault();alert('Bitte eine gültige Abholzeit innerhalb der Öffnungszeiten auswählen.');return;}}previousConfirm(e);};
+ const previousCheckout=checkout;
+ checkout=function(){if(orderEntry?.mode==='Abholung'&&!validTime(orderEntry.time||'ASAP')){alert('Die Abholzeit ist nicht mehr verfügbar. Bitte neu auswählen.');beginOrder('Abholung');return;}previousCheckout();};
+ const previousFinish=window.v15FinishOrder;
+ window.v15FinishOrder=function(){if(orderEntry?.mode==='Abholung'&&!validTime(orderEntry.time||'ASAP')){alert('Bitte eine Abholzeit während der Öffnungszeiten wählen.');beginOrder('Abholung');return;}const originalOpen=restaurantIsOpen;try{restaurantIsOpen=()=>true;previousFinish();}finally{restaurantIsOpen=originalOpen;}};
+})();
+
+
+/* ASIA MAI V17 contact and manual pickup time */
+(function(){
+ const css=document.createElement('style');css.textContent='.v17-time-inputs{display:flex;align-items:center;gap:6px}.v17-time-inputs input{width:76px;text-align:center;font-size:17px}.v17-time-sep{font-size:20px;font-weight:700}.v17-validation{font-size:12px;min-height:20px;margin-top:6px}.v17-validation.bad{color:#b32929;font-weight:700}.v17-validation.good{color:#17663f}';document.head.appendChild(css);
+ function localNow(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());const p=k=>parts.find(x=>x.type===k)?.value;return {date:p('year')+'-'+p('month')+'-'+p('day'),mins:Number(p('hour'))*60+Number(p('minute'))};}
+ function hours(date){if(!/^\d{4}-\d{2}-\d{2}$/.test(date||''))return null;const [y,m,d]=date.split('-').map(Number),day=new Date(Date.UTC(y,m-1,d)).getUTCDay();if(day===1)return null;return {start:day===0?720:660,end:1290};}
+ function validate(date,hour,minute){const now=localNow(),h=Number(hour),m=Number(minute),schedule=hours(date);if(!date||hour===''||minute===''||!Number.isInteger(h)||!Number.isInteger(m)||h<0||h>23||m<0||m>59)return 'Ungültig: Bitte Stunde (00–23) und Minute (00–59) eingeben.';if(date<now.date)return 'Ungültig: Datum liegt in der Vergangenheit.';if(!schedule)return 'Ungültig: Montag ist Ruhetag.';const t=h*60+m;if(t<schedule.start||t>schedule.end)return 'Ungültig: Außerhalb der Öffnungszeiten ('+String(schedule.start/60).padStart(2,'0')+':00–21:30).';if(date===now.date&&t<now.mins+Number(settings.prep||20))return 'Ungültig: Die Abholzeit liegt in der Vergangenheit oder ist zu früh (mind. '+settings.prep+' Min.).';return '';}
+ function sync(){const date=document.getElementById('entry-pickup-date'),h=document.getElementById('v17-hour'),m=document.getElementById('v17-minute'),hidden=document.getElementById('entry-pickup-clock'),status=document.getElementById('v17-status');if(!date||!h||!m||!hidden||!status)return false;const hour=h.value.trim(),minute=m.value.trim(),error=validate(date.value,hour,minute);hidden.value=error?'':hour.padStart(2,'0')+':'+minute.padStart(2,'0');status.textContent=error||'✓ Gültige Abholzeit';status.className='v17-validation '+(error?'bad':'good');h.setAttribute('aria-invalid',error?'true':'false');m.setAttribute('aria-invalid',error?'true':'false');return !error;}
+ const priorBegin=beginOrder;
+ beginOrder=function(which){priorBegin(which);if(which!=='Abholung')return;
+ const oldDate=document.getElementById('entry-pickup-date'),oldClock=document.getElementById('entry-pickup-clock');if(!oldDate||!oldClock)return;
+ const date=oldDate.cloneNode(true);oldDate.replaceWith(date);date.min=localNow().date;if(date.value<date.min)date.value=date.min;
+ const originalTime=oldClock.value||'';
+ const wrapper=document.createElement('div');wrapper.innerHTML='<div class="v17-time-inputs"><input id="v17-hour" type="text" inputmode="numeric" maxlength="2" placeholder="HH" aria-label="Stunde"><span class="v17-time-sep">:</span><input id="v17-minute" type="text" inputmode="numeric" maxlength="2" placeholder="MM" aria-label="Minute"></div><input id="entry-pickup-clock" type="hidden"><div id="v17-status" class="v17-validation" role="status" aria-live="polite"></div>';
+ oldClock.replaceWith(wrapper);const h=document.getElementById('v17-hour'),m=document.getElementById('v17-minute');if(/^\d{2}:\d{2}$/.test(originalTime)){h.value=originalTime.slice(0,2);m.value=originalTime.slice(3,5);}else{h.value='';m.value='';}
+ [date,h,m].forEach(el=>el.addEventListener('input',sync));date.addEventListener('change',sync);
+ h.addEventListener('blur',()=>{if(/^\d$/.test(h.value))h.value='0'+h.value;sync();});m.addEventListener('blur',()=>{if(/^\d$/.test(m.value))m.value='0'+m.value;sync();});
+ const hint=document.getElementById('v16-pickup-hint');if(hint)hint.textContent='Bitte Uhrzeit selbst eingeben (HH:MM). Mo geschlossen · Di–Sa 11:00–21:30 · So 12:00–21:30. Feiertage können abweichen.';
+ sync();
+ };
+ const priorConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){if(document.getElementById('orderEntryOverlay')?.dataset.mode==='Abholung'&&document.getElementById('entry-pickup')?.value==='custom'&&!sync()){e.preventDefault();return;}priorConfirm(e);};
+ const priorFinish=window.v15FinishOrder;
+ window.v15FinishOrder=function(){if(orderEntry?.mode==='Abholung'&&orderEntry.time!=='ASAP'){const time=orderEntry.time||'',date=time.slice(0,10),hour=time.slice(11,13),minute=time.slice(14,16);const error=validate(date,hour,minute);if(error){alert(error);beginOrder('Abholung');return;}}priorFinish();};
+})();
+
+
+/* ASIA MAI V18 menu browse and customer details */
+(function(){
+ const style=document.createElement('style');style.textContent=`
+ #menu.v18-browse .layout{display:block;max-width:1400px;margin:auto}
+ #menu.v18-browse .menu-list{width:100%;max-width:none}
+ #menu.v18-browse aside{display:none!important}
+ #menu.v18-browse .food-card button{display:none!important}
+ #menu.v18-browse .food-grid,#menu.v18-order .food-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ #menu.v18-browse .food-card,#menu.v18-order .food-card{min-width:0;display:flex;flex-direction:column;justify-content:space-between;min-height:220px}
+ #menu.v18-browse .food-card img,#menu.v18-order .food-card img{width:100%;max-width:100%;height:125px;object-fit:cover}
+ #menu.v18-browse .food-card>div,#menu.v18-order .food-card>div{min-width:0}
+ #menu.v18-browse .food-card p,#menu.v18-order .food-card p{overflow-wrap:anywhere}
+ #v18-order-cta{display:none;align-items:center;gap:12px;flex-wrap:wrap;margin:15px 0 22px}
+ #menu.v18-browse #v18-order-cta{display:flex}
+ #v18-order-cta button{font-size:17px;padding:13px 22px}
+ #v18-order-choices{display:none;gap:10px;flex-wrap:wrap}
+ #v18-order-choices.show{display:flex}
+ #v18-order-choices button:first-child{background:#075438}
+ #v18-order-choices button:last-child{background:#b91422}
+ #menu.v18-order .layout{grid-template-columns:minmax(0,1fr) 280px}
+ #menu.v18-order .food-card{min-height:220px}
+ @media(max-width:1100px){#menu.v18-browse .food-grid,#menu.v18-order .food-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+ @media(max-width:760px){#menu.v18-browse .food-grid,#menu.v18-order .food-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#menu.v18-order .layout{display:block}#menu.v18-order aside{position:static!important;margin-top:20px}}
+ @media(max-width:430px){#menu.v18-browse .food-grid,#menu.v18-order .food-grid{grid-template-columns:repeat(1,minmax(0,1fr))!important}}
+ `;document.head.appendChild(style);
+ let ordering=false;
+ const menu=document.getElementById('menu');
+ const title=menu.querySelector('.menu-list h1');
+ const cta=document.createElement('div');cta.id='v18-order-cta';cta.innerHTML='<button type="button" onclick="v18ShowOrderChoices()">🛍️ Bestellen</button><span>Lieferung oder Abholung auswählen</span><div id="v18-order-choices"><button type="button" onclick="beginOrder(\'Lieferung\')">🚲 Lieferung</button><button type="button" onclick="beginOrder(\'Abholung\')">🏪 Abholung</button></div>';
+ title.insertAdjacentElement('afterend',cta);
+ window.v18ShowOrderChoices=function(){document.getElementById('v18-order-choices').classList.toggle('show');};
+ function setView(){menu.classList.toggle('v18-browse',!ordering);menu.classList.toggle('v18-order',ordering);}
+ const oldPage=page;
+ page=function(p){if(p==='menu'&&!document.getElementById('orderEntryOverlay'))ordering=false;setView();oldPage(p);};
+ const oldBegin=beginOrder;
+ beginOrder=function(which){ordering=false;setView();oldBegin(which);};
+ const oldConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){const overlay=document.getElementById('orderEntryOverlay');if(!overlay)return oldConfirm(e);const previous=orderEntry;oldConfirm(e);if(!document.getElementById('orderEntryOverlay')&&orderEntry&&orderEntry!==previous){ordering=true;setView();const info=orderEntry;try{localStorage.setItem('asia_mai_customer_v18',JSON.stringify({name:info.name,phone:info.phone,street:info.street||'',plz:info.plz||'',city:info.city||''}));}catch(_){} }};
+ // Browser-local storage: no IP tracking, no server-side identity lookup.
+ const oldBegin2=beginOrder;
+ beginOrder=function(which){oldBegin2(which);let saved=null;try{saved=JSON.parse(localStorage.getItem('asia_mai_customer_v18')||'null');}catch(_){}if(!saved)return;const set=(id,v)=>{const el=document.getElementById(id);if(el&&!el.value)el.value=v||'';};set('entry-name',saved.name);set('entry-phone',saved.phone);set('entry-street',saved.street);set('entry-plz',saved.plz);set('entry-city',saved.city);};
+ // On checkout keep the order view, and on home/menu navigation return to read-only menu.
+ setView();
+})();
+
+
+/* ASIA MAI V19 collapsible homepage banners */
+(function(){
+ const css=document.createElement('style');css.textContent='.v19-banner-group{border:1px solid #dce7df;border-radius:13px;margin:18px 0;background:#fff;overflow:hidden}.v19-banner-group>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;font-weight:800;color:#174e34;background:#f2f8f3}.v19-banner-group>summary::-webkit-details-marker{display:none}.v19-banner-group>summary:after{content:"▾";font-size:19px;transition:transform .15s}.v19-banner-group[open]>summary:after{transform:rotate(180deg)}.v19-banner-inner{padding:12px 16px 18px}.v19-banner-item{border:1px solid #e0e9e1;border-radius:11px;margin:10px 0;overflow:hidden}.v19-banner-item>summary{cursor:pointer;list-style:none;padding:13px 15px;background:#fafcf9;font-weight:700;display:flex;justify-content:space-between}.v19-banner-item>summary::-webkit-details-marker{display:none}.v19-banner-item>summary:after{content:"+"}.v19-banner-item[open]>summary:after{content:"−"}.v19-banner-item-body{padding:10px 15px 16px}.v19-banner-item-body>.order{margin:0;border:0;padding:0;box-shadow:none}';document.head.appendChild(css);
+ const previous=adminRender;
+ adminRender=function(){
+  previous();
+  if(adminTab!=='Speisekarte')return;
+  const root=document.getElementById('adminbody');if(!root)return;
+  const heading=[...root.querySelectorAll('h3')].find(x=>x.textContent.includes('Startseite')&&x.textContent.includes('Werbebanner'));
+  if(!heading)return;
+  const saveButton=[...root.querySelectorAll('button')].find(x=>x.getAttribute('onclick')==='saveBanners()');
+  if(!saveButton)return;
+  const group=document.createElement('details');group.className='v19-banner-group';
+  const summary=document.createElement('summary');summary.textContent='🏞️ Startseite · Werbebanner ('+banners.length+')';
+  const inner=document.createElement('div');inner.className='v19-banner-inner';
+  group.append(summary,inner);heading.parentNode.insertBefore(group,heading);
+  let cursor=heading.nextSibling;
+  heading.remove();
+  while(cursor&&cursor!==saveButton){
+   const next=cursor.nextSibling;
+   if(cursor.nodeType===1&&cursor.classList.contains('order')){
+    const item=document.createElement('details');item.className='v19-banner-item';
+    const label=document.createElement('summary');const title=cursor.querySelector('b')?.textContent||'Banner';
+    label.textContent=title;const body=document.createElement('div');body.className='v19-banner-item-body';
+    item.append(label,body);body.append(cursor);
+    // Uploaded photo controls are inserted directly after the matching banner editor.
+    if(next?.nodeType===1&&next.classList.contains('v9-banner-upload')){body.append(next);cursor=next.nextSibling;}else cursor=next;
+    inner.append(item);continue;
+   }
+   inner.append(cursor);cursor=next;
+  }
+  inner.append(saveButton);
+ };
+})();
+
+
+/* ASIA MAI V20 per-dish order choice */
+(function(){
+ const css=document.createElement('style');css.textContent=`
+ #menu.v18-browse .food-card button{display:inline-block!important}
+ #v18-order-cta{display:none!important}
+ .v20-choice-overlay{position:fixed;inset:0;background:rgba(10,30,20,.62);z-index:10050;display:flex;align-items:center;justify-content:center;padding:20px}
+ .v20-choice-card{background:white;color:#193d2d;border-radius:17px;padding:26px;max-width:430px;width:100%;box-shadow:0 20px 70px #0004}
+ .v20-choice-card h2{margin:0 0 9px}.v20-choice-card p{color:#5b7466}
+ .v20-choice-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 14px}
+ .v20-choice-buttons button{padding:18px 9px;font-size:17px}
+ .v20-choice-buttons button:last-child{background:#ba1725}
+ .v20-choice-cancel{width:100%;background:#e7efe8;color:#195a38}
+ `;document.head.appendChild(css);
+ let pendingDish=null;
+ const oldAdd=addItem;
+ addItem=function(id){
+  const menu=document.getElementById('menu');
+  if(menu?.classList.contains('v18-browse')){
+   pendingDish=id;
+   document.getElementById('v20-choice-overlay')?.remove();
+   const overlay=document.createElement('div');overlay.id='v20-choice-overlay';overlay.className='v20-choice-overlay';
+   const dish=dishes.find(x=>x.id===id);
+   overlay.innerHTML='<div class="v20-choice-card" role="dialog" aria-modal="true" aria-label="Bestellart auswählen"><h2>Wie möchtest du bestellen?</h2><p>'+safe(dish?.name||'Gericht')+'</p><div class="v20-choice-buttons"><button type="button" data-mode="Lieferung">🚲 Lieferung</button><button type="button" data-mode="Abholung">🏪 Abholung</button></div><button type="button" class="v20-choice-cancel">Abbrechen</button></div>';
+   document.body.appendChild(overlay);
+   overlay.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>{const m=btn.dataset.mode;overlay.remove();beginOrder(m)}));
+   overlay.querySelector('.v20-choice-cancel').onclick=()=>{pendingDish=null;overlay.remove()};
+   overlay.addEventListener('click',e=>{if(e.target===overlay){pendingDish=null;overlay.remove()}});
+   return;
+  }
+  oldAdd(id);
+ };
+ const oldConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){
+  oldConfirm(e);
+  if(pendingDish!==null&&!document.getElementById('orderEntryOverlay')){
+   const id=pendingDish;pendingDish=null;
+   // Add the chosen dish after successful customer information validation.
+   addItem(id);
+  }
+ };
+ const oldReturn=returnHomeFromOrder;
+ returnHomeFromOrder=function(){pendingDish=null;oldReturn()};
+})();
+
+
+/* ASIA MAI V21 polish */
+(function(){
+ const css=document.createElement('style');css.textContent=`
+ .v15-cart-photo,.v15-cart-thumb-placeholder{display:none!important}
+ #menu .food-card{display:flex!important;flex-direction:column!important}
+ #menu .food-card>div:last-child{margin-top:auto!important}
+ #menu .food-card button{margin-top:auto!important}
+ .v20-choice-buttons button{color:#fff!important}
+ .v20-choice-buttons button svg{stroke:#fff!important;fill:none!important}
+ #v20-choice-overlay .v20-choice-card>p{display:none!important}
+ #orderEntryOverlay.v21-edit .entry-back{display:none!important}
+ #orderEntryOverlay.v21-edit .order-entry-header{justify-content:center}
+ `;document.head.appendChild(css);
+ const oldRender=renderCart;
+ renderCart=function(){oldRender();document.querySelectorAll('#cart .v15-cart-photo,#cart .v15-cart-thumb-placeholder').forEach(el=>el.remove());};
+ const oldAdd=addItem;
+ addItem=function(id){oldAdd(id);const box=document.getElementById('v20-choice-overlay');if(box){const p=box.querySelector('.v20-choice-card>p');if(p)p.remove();box.querySelectorAll('[data-mode]').forEach(b=>{const m=b.dataset.mode;b.textContent=m==='Lieferung'?'Lieferung':'Abholung';b.insertAdjacentHTML('afterbegin',m==='Lieferung'?'<svg width="23" height="23" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:5px" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="m5 17 5-9 5 9h4l-4-8h-5"/></svg>':'<svg width="23" height="23" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:5px" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M5 10v11h14V10M3 10l2-6h14l2 6M9 21v-7h6v7"/></svg>');});}};
+ let editing=false;
+ window.v15EditDetails=function(){closeModal();editing=true;beginOrder(orderEntry?.mode||orderMode||'Lieferung');const overlay=document.getElementById('orderEntryOverlay');if(!overlay)return;overlay.classList.add('v21-edit');const title=overlay.querySelector('.order-entry-header h2');if(title)title.textContent='Angaben ändern';const note=overlay.querySelector('.entry-note');if(note)note.textContent='Korrigiere deine Angaben und speichere die Änderungen.';const submit=overlay.querySelector('button[type="submit"]');if(submit)submit.textContent='Änderungen speichern';};
+ const oldConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){const isEdit=editing;oldConfirm(e);if(isEdit&&!document.getElementById('orderEntryOverlay')){editing=false;checkout();}};
+ const oldBegin=beginOrder;
+ beginOrder=function(which){if(!editing)return oldBegin(which);oldBegin(which);const overlay=document.getElementById('orderEntryOverlay');if(overlay){overlay.classList.add('v21-edit');const back=overlay.querySelector('.entry-back');if(back)back.remove();}};
+ const oldToggle=togglePickupFields;
+ togglePickupFields=function(){oldToggle();const select=document.getElementById('entry-pickup');if(select){const asap=[...select.options].find(o=>o.value==='ASAP');if(asap)asap.textContent='Ab sofort';}const note=document.getElementById('v16-pickup-hint');if(note&&!note.textContent.includes('5–10'))note.textContent+=' · Zubereitungszeit ca. 5–10 Minuten, je nach Gericht.';};
+ const oldBegin2=beginOrder;
+ beginOrder=function(which){oldBegin2(which);if(which==='Abholung'){const select=document.getElementById('entry-pickup');if(select){const asap=[...select.options].find(o=>o.value==='ASAP');if(asap)asap.textContent='Ab sofort';const hint=document.createElement('p');hint.className='muted';hint.style.fontSize='12px';hint.textContent='Zubereitungszeit ca. 5–10 Minuten, je nach Gericht.';select.insertAdjacentElement('afterend',hint);}}};
+})();
+
+</script>
+<script id="asia-mai-v24-delivery-map">
+/* Public postal lookup and OSM address suggestions. No API keys, no live driving-distance claim. */
+let deliveryPostalState={plz:'',valid:false};let deliveryPlzSeq=0,deliveryStreetSeq=0;
+async function deliveryPlzChanged(){
+ const field=document.getElementById('entry-plz');if(!field)return;
+ const plz=field.value.trim(),status=document.getElementById('delivery-plz-status'),seq=++deliveryPlzSeq;
+ deliveryPostalState={plz,valid:false};const cityField=document.getElementById('entry-city');if(cityField)cityField.value='';if(!status)return;
+ if(!/^\d{5}$/.test(plz)){status.textContent='Bitte 5 Ziffern eingeben.';return}
+ status.textContent='PLZ wird geprüft …';
+ try{const resp=await fetch('https://api.zippopotam.us/de/'+encodeURIComponent(plz));if(seq!==deliveryPlzSeq)return;
+ if(!resp.ok)throw Error('unknown');const data=await resp.json();
+ const allowed=(settings.allowedPlz||[]).map(x=>String(x).trim());const permitted=allowed.includes(plz);
+ const city=(data.places||[])[0]?.['place name']||'';const cityField=document.getElementById('entry-city');if(cityField)cityField.value=city;deliveryPostalState={plz,valid:permitted,city};status.textContent=permitted?'✓ PLZ im Liefergebiet':'Für diese PLZ bieten wir derzeit keine Lieferung an. Bitte Abholung wählen.';
+ status.style.color=permitted?'#17653b':'#b91c1c';
+ }catch(e){if(seq!==deliveryPlzSeq)return;status.textContent='PLZ konnte nicht geprüft werden. Bitte später erneut versuchen.';status.style.color='#b91c1c'}
+ deliveryStreetChanged();
+}
+async function deliveryStreetChanged(){
+ const field=document.getElementById('entry-street'),list=document.getElementById('delivery-street-suggestions'),status=document.getElementById('delivery-address-status'),link=document.getElementById('delivery-map-link');if(!field||!list)return;
+ const street=field.value.trim(),plz=document.getElementById('entry-plz')?.value.trim()||'',seq=++deliveryStreetSeq;
+ list.innerHTML='';
+ if(street.length<3||!deliveryPostalState.valid||deliveryPostalState.plz!==plz){if(status)status.textContent='Zugelassene PLZ bestätigen und mindestens 3 Zeichen der Straße eingeben.';return}
+ if(status)status.textContent='Straßenvorschläge werden geladen …';
+ try{const url='https://photon.komoot.io/api/?limit=8&lang=de&q='+encodeURIComponent(street+', '+plz+' Deutschland');const resp=await fetch(url);if(!resp.ok)throw Error('lookup');const data=await resp.json();if(seq!==deliveryStreetSeq)return;
+ const opts=(data.features||[]).filter(f=>{const p=f.properties||{};return String(p.postcode||'')===plz});
+ for(const f of opts){const p=f.properties||{};const value=[p.street||p.name,p.housenumber].filter(Boolean).join(' ');if(value&&!Array.from(list.options).some(o=>o.value===value)){const o=document.createElement('option');o.value=value;list.appendChild(o)}}
+ if(status)status.textContent=opts.length?'Straße auswählen und Hausnummer ergänzen.':'Keine Vorschläge gefunden. Bitte Straße und Hausnummer vollständig eingeben.';
+ }catch(e){if(seq!==deliveryStreetSeq)return;if(status)status.textContent='Adressvorschläge momentan nicht verfügbar. Bitte Adresse vollständig eingeben.'}
+}
+</script>
+
+
+<script id="asia-v27-postal-zones">
+/* V27: customer PLZ allowlist, editable in admin. Demo localStorage only. */
+(function(){
+ const old=adminRender;
+ adminRender=function(...args){const result=old.apply(this,args);if(adminTab!=='Einstellungen')return result;const body=document.getElementById('adminbody');if(!body)return result;
+ const panel=document.createElement('div');panel.className='card';panel.style.marginBottom='16px';
+ const allowed=Array.isArray(settings.allowedPlz)?settings.allowedPlz:[];
+ panel.innerHTML='<h3>📍 Liefergebiet nach PLZ</h3><p class="muted">Nur diese Postleitzahlen dürfen Lieferung bestellen. Mit Komma, Leerzeichen oder Zeilenumbruch trennen. Leer bedeutet: keine Lieferung freigegeben.</p><label>Erlaubte Postleitzahlen</label><textarea id="asia-allowed-plz" rows="3" placeholder="21217, 21218, 21220">'+safe(allowed.join(', '))+'</textarea><button type="button" onclick="asiaSaveAllowedPlz()">PLZ-Liefergebiet speichern</button><p class="muted">Beispielwerte sind keine automatische Freigabe. Bitte Liefer-PLZ selbst eintragen.</p>';
+ body.insertAdjacentElement('afterbegin',panel);return result;
+ };
+ window.asiaSaveAllowedPlz=function(){const value=document.getElementById('asia-allowed-plz')?.value||'',parts=value.split(/[\s,;]+/).filter(Boolean),invalid=parts.filter(x=>!/^\d{5}$/.test(x));if(invalid.length){alert('Ungültige PLZ: '+invalid.join(', ')+'. Bitte fünfstellige PLZ eingeben.');return}settings.allowedPlz=[...new Set(parts)];save();adminRender();alert('PLZ-Liefergebiet gespeichert (nur Demo / dieser Browser).')};
+ if(adminTab==='Einstellungen')adminRender();
+})();
+</script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyo1a5iB2cO2h0=" crossorigin="">
+<style id="asia-radius-style">
+.asia-radius-section{max-width:1100px;margin:42px auto 45px;padding:0 16px}.asia-radius-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:18px}.asia-radius-heading h2{font-size:clamp(23px,3vw,34px);line-height:1.15;margin:8px 0;color:#183e2a}.asia-radius-heading p,.asia-radius-foot{color:#6b786f;font-size:14px}.asia-radius-eyebrow{font-size:12px;font-weight:900;letter-spacing:2px;color:#b8081c}.asia-radius-pill{background:#e5f2e9;color:#17663f;padding:10px 15px;border-radius:99px;white-space:nowrap;font-weight:800;font-size:12px}#asia-radius-map{height:440px;border-radius:18px;overflow:hidden;border:1px solid #d8e4db;background:#e6efe9}.asia-radius-foot{margin-top:10px}.asia-radius-section .leaflet-container{font-family:inherit}@media(max-width:650px){#asia-radius-map{height:320px}.asia-radius-heading{align-items:flex-start;flex-direction:column;gap:5px}}
+</style>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script id="asia-radius-v28">
+/* V28 public circle preview. PLZ allowlist remains the actual demo checkout gate. */
+(function(){
+ const center=[53.42011,10.02113],key='am_settings';let map=null,circle=null;
+ const getRadius=()=>{try{const obj=JSON.parse(localStorage.getItem(key)||'{}');const n=Number(obj.deliveryRadiusKm);return Number.isFinite(n)&&n>=1&&n<=30?n:10}catch{return 10}};
+ function draw(){const el=document.getElementById('asia-radius-map');if(!el)return;const radius=getRadius(),label=document.getElementById('asia-radius-head');if(label)label.textContent=radius;
+ if(!window.L){el.textContent='Karte momentan nicht verfügbar.';return}
+ if(!map){map=L.map(el,{scrollWheelZoom:false});L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap-Mitwirkende'}).addTo(map);L.marker(center).addTo(map).bindPopup('<strong>ASIA MAI</strong><br>Glüsinger Str. 22, 21217 Seevetal');}
+ if(circle)map.removeLayer(circle);circle=L.circle(center,{radius:radius*1000,color:'#b60c25',weight:3,fillColor:'#db3449',fillOpacity:.12}).addTo(map);map.fitBounds(circle.getBounds(),{padding:[20,20]});setTimeout(()=>map.invalidateSize(),100);
+ }
+ const previousPage=page;page=function(...args){const res=previousPage.apply(this,args);if(args[0]==='shop')setTimeout(draw,100);return res};
+ const previousAdmin=adminRender;adminRender=function(...args){const res=previousAdmin.apply(this,args);if(adminTab!=='Einstellungen')return res;const body=document.getElementById('adminbody');if(!body)return res;const section=document.createElement('div');section.className='card';section.style.marginBottom='16px';section.innerHTML='<h3>⭕ Lieferradius auf der Startseite</h3><p class="muted">Der Radius wird auf der öffentlichen Karte als Kreis (Luftlinie) angezeigt. Die Bestellfreigabe erfolgt derzeit weiterhin über die PLZ-Liste; der Kreis ist noch keine automatische Adresssperre.</p><label>Radius (km)</label><select id="asia-radius-choice">'+[5,6,7,8,9,10,12,15].map(n=>'<option value="'+n+'" '+(getRadius()===n?'selected':'')+'>'+n+' km</option>').join('')+'</select><button type="button" onclick="asiaSaveRadius()">Radius speichern</button>';body.insertAdjacentElement('afterbegin',section);return res};
+ window.asiaSaveRadius=function(){const n=Number(document.getElementById('asia-radius-choice')?.value);if(!Number.isFinite(n)||n<1||n>30)return;settings.deliveryRadiusKm=n;save();draw();adminRender();alert('Radius gespeichert (Demo, nur dieser Browser).')};
+ window.addEventListener('storage',draw);if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',draw);else draw();
+})();
+</script>
+
+<style id="asia-v25-alert-style">#asia-new-order-badge{display:none;position:fixed;right:18px;bottom:20px;z-index:1000;background:#c8102e;color:white;border-radius:100px;padding:12px 18px;box-shadow:0 5px 22px #0004;font-weight:900;cursor:pointer;animation:asiaPulse 1.1s infinite}#asia-new-order-badge:focus{outline:3px solid #ffc400}@keyframes asiaPulse{50%{transform:scale(1.07)}}.asia-tab-new{position:relative}.asia-tab-new::after{content:attr(data-count);display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 5px;border-radius:99px;background:#d10e2d;color:white;margin-left:6px;font-size:12px}</style>
+<div id="asia-new-order-badge" role="button" tabindex="0" onclick="page('admin');adminTab='Bestellungen';adminRender()" onkeydown="if(event.key==='Enter')this.click()" aria-live="polite"></div>
+<script id="asia-v25-order-alert">
+/* Demo notifications: only same-origin browser localStorage, not cross-device real-time orders. */
+let asiaSoundContext=null,asiaAlarmTimer=null,asiaLastOrderSignature='';
+function asiaUnlockAudio(){if(!asiaSoundContext){const AC=window.AudioContext||window.webkitAudioContext;if(AC)asiaSoundContext=new AC()}if(asiaSoundContext?.state==='suspended')asiaSoundContext.resume().catch(()=>{});}
+document.addEventListener('pointerdown',asiaUnlockAudio,{passive:true});
+function asiaChime(){if(!asiaSoundContext||asiaSoundContext.state!=='running')return;const now=asiaSoundContext.currentTime;[0,0.22,0.44].forEach((offset,i)=>{const osc=asiaSoundContext.createOscillator(),gain=asiaSoundContext.createGain();osc.type='sine';osc.frequency.setValueAtTime([740,880,1100][i],now+offset);gain.gain.setValueAtTime(0.0001,now+offset);gain.gain.exponentialRampToValueAtTime(.14,now+offset+.015);gain.gain.exponentialRampToValueAtTime(.0001,now+offset+.2);osc.connect(gain);gain.connect(asiaSoundContext.destination);osc.start(now+offset);osc.stop(now+offset+.22)})}
+function asiaPendingOrders(){try{return JSON.parse(localStorage.getItem('am_orders')||'[]').filter(o=>o.status==='Eingegangen')}catch(e){return []}}
+function asiaAlertRefresh(){const pending=asiaPendingOrders(),badge=document.getElementById('asia-new-order-badge');if(badge){badge.style.display=pending.length?'block':'none';badge.textContent='🔔 '+pending.length+' neue Bestellung'+(pending.length===1?'':'en')+' – Annehmen';}const admin=document.getElementById('admin');if(admin&&!admin.classList.contains('hidden')){const buttons=[...admin.querySelectorAll('button')];const tab=buttons.find(b=>b.textContent.trim().startsWith('Bestellungen'));if(tab){tab.classList.toggle('asia-tab-new',pending.length>0);tab.dataset.count=String(pending.length)}}if(pending.length&&!asiaAlarmTimer){asiaChime();asiaAlarmTimer=setInterval(()=>{if(asiaPendingOrders().length)asiaChime();else{clearInterval(asiaAlarmTimer);asiaAlarmTimer=null}},3500)}else if(!pending.length&&asiaAlarmTimer){clearInterval(asiaAlarmTimer);asiaAlarmTimer=null}}
+function asiaEstimatedTime(order){const base=new Date(order.created||Date.now());const prep=Math.max(10,Number(settings.prep)||20);const km=Number(order.km)||0;const drive=km>0?Math.ceil(km/22*60):15;const buffer=5;const date=new Date(base.getTime()+(prep+drive+buffer)*60000);return String(date.getHours()).padStart(2,'0')+':'+String(date.getMinutes()).padStart(2,'0')}
+const asiaOriginalAdminRender=adminRender;adminRender=function(...args){const result=asiaOriginalAdminRender.apply(this,args);asiaAlertRefresh();return result};
+const asiaOriginalAdminAccept=adminAccept;adminAccept=function(...args){const result=asiaOriginalAdminAccept.apply(this,args);asiaAlertRefresh();return result};
+const asiaOriginalAdminReject=adminReject;adminReject=function(...args){const result=asiaOriginalAdminReject.apply(this,args);asiaAlertRefresh();return result};
+window.addEventListener('storage',asiaAlertRefresh);setInterval(asiaAlertRefresh,2000);asiaAlertRefresh();
+
+
+</script>
+<style id="asia-v29-pickup-asap-style">#orderEntryOverlay[data-mode="Abholung"] #pickup-date-fields[hidden]{display:none!important}</style>
+<script id="asia-v29-pickup-asap">
+(function(){
+ const previousToggle=togglePickupFields;
+ togglePickupFields=function(...args){
+  const result=previousToggle.apply(this,args);
+  const select=document.getElementById('entry-pickup'),fields=document.getElementById('pickup-date-fields');
+  if(!select||!fields)return result;
+  const custom=select.value==='custom';
+  fields.hidden=!custom;fields.style.display=custom?'block':'none';
+  fields.querySelectorAll('input').forEach(input=>{input.disabled=!custom;if(input.id==='entry-pickup-date'||input.id==='entry-pickup-clock')input.required=custom;});
+  return result;
+ };
+ const previousBegin=beginOrder;
+ beginOrder=function(...args){
+  const result=previousBegin.apply(this,args);
+  if(args[0]==='Abholung'){const select=document.getElementById('entry-pickup');if(select){const asap=select.querySelector('option[value="ASAP"]');if(asap)asap.textContent='Ab sofort';togglePickupFields();}}
+  return result;
+ };
+})();
+</script>
+</body></html>
