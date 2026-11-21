@@ -63,7 +63,7 @@ function beginOrder(which){
  page('menu');const old=orderEntry&&orderEntry.mode===which?orderEntry:{};
  const pickup=which==='Abholung';
  const escapeValue=v=>safe(v||'');
- const html='<div class="order-entry-header"><button class="entry-back" onclick="closeOrderEntry();page('shop')" aria-label="Zurück zur Startseite">←</button><h2>'+(pickup?'Abholung':'Lieferung')+'</h2><span style="width:38px"></span></div>'+
+ const html='<div class="order-entry-header"><button class="entry-back" onclick="returnHomeFromOrder()" aria-label="Zurück zur Startseite">←</button><h2>'+(pickup?'Abholung':'Lieferung')+'</h2><span style="width:38px"></span></div>'+
  '<form class="entry-body" onsubmit="confirmOrderEntry(event)"><p class="entry-note">'+(pickup?'Wähle deine Abholzeit und hinterlege deine Kontaktdaten.':'Gib deine Lieferadresse ein, bevor du Speisen auswählst.')+'</p>'+
  '<label>Name *</label><input id="entry-name" required autocomplete="name" value="'+escapeValue(old.name)+'" placeholder="Vor- und Nachname">'+
  '<label>Telefonnummer *</label><input id="entry-phone" required type="tel" autocomplete="tel" value="'+escapeValue(old.phone)+'" placeholder="+49 ...">'+
@@ -80,6 +80,7 @@ function beginOrder(which){
  document.getElementById('entry-name').focus();
 }
 function togglePickupFields(){const custom=document.getElementById('entry-pickup')?.value==='custom';const fields=document.getElementById('pickup-date-fields');if(fields)fields.style.display=custom?'block':'none';for(const id of ['entry-pickup-date','entry-pickup-clock']){const input=document.getElementById(id);if(input)input.required=custom}}
+function returnHomeFromOrder(){closeOrderEntry();page("shop")}
 function closeOrderEntry(){document.getElementById('orderEntryOverlay')?.remove()}
 function confirmOrderEntry(e){
  e.preventDefault();const el=id=>document.getElementById(id)?.value.trim()||'';
