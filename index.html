@@ -758,4 +758,104 @@ v10Decorate=function(){
  add.parentNode.insertBefore(toolbar,add);
  toolbar.append(add,save);
 };
+</script>
+<style id="asia-v13-css">
+#v13-unsaved{font-size:12px;font-weight:700;color:#a35411;display:inline-flex;align-items:center;margin-left:8px}
+#v12-category-toolbar{gap:10px}
+#v12-category-toolbar #v11-save{margin-left:auto}
+.food-card .muted{line-height:1.55!important;max-height:none!important;overflow:visible!important;display:block!important;white-space:normal!important}
+</style>
+<script id="asia-v13">
+/* Browser-only draft protection: track the current menu against the last explicit save.
+   Existing legacy edits may auto-persist to localStorage, but remain marked unconfirmed. */
+let v13SavedSnapshot=null;
+function v13Snapshot(){
+ return JSON.stringify({categories:menuCategories,dishes:dishes,banners:banners,photos:photos,uploads:typeof v9BannerImages==='object'?v9BannerImages:{}});
+}
+function v13IsDirty(){return v13SavedSnapshot!==null&&v13Snapshot()!==v13SavedSnapshot}
+function v13Status(){
+ const toolbar=document.getElementById('v12-category-toolbar');
+ if(!toolbar)return;
+ let badge=document.getElementById('v13-unsaved');
+ if(!badge){badge=document.createElement('span');badge.id='v13-unsaved';toolbar.querySelector('button')?.after(badge)}
+ badge.textContent=v13IsDirty()?'● Nicht gespeicherte Änderungen':'';
+ const save=toolbar.querySelector('#v11-save');
+ if(save)save.title=v13IsDirty()?'Änderungen jetzt bestätigen und speichern':'Bereits gespeichert';
+}
+const v13OldDecorate=v10Decorate;
+v10Decorate=function(){
+ v13OldDecorate();
+ if(v13SavedSnapshot===null)v13SavedSnapshot=v13Snapshot();
+ v13Status();
+};
+const v13OldSave=v9SaveAll;
+v9SaveAll=function(){
+ v13OldSave();
+ // v9SaveAll catches storage errors internally; confirm only when storage matches current menu.
+ try{
+  if(localStorage.getItem('am_menu_v5')===JSON.stringify(dishes)&&localStorage.getItem('am_categories_v5')===JSON.stringify(menuCategories)){
+   v13SavedSnapshot=v13Snapshot();
+   v8Toast('✓ Erfolgreich gespeichert! Alle Änderungen wurden in diesem Browser gesichert.');
+  }
+ }catch(e){}
+ v13Status();
+};
+const v13OldPersist=persistMenu;
+persistMenu=function(){
+ v13OldPersist();
+ queueMicrotask(v13Status);
+};
+document.addEventListener('click',function(e){
+ if(!v13IsDirty())return;
+ const target=e.target.closest('a,button');
+ if(!target||target.closest('#adminbody')||target.closest('#v12-category-toolbar'))return;
+ const label=(target.textContent||'').trim();
+ const inAdminNav=!!target.closest('#adminnav');
+ const isNavigation=target.tagName==='A'||inAdminNav||/^(Home|Menü|Kontakt|Bestellung verfolgen|Management Demo)$/.test(label);
+ if(!isNavigation)return;
+ if(!confirm('Du hast Änderungen an der Speisekarte vorgenommen, aber noch nicht auf „Änderungen speichern“ geklickt.\n\nMöchtest du vor dem Verlassen speichern?\n\nOK = Jetzt speichern und weiter\nAbbrechen = Auf dieser Seite bleiben')){
+  e.preventDefault();e.stopImmediatePropagation();return;
+ }
+ v9SaveAll();
+},true);
+window.addEventListener('beforeunload',function(e){
+ if(!v13IsDirty())return;
+ e.preventDefault();e.returnValue='';
+});
+/* Improve descriptions only for dishes whose basic ingredients are already known. */
+const v13Descriptions={
+ 'Rotes Curry':'Aromatisches rotes Curry mit cremiger Kokosmilch, frischem Gemüse und Reis. Die gewünschte Variante kannst du bei der Bestellung auswählen.',
+ 'Gebratene Nudeln':'Im Wok gebratene Nudeln mit Gemüse. Wähle bei der Bestellung deine gewünschte Variante aus.',
+ 'Gebratener Reis':'Gebratener Reis mit Gemüse und Ei. Ein klassisches Reisgericht, bei dem du deine gewünschte Variante auswählen kannst.',
+ 'Frühlingsrollen':'Knusprige Frühlingsrollen, serviert mit einem passenden Dip.',
+ 'Sommerrollen':'Frische Sommerrollen mit aromatischen Kräutern – leicht und frisch.'
+};
+function v13Description(d){
+ const original=String(d.desc||'').trim();
+ if(!original||/Demo-Preis bitte prüfen/i.test(original))return original;
+ return original.length<65&&v13Descriptions[d.name]?v13Descriptions[d.name]:original;
+}
+const v13OldMenu=menuV3;
+menuV3=function(){
+ v13OldMenu();
+ const sections=document.getElementById('foodSections');
+ if(!sections)return;
+ sections.querySelectorAll('section').forEach(sec=>{
+  const cat=sec.querySelector('h2')?.textContent;
+  const group=dishes.filter(d=>d.cat===cat);
+  sec.querySelectorAll('.food-card').forEach((card,i)=>{
+   const desc=card.querySelector('.muted');
+   if(desc&&group[i])desc.textContent=v13Description(group[i]);
+  });
+ });
+};
+const v13OldRenderMenu=renderMenu;
+renderMenu=function(){
+ v13OldRenderMenu();
+ document.querySelectorAll('#items .item').forEach((el,i)=>{
+  const subset=dishes.filter(d=>category==='Alle'||d.cat===category);
+  const p=el.querySelector('.muted');
+  if(p&&subset[i])p.textContent=v13Description(subset[i]);
+ });
+};
 </script></body></html>
