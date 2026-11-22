@@ -1,26 +1,28 @@
-# ASIA MAI — Online Bestellen V3
+# ASIA MAI – single-source full-stack prototype
 
-Official working repository for the Asia Mai restaurant ordering website.
+This project starts from `ASIA_MAI_PLZ_Time_regex_fixed(1).zip` and adds a Node.js API and SQLite database. One repository, one `index.html`, one backend.
 
-## Confirmed scope
-- German-language, responsive customer ordering website (Lieferung / Abholung).
-- Delivery address autocomplete and validation; distance measured by **Fahrstrecke** (actual driving route).
-- Admin-configurable delivery zones and fees (distance tiers), maximum range, minimum order value and opening hours.
-- Pickup: customer selects time; restaurant may propose a new time; customer must confirm the proposal.
-- Menu, categories, dishes, images, options, cart and checkout.
-- Payment: PayPal Business (capture immediately; refund through API if restaurant rejects), or Bargeld.
-- Tracking: secure unguessable token, automatic status updates without re-entering the code.
-- Admin: new-order alert, accept/reject, delivery ETA, menu editor, customers, statistics and settings.
-- Security: authenticated admin, roles, rate limits, 2FA where appropriate; no secrets in git.
+## Run locally
 
-## Workflow
-- `main`: stable, reviewed changes.
-- `dev`: ongoing work and testing.
-- Each change modifies the existing project files; do not regenerate unrelated site copies.
-- Record requirements and changes in the repository.
+Requires Node.js 22.13+.
 
-## Current status
-Repository initialized. The earlier standalone HTML prototype has **not yet been uploaded** to this repository. No live payment or Google API integration is enabled.
+```bash
+export ADMIN_KEY="$(node -e "process.stdout.write(require('node:crypto').randomBytes(32).toString('hex'))")"
+npm start
+```
 
-## Security
-Never commit PayPal credentials, Google secret keys, passwords or personal customer data.
+Open `http://localhost:3000`. Use the same `ADMIN_KEY` when opening **Management**. Orders are saved in `data/orders.sqlite`. Open the same URL from another device on the same network (using the computer's IP address) to test cross-device orders. Server must be reachable from the device.
+
+## Deploy
+
+**Recommended:** push all source files to the GitHub repository's `main` branch and deploy the same repository to a Node hosting provider with **persistent disk storage**. Set environment variables `ADMIN_KEY` (random >=24 chars), `DB_PATH` (path on persistent disk), and optionally `PORT`. GitHub remains the single source of truth; hosting builds directly from it.
+
+**GitHub Pages alone cannot run Node.js or SQLite.** If retaining GitHub Pages as the frontend, deploy the API separately, set `window.ASIA_API_BASE` in `config.js` to the API's HTTPS URL, and set backend `FRONTEND_ORIGIN` to the exact GitHub Pages origin (e.g. `https://username.github.io`). Both deployments can use the same repository.
+
+## Current scope and critical production gaps
+
+- SQLite persistence, order creation, private tracking status, password-protected management API, and 5-second management polling are implemented.
+- PayPal remains disabled. No live payment capture.
+- **Do not accept real public orders yet.** Product prices and delivery fees are still sent by the browser and are NOT validated against a server-controlled menu; opening hours, PLZ eligibility, and delivery distance are not authoritatively enforced on the backend. Before launch, implement server-controlled catalog/pricing, exact PLZ allowlist and opening-hours validation (including timezone/DST), HTTPS, stronger admin authentication, rate limiting, backups, and privacy/retention policy.
+- Existing localStorage UI remains for backward compatibility, but API orders are authoritative for shared ordering. Old demo orders are not migrated.
+- SQLite data must reside on a persistent volume. Without one, orders may be lost on redeploy.

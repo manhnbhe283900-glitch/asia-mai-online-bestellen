@@ -34,7 +34,16 @@ header .brand-home img{width:73px;height:73px;object-fit:contain;margin:0 1px 0 
 #menu .food-grid .food-card .food-action button{margin:0!important}
 #menu .food-grid .food-card .food-copy>b:last-of-type{margin-top:auto!important}
 @media(max-width:760px){#menu .food-grid .food-card{min-height:240px!important}#menu .food-grid .food-card .food-photo{max-width:75px!important;height:75px!important}}
-</style></head><body><header><div class="head"><button class="brand brand-home" type="button" onclick="page('shop')" aria-label="ASIA MAI – Startseite"><img src="logo1.png" alt="Asia Mai Logo" onerror="this.src='logo.png'"> <span>ASIA MAI</span></button><nav class="nav"><button onclick="page('shop')">Home</button><button onclick="page('menu')">Menü</button><button onclick="page('kontakt')">Kontakt</button><button onclick="page('tracking')">Bestellung verfolgen</button><button onclick="page('admin')">Management Demo</button></nav></div></header><div class="order-bar"><strong>ONLINE BESTELLUNG</strong><div class="order-switch"><button class="delivery-switch" onclick="beginOrder('Lieferung')"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="18" r="3"/><circle cx="19" cy="18" r="3"/><path d="M8 18h6l-3-8h-4M12 8h5l3 6M4 11h4M13 6h3"/></svg>LIEFERUNG</button><span class="switch-center" aria-hidden="true">↔</span><button class="pickup-switch" onclick="beginOrder('Abholung')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18l-2-6H5zM5 10v11h14V10M9 21v-7h6v7M4 10l2 2 3-2 3 2 3-2 3 2 2-2"/></svg>ABHOLUNG</button></div></div><main class="wrap"><div id="shop"><div class="promo-grid" id="promoGrid"></div><section class="asia-radius-section"><div class="asia-radius-heading"><div><span class="asia-radius-eyebrow">UNSER LIEFERGEBIET</span><h2>Wir liefern im Umkreis von <span id="asia-radius-head">10</span> km</h2><p>Rund um ASIA MAI in Seevetal-Meckelfeld · Luftlinie</p></div><span class="asia-radius-pill">🚗 LIEFERUNG</span></div><div id="asia-radius-map" role="img" aria-label="Karte mit kreisförmigem Liefergebiet um ASIA MAI"></div><p class="asia-radius-foot">Der Kreis zeigt unseren ungefähren Lieferbereich. Ob Lieferung an deine Adresse möglich ist, prüfen wir anhand deiner Postleitzahl.</p></section></div><section id="menu" class="hidden"><div class="layout"><section class="menu-list"><div class="category-links" id="categoryLinks"></div><h1>Menü</h1><div id="foodSections"></div></section><aside class="card" style="align-self:start;position:sticky;top:100px"><h2>🛒 Warenkorb <span class="badge" id="count">0</span></h2><div id="cart"></div><div class="line"></div><div class="row"><span>Zwischensumme</span><b id="subtotal">0,00 €</b></div><div class="row"><span>Lieferkosten</span><b id="fee">–</b></div><div class="row"><b>Gesamt</b><b id="total">0,00 €</b></div><p class="muted" id="feeinfo">Lieferkosten werden nach Fahrstrecke berechnet.</p><button class="full" onclick="checkout()">Zur Kasse →</button></aside></div></section><section id="kontakt" class="hidden"><div class="card"><h1>Kontakt · ASIA MAI</h1><p><b>Adresse:</b> Glüsinger Str. 22, 21217 Seevetal-Meckelfeld, Deutschland</p><p><b>Telefon:</b> <a href="tel:+494076759963">040 76759963</a></p><div class="row" style="flex-wrap:wrap;gap:10px"><a href="tel:+494076759963" style="background:#075438;color:white;padding:12px 18px;border-radius:10px;text-decoration:none">📞 Jetzt anrufen</a><a href="https://www.google.com/maps/search/?api=1&query=Asia%20Mai%20Gl%C3%BCsinger%20Str.%2022%2021217%20Seevetal" target="_blank" rel="noopener noreferrer" style="background:#e7efe8;color:#075438;padding:12px 18px;border-radius:10px;text-decoration:none">📍 Google Maps öffnen</a></div><h2>Öffnungszeiten</h2><p>Montag: Geschlossen</p><p>Dienstag–Samstag: 11:00–21:30 Uhr</p><p>Sonntag: 12:00–21:30 Uhr</p><p class="muted">An Feiertagen können die Öffnungszeiten abweichen. Bitte telefonisch prüfen.</p><iframe title="Asia Mai Standort auf Google Maps" src="https://www.google.com/maps?q=Asia%20Mai%20Gl%C3%BCsinger%20Str.%2022%2021217%20Seevetal&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:320px;border:0;border-radius:12px"></iframe></div></section><section id="tracking" class="hidden"><div class="card"><h2>📦 Bestellung verfolgen</h2><p class="muted">Nach der Bestellung öffnet sich diese Seite automatisch. Später kannst du deinen privaten Tracking-Code verwenden.</p><div class="two"><div><label>Tracking-Code</label><input id="trackinput" placeholder="z. B. AM-..."></div><div style="align-self:end"><button onclick="lookup()">Bestellung suchen</button></div></div><div id="trackresult" style="margin-top:20px"></div></div></section>
+</style><script id="asia-plz-consistency-fix">
+function asiaAllowedPostalCodes(){
+ const defaults=['21217','21218','21220'];
+ const raw=settings.allowedPlz;
+ if(Array.isArray(raw)&&raw.length) return [...new Set(raw.flatMap(v=>String(v).split(/[\s,;]+/)).map(v=>v.trim()).filter(v=>/^\d{5}$/.test(v)))];
+ if(settings.allowedPlzExplicitlyEmpty===true)return [];
+ return defaults;
+}
+</script>
+</head><body><header><div class="head"><button class="brand brand-home" type="button" onclick="page('shop')" aria-label="ASIA MAI – Startseite"><img src="logo1.png" alt="Asia Mai Logo" onerror="this.src='logo.png'"> <span>ASIA MAI</span></button><nav class="nav"><button onclick="page('shop')">Home</button><button onclick="page('menu')">Menü</button><button onclick="page('kontakt')">Kontakt</button><button onclick="page('tracking')">Bestellung verfolgen</button><button onclick="page('admin')">Management Demo</button></nav></div></header><div class="order-bar"><strong>ONLINE BESTELLUNG</strong><div class="order-switch"><button class="delivery-switch" onclick="beginOrder('Lieferung')"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="18" r="3"/><circle cx="19" cy="18" r="3"/><path d="M8 18h6l-3-8h-4M12 8h5l3 6M4 11h4M13 6h3"/></svg>LIEFERUNG</button><span class="switch-center" aria-hidden="true">↔</span><button class="pickup-switch" onclick="beginOrder('Abholung')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18l-2-6H5zM5 10v11h14V10M9 21v-7h6v7M4 10l2 2 3-2 3 2 3-2 3 2 2-2"/></svg>ABHOLUNG</button></div></div><main class="wrap"><div id="shop"><div class="promo-grid" id="promoGrid"></div><section class="asia-radius-section"><div class="asia-radius-heading"><div><span class="asia-radius-eyebrow">UNSER LIEFERGEBIET</span><h2>Wir liefern im Umkreis von <span id="asia-radius-head">10</span> km</h2><p>Rund um ASIA MAI in Seevetal-Meckelfeld · Luftlinie</p></div><span class="asia-radius-pill">🚗 LIEFERUNG</span></div><div id="asia-radius-map" role="img" aria-label="Karte mit kreisförmigem Liefergebiet um ASIA MAI"></div><p class="asia-radius-foot">Der Kreis zeigt unseren ungefähren Lieferbereich. Ob Lieferung an deine Adresse möglich ist, prüfen wir anhand deiner Postleitzahl.</p></section></div><section id="menu" class="hidden"><div class="layout"><section class="menu-list"><div class="category-links" id="categoryLinks"></div><h1>Menü</h1><div id="foodSections"></div></section><aside class="card" style="align-self:start;position:sticky;top:100px"><h2>🛒 Warenkorb <span class="badge" id="count">0</span></h2><div id="cart"></div><div class="line"></div><div class="row"><span>Zwischensumme</span><b id="subtotal">0,00 €</b></div><div class="row"><span>Lieferkosten</span><b id="fee">–</b></div><div class="row"><b>Gesamt</b><b id="total">0,00 €</b></div><p class="muted" id="feeinfo">Lieferkosten werden nach Fahrstrecke berechnet.</p><button class="full" onclick="checkout()">Zur Kasse →</button></aside></div></section><section id="kontakt" class="hidden"><div class="card"><h1>Kontakt · ASIA MAI</h1><p><b>Adresse:</b> Glüsinger Str. 22, 21217 Seevetal-Meckelfeld, Deutschland</p><p><b>Telefon:</b> <a href="tel:+494076759963">040 76759963</a></p><div class="row" style="flex-wrap:wrap;gap:10px"><a href="tel:+494076759963" style="background:#075438;color:white;padding:12px 18px;border-radius:10px;text-decoration:none">📞 Jetzt anrufen</a><a href="https://www.google.com/maps/search/?api=1&query=Asia%20Mai%20Gl%C3%BCsinger%20Str.%2022%2021217%20Seevetal" target="_blank" rel="noopener noreferrer" style="background:#e7efe8;color:#075438;padding:12px 18px;border-radius:10px;text-decoration:none">📍 Google Maps öffnen</a></div><h2>Öffnungszeiten</h2><p>Montag: Geschlossen</p><p>Dienstag–Samstag: 11:00–21:30 Uhr</p><p>Sonntag: 12:00–21:30 Uhr</p><p class="muted">An Feiertagen können die Öffnungszeiten abweichen. Bitte telefonisch prüfen.</p><iframe title="Asia Mai Standort auf Google Maps" src="https://www.google.com/maps?q=Asia%20Mai%20Gl%C3%BCsinger%20Str.%2022%2021217%20Seevetal&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:320px;border:0;border-radius:12px"></iframe></div></section><section id="tracking" class="hidden"><div class="card"><h2>📦 Bestellung verfolgen</h2><p class="muted">Nach der Bestellung öffnet sich diese Seite automatisch. Später kannst du deinen privaten Tracking-Code verwenden.</p><div class="two"><div><label>Tracking-Code</label><input id="trackinput" placeholder="z. B. AM-..."></div><div style="align-self:end"><button onclick="lookup()">Bestellung suchen</button></div></div><div id="trackresult" style="margin-top:20px"></div></div></section>
 <section id="admin" class="hidden"><div class="card"><div class="row"><div><h2>ASIA MAI Management <span class="badge">DEMO</span></h2><p class="muted">Nur lokale Vorschau – keine echte Authentifizierung, Zahlungen oder Benachrichtigungen.</p></div><span>⚙️</span></div><div class="adminnav" id="adminnav"></div><div id="adminbody"></div></div></section></main><div class="footer">ASIA MAI V3 · Interaktiver Prototyp · Keine echten Bestellungen oder Zahlungen</div><div id="overlay" class="modalbg hidden"><div id="modal" class="modal"></div></div><script>
 const DEFAULT={tiers:[{km:1,fee:1},{km:2,fee:2},{km:3,fee:3},{km:5,fee:4.5}],prep:20,minOrder:15,delivery:true,pickup:true,restaurant:'Glüsinger Str. 22, 21217 Seevetal-Meckelfeld, Deutschland',opening:'Di–Sa 11:00–21:30 · So 12:00–21:30 · Mo geschlossen'};
 let dishes=[{id:1,cat:'Hauptgerichte',name:'Rotes Curry',desc:'Kokosmilch, Gemüse, Reis',price:12.9,emoji:'🍛',options:true},{id:2,cat:'Hauptgerichte',name:'Gebratene Nudeln',desc:'Wok-Nudeln mit Gemüse',price:9.9,emoji:'🍜',options:true},{id:3,cat:'Hauptgerichte',name:'Gebratener Reis',desc:'Reis mit Gemüse und Ei',price:10.5,emoji:'🍚',options:true},{id:4,cat:'Vorspeisen',name:'Frühlingsrollen',desc:'Knusprig mit Dip',price:5.5,emoji:'🥟'},{id:5,cat:'Vorspeisen',name:'Sommerrollen',desc:'Frisch mit Kräutern',price:6.9,emoji:'🥬'},{id:6,cat:'Getränke',name:'Mango Lassi',desc:'Fruchtig und cremig',price:4.5,emoji:'🥭'}];
@@ -87,8 +96,8 @@ function beginOrder(which){
  (pickup?'<div style="display:none!important" aria-hidden="true"><select id="entry-pickup" onchange="togglePickupFields()"><option value="ASAP">So schnell wie möglich (mind. '+settings.prep+' Min.)</option><option value="custom">Datum und Uhrzeit auswählen</option></select><div id="pickup-date-fields" style="display:none"><div class="two"><div><label>Datum *</label><input type="date" id="entry-pickup-date" lang="de-DE"></div><div><label>Uhrzeit *</label><input type="time" id="entry-pickup-clock" step="900"></div></div></div>'+
  '</div>':
  '<label>PLZ *</label><input id="entry-plz" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" value="'+escapeValue(old.plz)+'" placeholder="z. B. 22087" oninput="deliveryPlzChanged()" autocomplete="postal-code"><div id="delivery-plz-status" class="entry-note" aria-live="polite"></div>'+
- '<label>Straße und Hausnummer *</label><input id="entry-street" required autocomplete="street-address" value="'+escapeValue(old.street)+'" placeholder="Straße und Hausnummer" oninput="deliveryStreetChanged()" list="delivery-street-suggestions"><datalist id="delivery-street-suggestions"></datalist>'+
- '<div id="delivery-address-status" class="entry-note" aria-live="polite">Adressvorschläge nach Eingabe von PLZ und Straße.</div><input id="entry-city" type="hidden" value="">'+
+ '<label>Straße und Hausnummer *</label><input id="entry-street" required autocomplete="street-address" value="'+escapeValue(old.street)+'" placeholder="z. B. Glüsinger Straße 22" oninput="deliveryStreetChanged()" list="delivery-street-suggestions"><datalist id="delivery-street-suggestions"></datalist>'+
+ '<div id="delivery-address-status" class="entry-note" aria-live="polite">Adressvorschläge nach Eingabe von PLZ und Straße.</div><label>Ort *</label><input id="entry-city" required autocomplete="address-level2" placeholder="Ort eingeben" value="">'+
  '<p class="entry-note">Lieferung nur in den vom Restaurant freigegebenen Postleitzahlen.</p>')+
  '<button class="entry-submit" type="submit">Weiter zur Speisekarte →</button></form>';
  let overlay=document.getElementById('orderEntryOverlay');
@@ -109,8 +118,8 @@ function confirmOrderEntry(e){
  if(modeName==='Lieferung'){
   info.street=el('entry-street');info.plz=el('entry-plz');info.city=el('entry-city');
   if(!/^\d{5}$/.test(info.plz)){alert('Bitte eine fünfstellige PLZ eingeben.');return}
-  if(deliveryPostalState.plz!==info.plz||deliveryPostalState.valid!==true){alert('Diese PLZ ist nicht für Lieferung freigegeben. Bitte Abholung wählen.');return}
-  if(!info.city){alert('Ort konnte nicht ermittelt werden. Bitte PLZ erneut prüfen.');return}
+  const allowedPlz=asiaAllowedPostalCodes();if(!allowedPlz.includes(info.plz)){alert('Diese PLZ ist nicht für Lieferung freigegeben. Bitte Abholung wählen.');return}
+  if(!info.city){alert('Bitte Ort eingeben.');return}
   if(!/\d+[a-zA-Z]?\s*$/.test(info.street)){alert('Bitte Straße und Hausnummer vollständig eingeben.');return}
  }else{
   info.time=el('entry-pickup')==='custom'?el('entry-pickup-date')+'T'+el('entry-pickup-clock'):'ASAP';
@@ -920,16 +929,20 @@ renderMenu=function(){
   modal('<h2>Bestellung abschließen</h2><div class="v15-checkout-summary"><b>'+safe(orderEntry.name)+'</b><div>'+safe(orderEntry.phone)+'</div><div>'+safe(pickup?'Abholung':'Lieferung')+': '+safe(info)+'</div><div>'+cart.reduce((n,i)=>n+Number(i.qty||0),0)+' Artikel · '+money(subtotal())+'</div><b>Gesamt: '+(fee===null?money(subtotal())+' + Lieferkosten':money(subtotal()+fee))+'</b></div><button type="button" class="secondary" style="margin-top:10px" onclick="v15EditDetails()">Angaben ändern</button><h3>Zahlungsart wählen</h3><div class="v15-pay-options"><label class="v15-pay-option"><input type="radio" name="v15-payment" value="Bargeld" checked> Barzahlung bei Übergabe<small>Erst bei Lieferung oder Abholung bezahlen</small></label><label class="v15-pay-option"><input type="radio" name="v15-payment" value="PayPal"> PayPal<small>Online-Zahlung ist noch nicht aktiviert (Demo)</small></label></div><button class="full" onclick="v15FinishOrder()">Bestellung aufgeben →</button>');
  };
  window.v15EditDetails=function(){closeModal();beginOrder(orderEntry?.mode||orderMode||'Lieferung');};
- window.v15FinishOrder=function(){
-  if(!orderEntry||!guardPickup())return;
+ window.v15FinishOrder=async function(){
+  if(!orderEntry||!(orderEntry.mode==='Abholung'&&orderEntry.time&&orderEntry.time!=='ASAP')&&!guardPickup())return;
   const payment=document.querySelector('input[name="v15-payment"]:checked')?.value||'Bargeld';
   if(payment==='PayPal'){alert('PayPal ist noch nicht mit einem Geschäftskonto verbunden. Es wurde nichts abgebucht. Bitte Barzahlung wählen.');return;}
   const pickup=orderEntry.mode==='Abholung';
   if(!pickup&&distanceKm===null)distanceKm=2.7;
-  if(!restaurantIsOpen())return alert('Das Restaurant ist derzeit geschlossen. Bitte während der Öffnungszeiten bestellen.');
+  if(!restaurantIsOpen()&&!(pickup&&orderEntry.time&&orderEntry.time!=='ASAP'))return alert('Das Restaurant ist derzeit geschlossen. Bitte eine spätere Abholzeit innerhalb der Öffnungszeiten wählen.');
   const token='AM-'+Array.from(crypto.getRandomValues(new Uint8Array(10)),x=>x.toString(16).padStart(2,'0')).join('').toUpperCase();
   const fee=pickup?0:deliveryFee(distanceKm);if(fee===null)return alert('Außerhalb des Liefergebiets.');if(!pickup&&subtotal()<settings.minOrder)return alert('Mindestbestellwert: '+money(settings.minOrder));const order={token,name:orderEntry.name,phone:orderEntry.phone,address:pickup?'':[orderEntry.street,orderEntry.plz,orderEntry.city].join(', '),km:pickup?0:distanceKm,fee,mode:orderEntry.mode,items:cart.map(i=>({...i})),subtotal:subtotal(),total:subtotal()+fee,payment:'Bargeld',paymentStatus:'Noch nicht bezahlt',status:'Eingegangen',time:pickup?(orderEntry.time||'ASAP'):'',eta:'',created:new Date().toISOString()};
-  orders.unshift(order);save();cart=[];renderCart();closeModal();activeTrack=token;page('tracking');document.getElementById('trackinput').value=token;lookup();
+  try{
+    const result=await asiaRequest('/api/orders',{method:'POST',body:JSON.stringify(order)});
+    const stored=result.order;
+    orders.unshift(stored);save();cart=[];renderCart();closeModal();activeTrack=stored.token;page('tracking');document.getElementById('trackinput').value=stored.token;lookup();
+  }catch(error){alert('Bestellung wurde NICHT gespeichert. Bitte erneut versuchen oder Restaurant anrufen. '+error.message)}
  };
  const oldBeginOrder=beginOrder;
  beginOrder=function(which){oldBeginOrder(which);if(which!=='Abholung')return;const date=document.getElementById('entry-pickup-date'),clock=document.getElementById('entry-pickup-clock');if(!date||!clock)return;const now=new Date(),minDate=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');date.min=minDate;if(date.value<minDate)date.value=minDate;date.addEventListener('change',()=>{if(date.value<minDate)date.value=minDate;});};
@@ -939,61 +952,7 @@ renderMenu=function(){
 })();
 
 
-/* ASIA MAI V16 pickup opening hours */
-(function(){
- const style=document.createElement('style');style.textContent='.v16-pickup-hint{font-size:12px;color:#50675a;line-height:1.5;margin-top:8px}.v16-pickup-warning{color:#a32828;font-weight:600}';document.head.appendChild(style);
- const berlinNow=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());const get=k=>p.find(x=>x.type===k)?.value;return {date:get('year')+'-'+get('month')+'-'+get('day'),minute:Number(get('hour'))*60+Number(get('minute'))};};
- const weekday=date=>{const [y,m,d]=date.split('-').map(Number);return new Date(Date.UTC(y,m-1,d)).getUTCDay();};
- function hoursFor(date){const day=weekday(date);if(day===1)return null;return {start:day===0?12*60:11*60,end:21*60+30};}
- const toMinute=time=>{const m=/^(\d{2}):(\d{2})$/.exec(time||'');return m?Number(m[1])*60+Number(m[2]):NaN;};
- const asTime=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
- function validSlot(date,time){const h=hoursFor(date),minute=toMinute(time),now=berlinNow();if(!h||!Number.isFinite(minute)||minute<h.start||minute>h.end)return false;if(date<now.date)return false;if(date===now.date&&minute<now.minute+Number(settings.prep||20))return false;return true;}
- function validTime(value){if(value==='ASAP'){const n=berlinNow(),h=hoursFor(n.date);return !!h&&n.minute+Number(settings.prep||20)<=h.end&&n.minute>=h.start;}const m=/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(value||'');return !!m&&validSlot(m[1],m[2]);}
- window.v16ValidPickup=validTime;
- function updateChoices(){const dateEl=document.getElementById('entry-pickup-date'),timeEl=document.getElementById('entry-pickup-clock'),pickupEl=document.getElementById('entry-pickup');if(!dateEl||!timeEl||!pickupEl)return;const now=berlinNow();dateEl.min=now.date;if(!dateEl.value||dateEl.value<now.date)dateEl.value=now.date;
- const date=dateEl.value,h=hoursFor(date),previous=timeEl.value;let options=[];if(h){for(let minute=h.start;minute<=h.end;minute+=15){const time=asTime(minute);if(validSlot(date,time))options.push(time);}}
- const oldTag=timeEl.tagName.toLowerCase();if(oldTag==='input'){const sel=document.createElement('select');sel.id='entry-pickup-clock';sel.required=true;timeEl.replaceWith(sel);}
- const select=document.getElementById('entry-pickup-clock');select.innerHTML=options.length?options.map(t=>'<option value="'+t+'">'+t+'</option>').join(''):'<option value="">Keine Abholzeit verfügbar</option>';if(options.includes(previous))select.value=previous;else if(options.length)select.value=options[0];
- let hint=document.getElementById('v16-pickup-hint');if(!hint){hint=document.createElement('div');hint.id='v16-pickup-hint';hint.className='v16-pickup-hint';select.parentElement.appendChild(hint);}hint.textContent=h?(options.length?'Abholung nur während der Öffnungszeiten. Mindestens '+settings.prep+' Minuten Vorlauf.':'Heute sind keine Abholzeiten mehr verfügbar. Bitte einen anderen Tag wählen.'):'Montag geschlossen. Bitte einen anderen Tag wählen.';hint.classList.toggle('v16-pickup-warning',!options.length);
- const asap=validTime('ASAP');const asapOption=pickupEl.querySelector('option[value="ASAP"]');if(asapOption){asapOption.disabled=false;asapOption.textContent='Ab sofort';}/* Keep ASAP selectable; operating-hours validation occurs on confirmation. */
- }
- const previousBegin=beginOrder;
- beginOrder=function(which){previousBegin(which);if(which!=='Abholung')return;const dateEl=document.getElementById('entry-pickup-date');if(dateEl)dateEl.addEventListener('change',updateChoices);updateChoices();};
- const previousConfirm=confirmOrderEntry;
- confirmOrderEntry=function(e){if(document.getElementById('orderEntryOverlay')?.dataset.mode==='Abholung'){const custom=document.getElementById('entry-pickup')?.value==='custom';const value=custom?document.getElementById('entry-pickup-date')?.value+'T'+document.getElementById('entry-pickup-clock')?.value:'ASAP';if(!validTime(value)){e.preventDefault();alert('Bitte eine gültige Abholzeit innerhalb der Öffnungszeiten auswählen.');return;}}previousConfirm(e);};
- const previousCheckout=checkout;
- checkout=function(){if(orderEntry?.mode==='Abholung'&&!validTime(orderEntry.time||'ASAP')){alert('Die Abholzeit ist nicht mehr verfügbar. Bitte neu auswählen.');beginOrder('Abholung');return;}previousCheckout();};
- const previousFinish=window.v15FinishOrder;
- window.v15FinishOrder=function(){if(orderEntry?.mode==='Abholung'&&!validTime(orderEntry.time||'ASAP')){alert('Bitte eine Abholzeit während der Öffnungszeiten wählen.');beginOrder('Abholung');return;}const originalOpen=restaurantIsOpen;try{restaurantIsOpen=()=>true;previousFinish();}finally{restaurantIsOpen=originalOpen;}};
-})();
-
-
-/* ASIA MAI V17 contact and manual pickup time */
-(function(){
- const css=document.createElement('style');css.textContent='.v17-time-inputs{display:flex;align-items:center;gap:6px}.v17-time-inputs input{width:76px;text-align:center;font-size:17px}.v17-time-sep{font-size:20px;font-weight:700}.v17-validation{font-size:12px;min-height:20px;margin-top:6px}.v17-validation.bad{color:#b32929;font-weight:700}.v17-validation.good{color:#17663f}';document.head.appendChild(css);
- function localNow(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());const p=k=>parts.find(x=>x.type===k)?.value;return {date:p('year')+'-'+p('month')+'-'+p('day'),mins:Number(p('hour'))*60+Number(p('minute'))};}
- function hours(date){if(!/^\d{4}-\d{2}-\d{2}$/.test(date||''))return null;const [y,m,d]=date.split('-').map(Number),day=new Date(Date.UTC(y,m-1,d)).getUTCDay();if(day===1)return null;return {start:day===0?720:660,end:1290};}
- function validate(date,hour,minute){const now=localNow(),h=Number(hour),m=Number(minute),schedule=hours(date);if(!date||hour===''||minute===''||!Number.isInteger(h)||!Number.isInteger(m)||h<0||h>23||m<0||m>59)return 'Ungültig: Bitte Stunde (00–23) und Minute (00–59) eingeben.';if(date<now.date)return 'Ungültig: Datum liegt in der Vergangenheit.';if(!schedule)return 'Ungültig: Montag ist Ruhetag.';const t=h*60+m;if(t<schedule.start||t>schedule.end)return 'Ungültig: Außerhalb der Öffnungszeiten ('+String(schedule.start/60).padStart(2,'0')+':00–21:30).';if(date===now.date&&t<now.mins+Number(settings.prep||20))return 'Ungültig: Die Abholzeit liegt in der Vergangenheit oder ist zu früh (mind. '+settings.prep+' Min.).';return '';}
- function sync(){const date=document.getElementById('entry-pickup-date'),h=document.getElementById('v17-hour'),m=document.getElementById('v17-minute'),hidden=document.getElementById('entry-pickup-clock'),status=document.getElementById('v17-status');if(!date||!h||!m||!hidden||!status)return false;const hour=h.value.trim(),minute=m.value.trim(),error=validate(date.value,hour,minute);hidden.value=error?'':hour.padStart(2,'0')+':'+minute.padStart(2,'0');status.textContent=error||'✓ Gültige Abholzeit';status.className='v17-validation '+(error?'bad':'good');h.setAttribute('aria-invalid',error?'true':'false');m.setAttribute('aria-invalid',error?'true':'false');return !error;}
- const priorBegin=beginOrder;
- beginOrder=function(which){priorBegin(which);if(which!=='Abholung')return;
- const oldDate=document.getElementById('entry-pickup-date'),oldClock=document.getElementById('entry-pickup-clock');if(!oldDate||!oldClock)return;
- const date=oldDate.cloneNode(true);oldDate.replaceWith(date);date.min=localNow().date;if(date.value<date.min)date.value=date.min;
- const originalTime=oldClock.value||'';
- const wrapper=document.createElement('div');wrapper.innerHTML='<div class="v17-time-inputs"><input id="v17-hour" type="text" inputmode="numeric" maxlength="2" placeholder="HH" aria-label="Stunde"><span class="v17-time-sep">:</span><input id="v17-minute" type="text" inputmode="numeric" maxlength="2" placeholder="MM" aria-label="Minute"></div><input id="entry-pickup-clock" type="hidden"><div id="v17-status" class="v17-validation" role="status" aria-live="polite"></div>';
- oldClock.replaceWith(wrapper);const h=document.getElementById('v17-hour'),m=document.getElementById('v17-minute');if(/^\d{2}:\d{2}$/.test(originalTime)){h.value=originalTime.slice(0,2);m.value=originalTime.slice(3,5);}else{h.value='';m.value='';}
- [date,h,m].forEach(el=>el.addEventListener('input',sync));date.addEventListener('change',sync);
- h.addEventListener('blur',()=>{if(/^\d$/.test(h.value))h.value='0'+h.value;sync();});m.addEventListener('blur',()=>{if(/^\d$/.test(m.value))m.value='0'+m.value;sync();});
- const hint=document.getElementById('v16-pickup-hint');if(hint)hint.textContent='Bitte Uhrzeit selbst eingeben (HH:MM). Mo geschlossen · Di–Sa 11:00–21:30 · So 12:00–21:30. Feiertage können abweichen.';
- sync();
- };
- const priorConfirm=confirmOrderEntry;
- confirmOrderEntry=function(e){if(document.getElementById('orderEntryOverlay')?.dataset.mode==='Abholung'&&document.getElementById('entry-pickup')?.value==='custom'&&!sync()){e.preventDefault();return;}priorConfirm(e);};
- const priorFinish=window.v15FinishOrder;
- window.v15FinishOrder=function(){if(orderEntry?.mode==='Abholung'&&orderEntry.time!=='ASAP'){const time=orderEntry.time||'',date=time.slice(0,10),hour=time.slice(11,13),minute=time.slice(14,16);const error=validate(date,hour,minute);if(error){alert(error);beginOrder('Abholung');return;}}priorFinish();};
-})();
-
-
+/* Retired V16/V17: pickup selection is handled at final checkout. */
 /* ASIA MAI V18 menu browse and customer details */
 (function(){
  const style=document.createElement('style');style.textContent=`
@@ -1157,16 +1116,22 @@ let deliveryPostalState={plz:'',valid:false};let deliveryPlzSeq=0,deliveryStreet
 async function deliveryPlzChanged(){
  const field=document.getElementById('entry-plz');if(!field)return;
  const plz=field.value.trim(),status=document.getElementById('delivery-plz-status'),seq=++deliveryPlzSeq;
- deliveryPostalState={plz,valid:false};const cityField=document.getElementById('entry-city');if(cityField)cityField.value='';if(!status)return;
- if(!/^\d{5}$/.test(plz)){status.textContent='Bitte 5 Ziffern eingeben.';return}
- status.textContent='PLZ wird geprüft …';
- try{const resp=await fetch('https://api.zippopotam.us/de/'+encodeURIComponent(plz));if(seq!==deliveryPlzSeq)return;
- if(!resp.ok)throw Error('unknown');const data=await resp.json();
- const allowed=(settings.allowedPlz||[]).map(x=>String(x).trim());const permitted=allowed.includes(plz);
- const city=(data.places||[])[0]?.['place name']||'';const cityField=document.getElementById('entry-city');if(cityField)cityField.value=city;deliveryPostalState={plz,valid:permitted,city};status.textContent=permitted?'✓ PLZ im Liefergebiet':'Für diese PLZ bieten wir derzeit keine Lieferung an. Bitte Abholung wählen.';
+ const cityField=document.getElementById('entry-city');
+ const allowed=asiaAllowedPostalCodes();
+ const permitted=/^\d{5}$/.test(plz)&&allowed.includes(plz);
+ deliveryPostalState={plz,valid:permitted};
+ if(cityField){cityField.value=['21217','21218','21220'].includes(plz)?'Seevetal':'';cityField.readOnly=false;}
+ if(!status)return;
+ status.textContent=!/^\d{5}$/.test(plz)?'Bitte 5 Ziffern eingeben.':permitted?'✓ PLZ im Liefergebiet':'Für diese PLZ bieten wir derzeit keine Lieferung an. Bitte Abholung wählen.';
  status.style.color=permitted?'#17653b':'#b91c1c';
- }catch(e){if(seq!==deliveryPlzSeq)return;status.textContent='PLZ konnte nicht geprüft werden. Bitte später erneut versuchen.';status.style.color='#b91c1c'}
  deliveryStreetChanged();
+ if(!permitted)return;
+ try{
+  const resp=await fetch('https://api.zippopotam.us/de/'+encodeURIComponent(plz));if(!resp.ok)throw Error('lookup unavailable');
+  const data=await resp.json();if(seq!==deliveryPlzSeq)return;
+  const city=(data.places||[])[0]?.['place name']||'';
+  if(cityField&&city&&!cityField.value.trim())cityField.value=city;
+ }catch(e){/* Lookup optional: approved PLZ remains valid and customer may type Ort. */}
 }
 async function deliveryStreetChanged(){
  const field=document.getElementById('entry-street'),list=document.getElementById('delivery-street-suggestions'),status=document.getElementById('delivery-address-status'),link=document.getElementById('delivery-map-link');if(!field||!list)return;
@@ -1189,11 +1154,11 @@ async function deliveryStreetChanged(){
  const old=adminRender;
  adminRender=function(...args){const result=old.apply(this,args);if(adminTab!=='Einstellungen')return result;const body=document.getElementById('adminbody');if(!body)return result;
  const panel=document.createElement('div');panel.className='card';panel.style.marginBottom='16px';
- const allowed=Array.isArray(settings.allowedPlz)?settings.allowedPlz:[];
+ const allowed=asiaAllowedPostalCodes();
  panel.innerHTML='<h3>📍 Liefergebiet nach PLZ</h3><p class="muted">Nur diese Postleitzahlen dürfen Lieferung bestellen. Mit Komma, Leerzeichen oder Zeilenumbruch trennen. Leer bedeutet: keine Lieferung freigegeben.</p><label>Erlaubte Postleitzahlen</label><textarea id="asia-allowed-plz" rows="3" placeholder="21217, 21218, 21220">'+safe(allowed.join(', '))+'</textarea><button type="button" onclick="asiaSaveAllowedPlz()">PLZ-Liefergebiet speichern</button><p class="muted">Beispielwerte sind keine automatische Freigabe. Bitte Liefer-PLZ selbst eintragen.</p>';
  body.insertAdjacentElement('afterbegin',panel);return result;
  };
- window.asiaSaveAllowedPlz=function(){const value=document.getElementById('asia-allowed-plz')?.value||'',parts=value.split(/[\s,;]+/).filter(Boolean),invalid=parts.filter(x=>!/^\d{5}$/.test(x));if(invalid.length){alert('Ungültige PLZ: '+invalid.join(', ')+'. Bitte fünfstellige PLZ eingeben.');return}settings.allowedPlz=[...new Set(parts)];save();adminRender();alert('PLZ-Liefergebiet gespeichert (nur Demo / dieser Browser).')};
+ window.asiaSaveAllowedPlz=function(){const value=document.getElementById('asia-allowed-plz')?.value||'',parts=value.split(/[\s,;]+/).filter(Boolean),invalid=parts.filter(x=>!/^\d{5}$/.test(x));if(invalid.length){alert('Ungültige PLZ: '+invalid.join(', ')+'. Bitte fünfstellige PLZ eingeben.');return}settings.allowedPlz=[...new Set(parts)];settings.allowedPlzExplicitlyEmpty=parts.length===0;save();adminRender();alert('PLZ-Liefergebiet gespeichert (nur Demo / dieser Browser).')};
  if(adminTab==='Einstellungen')adminRender();
 })();
 </script>
@@ -1264,6 +1229,7 @@ window.addEventListener('storage',asiaAlertRefresh);setInterval(asiaAlertRefresh
 #asia-v31-pickup-choice{margin:14px 0;padding:14px;border:1px solid #dce5dd;border-radius:12px;background:#f6faf6}
 #asia-v31-pickup-choice select,#asia-v31-pickup-choice input{width:100%;padding:10px;margin:7px 0}
 #asia-v31-pickup-custom[hidden]{display:none!important}
+.asia-time-flex{display:flex;align-items:center;gap:10px}.asia-time-flex select{flex:1;min-width:0}.asia-time-flex input{flex:1;min-width:0}.asia-time-flex span{font-weight:700;font-size:20px}
 .asia-v31-order{border:1px solid #dce6de;border-radius:12px;padding:12px;margin:12px 0;background:#fff}
 .asia-v31-order summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .asia-v31-order summary::-webkit-details-marker{display:none}
@@ -1299,27 +1265,44 @@ window.addEventListener('storage',asiaAlertRefresh);setInterval(asiaAlertRefresh
    const summary=document.querySelector('#modal .v15-checkout-summary');
    if(summary){
     const block=document.createElement('div');block.id='asia-v31-pickup-choice';
-    block.innerHTML='<label for="asia-v31-pickup-select"><strong>Wann möchtest du abholen?</strong></label><select id="asia-v31-pickup-select" onchange="asiaV31TogglePickup()"><option value="ASAP">Ab sofort</option><option value="custom">Datum und Uhrzeit auswählen</option></select><div id="asia-v31-pickup-custom" hidden><label>Datum</label><input id="asia-v31-date" type="date"><label>Uhrzeit</label><input id="asia-v31-time" type="time" step="900"><p class="muted">Mo geschlossen · Di–Sa 11:00–21:30 · So 12:00–21:30</p></div>';
+    block.innerHTML='<label for="asia-v31-pickup-select"><strong>Wann möchtest du abholen?</strong></label><select id="asia-v31-pickup-select" onchange="asiaV31TogglePickup()"><option value="ASAP">Ab sofort</option><option value="custom">Datum und Uhrzeit auswählen</option></select><div id="asia-v31-pickup-custom" hidden><label>Datum</label><input id="asia-v31-date" type="date"><label>Uhrzeit</label><div class="asia-time-flex"><select id="asia-v31-hour" aria-label="Stunde"></select><span>:</span><input id="asia-v31-minute" type="number" inputmode="numeric" min="0" max="59" step="1" value="00" aria-label="Minuten" placeholder="00"></div><small id="asia-v31-time-hint" class="muted"></small><p class="muted">Mo geschlossen · Di–Sa ab 11:00 · So ab 12:00 · Küchenschluss 21:15</p></div>';
     summary.insertAdjacentElement('afterend',block);
-    const date=document.getElementById('asia-v31-date');date.min=new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Berlin'});date.value=date.min;
+    const date=document.getElementById('asia-v31-date');date.min=new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Berlin'});date.value=date.min;date.addEventListener('change',asiaV31UpdateHours);asiaV31UpdateHours();
    }
   }
   return result;
  };
- window.asiaV31TogglePickup=function(){const custom=document.getElementById('asia-v31-pickup-select')?.value==='custom';const panel=document.getElementById('asia-v31-pickup-custom');if(panel)panel.hidden=!custom;};
+ window.asiaV31TogglePickup=function(){const custom=document.getElementById('asia-v31-pickup-select')?.value==='custom';const panel=document.getElementById('asia-v31-pickup-custom');if(panel)panel.hidden=!custom;if(custom)asiaV31UpdateHours();};
+ window.asiaV31UpdateHours=function(){
+  const date=document.getElementById('asia-v31-date')?.value,hours=document.getElementById('asia-v31-hour'),hint=document.getElementById('asia-v31-time-hint');
+  if(!hours||!date)return;
+  const day=new Date(date+'T12:00:00Z').getUTCDay();
+  const first=11,last=21,prev=hours.value;
+  hours.innerHTML='';
+  if(day===1){hours.disabled=true;if(hint)hint.textContent='Montag geschlossen – bitte einen anderen Tag wählen.';return;}
+  hours.disabled=false;
+  for(let h=first;h<=last;h++){const opt=document.createElement('option');opt.value=String(h).padStart(2,'0');opt.textContent=opt.value+' Uhr';hours.appendChild(opt);}
+  hours.value=[...hours.options].some(o=>o.value===prev)?prev:String(first).padStart(2,'0');
+  if(hint)hint.textContent=(day===0?'Sonntag: Abholung erst ab 12:00 Uhr. ':'Di–Sa: Abholung ab 11:00 Uhr. ')+'Letzte Bestellung: 21:15 Uhr · Minuten 00–59.';
+ };
+
  function validCustom(date,time){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(date||'')||!/^\d{2}:\d{2}$/.test(time||''))return false;
   const day=new Date(date+'T12:00:00Z').getUTCDay(),mins=Number(time.slice(0,2))*60+Number(time.slice(3));
-  if(day===1||mins<(day===0?720:660)||mins>1290)return false;
-  return new Date(date+'T'+time).getTime()>=Date.now()+Number(settings.prep||20)*60000;
+  if(day===1||mins<(day===0?720:660)||mins>1275||Number(time.slice(3))>59)return false;
+  return new Date(date+'T'+time).getTime()>Date.now();
  }
  const previousFinish=window.v15FinishOrder;
  window.v15FinishOrder=function(){
   if(orderEntry?.mode==='Abholung'){
    const select=document.getElementById('asia-v31-pickup-select');
    if(select?.value==='custom'){
-    const date=document.getElementById('asia-v31-date')?.value,time=document.getElementById('asia-v31-time')?.value;
-    if(!validCustom(date,time)){alert('Bitte eine gültige Abholzeit während der Öffnungszeiten wählen.');return;}
+    const date=document.getElementById('asia-v31-date')?.value;
+    const hour=document.getElementById('asia-v31-hour')?.value;
+    const minuteInput=document.getElementById('asia-v31-minute');
+    const minute=minuteInput?.value?.trim();
+    const time=hour+':'+(minute!==undefined&&/^\d{1,2}$/.test(minute)?minute.padStart(2,'0'):'invalid');
+    if(!validCustom(date,time)){const d=date?new Date(date+'T12:00:00Z').getUTCDay():-1;const total=Number(hour)*60+Number(minute);let message='Bitte eine gültige Abholzeit in der Zukunft wählen.';if(d===1)message='Montag ist Ruhetag. Bitte einen anderen Tag wählen.';else if(d===0&&total<720)message='Sonntags öffnen wir erst um 12:00 Uhr. Bitte eine spätere Uhrzeit wählen.';else if(total>1275)message='Die Küche schließt um 21:15 Uhr. Danach nehmen wir keine Bestellungen mehr an.';else if(total<660)message='Abholung ist erst ab 11:00 Uhr möglich.';alert(message);return;}
     orderEntry.time=date+'T'+time;
    }else orderEntry.time='ASAP';
   }
@@ -1339,15 +1322,46 @@ window.addEventListener('storage',asiaAlertRefresh);setInterval(asiaAlertRefresh
   body.prepend(panel);
   const nav=document.getElementById('adminnav');const tab=[...(nav?.querySelectorAll('button')||[])].find(x=>x.textContent.trim().startsWith('Bestellungen'));if(tab){const badge=tab.querySelector('.asia-v31-count');if(badge)badge.remove();if(pending.length)tab.insertAdjacentHTML('beforeend','<span class="asia-v31-count">'+pending.length+'</span>');}
  };
- window.asiaV31Decision=function(token,accept){
-  const o=orders.find(x=>x.token===token);if(!o||o.status!=='Eingegangen')return;
+ window.asiaV31Decision=async function(token,accept){
   if(!accept&&!confirm('Bestellung wirklich ablehnen?'))return;
-  o.status=accept?'Bestätigt':'Abgelehnt';
-  if(accept)o.eta=asiaEstimatedTime(o);
-  save();adminRender();asiaAlertRefresh();
+  try{
+    await asiaRequest('/api/orders/'+encodeURIComponent(token)+'/status',{method:'PATCH',headers:{'X-Admin-Key':asiaAdminKey()},body:JSON.stringify({status:accept?'Bestätigt':'Abgelehnt'})});
+    await asiaSyncOrders();
+  }catch(e){alert('Status konnte nicht gespeichert werden: '+e.message)}
  };
  const oldAdmin=adminRender;
  adminRender=function(...args){const result=oldAdmin.apply(this,args);asiaV31RenderOrders();return result;};
 })();
+</script>
+
+<script src="config.js"></script>
+<script>
+/* ASIA MAI: one shared server, no client-only order acceptance. */
+const asiaApiBase=(window.ASIA_API_BASE||'').replace(/\/$/,'');
+async function asiaRequest(path,options={}){
+ const response=await fetch(asiaApiBase+path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})},cache:'no-store'});
+ const data=await response.json().catch(()=>({}));if(!response.ok)throw Error(data.error||'HTTP '+response.status);return data;
+}
+function asiaAdminKey(){return sessionStorage.getItem('asia_admin_key')||''}
+async function asiaSyncOrders(){
+ if(!asiaAdminKey())return;
+ try{const data=await asiaRequest('/api/orders',{headers:{'X-Admin-Key':asiaAdminKey()}});
+ orders=data.orders;localStorage.setItem('am_orders',JSON.stringify(orders));
+ if(!document.getElementById('admin').classList.contains('hidden'))adminRender();
+ if(typeof asiaAlertRefresh==='function')asiaAlertRefresh();
+ }catch(e){if(e.message==='Unauthorized'){sessionStorage.removeItem('asia_admin_key');alert('Management-Zugang ungültig. Bitte erneut anmelden.')}else console.warn('Bestellungen konnten nicht geladen werden:',e.message)}
+}
+const asiaOldPage=page;
+page=function(p){if(p==='admin'&&!asiaAdminKey()){
+ const key=prompt('Management-Zugangsschlüssel (vom Restaurantinhaber):');if(!key)return;
+ sessionStorage.setItem('asia_admin_key',key);
+ }asiaOldPage(p);if(p==='admin')asiaSyncOrders();};
+const asiaOldLookup=lookup;
+lookup=async function(){const input=document.getElementById('trackinput');const token=(input?.value||activeTrack||'').trim().toUpperCase();if(!token)return asiaOldLookup();
+ try{const {order}=await asiaRequest('/api/track/'+encodeURIComponent(token));
+ const el=document.getElementById('trackresult');el.innerHTML='<div class="card"><b>Bestellung '+safe(order.token)+'</b><p>Status: <strong>'+safe(order.status)+'</strong></p><p>'+safe(order.mode)+' · '+safe(order.created)+'</p></div>';
+ }catch(e){document.getElementById('trackresult').textContent='Bestellung nicht gefunden oder Server nicht erreichbar.'}
+};
+setInterval(()=>{if(asiaAdminKey())asiaSyncOrders()},5000);
 </script>
 </body></html>
