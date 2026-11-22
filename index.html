@@ -81,11 +81,11 @@ function beginOrder(which){
  const pickup=which==='Abholung';
  const escapeValue=v=>safe(v||'');
  const html='<div class="order-entry-header"><button class="entry-back" onclick="returnHomeFromOrder()" aria-label="Zurück zur Startseite">←</button><h2>'+(pickup?'Abholung':'Lieferung')+'</h2><span style="width:38px"></span></div>'+
- '<form class="entry-body" onsubmit="confirmOrderEntry(event)"><p class="entry-note">'+(pickup?'Wähle deine Abholzeit und hinterlege deine Kontaktdaten.':'Gib deine Lieferadresse ein, bevor du Speisen auswählst.')+'</p>'+
+ '<form class="entry-body" onsubmit="confirmOrderEntry(event)"><p class="entry-note">'+(pickup?'Bitte Name und Telefonnummer eingeben. Die Abholzeit wählst du nach der Speisenauswahl.':'Gib deine Lieferadresse ein, bevor du Speisen auswählst.')+'</p>'+
  '<label>Name *</label><input id="entry-name" required autocomplete="name" value="'+escapeValue(old.name)+'" placeholder="Vor- und Nachname">'+
  '<label>Telefonnummer *</label><input id="entry-phone" required type="tel" autocomplete="tel" value="'+escapeValue(old.phone)+'" placeholder="+49 ...">'+
- (pickup?'<label>Wann möchtest du abholen? *</label><select id="entry-pickup" onchange="togglePickupFields()"><option value="ASAP">So schnell wie möglich (mind. '+settings.prep+' Min.)</option><option value="custom">Datum und Uhrzeit auswählen</option></select><div id="pickup-date-fields" style="display:none"><div class="two"><div><label>Datum *</label><input type="date" id="entry-pickup-date" lang="de-DE"></div><div><label>Uhrzeit *</label><input type="time" id="entry-pickup-clock" step="900"></div></div></div>'+
- '<p class="entry-note">Das Restaurant kann eine andere Uhrzeit vorschlagen, die du bestätigen kannst.</p>':
+ (pickup?'<div style="display:none!important" aria-hidden="true"><select id="entry-pickup" onchange="togglePickupFields()"><option value="ASAP">So schnell wie möglich (mind. '+settings.prep+' Min.)</option><option value="custom">Datum und Uhrzeit auswählen</option></select><div id="pickup-date-fields" style="display:none"><div class="two"><div><label>Datum *</label><input type="date" id="entry-pickup-date" lang="de-DE"></div><div><label>Uhrzeit *</label><input type="time" id="entry-pickup-clock" step="900"></div></div></div>'+
+ '</div>':
  '<label>PLZ *</label><input id="entry-plz" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" value="'+escapeValue(old.plz)+'" placeholder="z. B. 22087" oninput="deliveryPlzChanged()" autocomplete="postal-code"><div id="delivery-plz-status" class="entry-note" aria-live="polite"></div>'+
  '<label>Straße und Hausnummer *</label><input id="entry-street" required autocomplete="street-address" value="'+escapeValue(old.street)+'" placeholder="Straße und Hausnummer" oninput="deliveryStreetChanged()" list="delivery-street-suggestions"><datalist id="delivery-street-suggestions"></datalist>'+
  '<div id="delivery-address-status" class="entry-note" aria-live="polite">Adressvorschläge nach Eingabe von PLZ und Straße.</div><input id="entry-city" type="hidden" value="">'+
@@ -914,7 +914,7 @@ renderMenu=function(){
   if(orderEntry.mode==='Lieferung'&&!settings.delivery)return alert('Lieferung ist deaktiviert.');
   if(orderEntry.mode==='Abholung'&&!settings.pickup)return alert('Abholung ist deaktiviert.');
   const pickup=orderEntry.mode==='Abholung';
-  if(!pickup&&distanceKm===null){const demo=prompt('Demo-Fahrstrecke in km (keine echte Routenprüfung):','2.7');if(demo===null)return;const km=Number(String(demo).replace(',','.'));if(!Number.isFinite(km)||km<=0||deliveryFee(km)===null)return alert('Ungültige Strecke oder außerhalb des Liefergebiets.');distanceKm=km;renderCart();}
+  if(!pickup&&distanceKm===null){distanceKm=2.7;renderCart();} /* Demo fee estimate only, not a verified route. */
   const info=pickup?(orderEntry.time==='ASAP'?'So schnell wie möglich (mind. '+settings.prep+' Min.)':new Date(orderEntry.time).toLocaleString('de-DE')):[orderEntry.street,orderEntry.plz,orderEntry.city].filter(Boolean).join(', ');
   const fee=pickup?0:distanceKm===null?null:deliveryFee(distanceKm);
   modal('<h2>Bestellung abschließen</h2><div class="v15-checkout-summary"><b>'+safe(orderEntry.name)+'</b><div>'+safe(orderEntry.phone)+'</div><div>'+safe(pickup?'Abholung':'Lieferung')+': '+safe(info)+'</div><div>'+cart.reduce((n,i)=>n+Number(i.qty||0),0)+' Artikel · '+money(subtotal())+'</div><b>Gesamt: '+(fee===null?money(subtotal())+' + Lieferkosten':money(subtotal()+fee))+'</b></div><button type="button" class="secondary" style="margin-top:10px" onclick="v15EditDetails()">Angaben ändern</button><h3>Zahlungsart wählen</h3><div class="v15-pay-options"><label class="v15-pay-option"><input type="radio" name="v15-payment" value="Bargeld" checked> Barzahlung bei Übergabe<small>Erst bei Lieferung oder Abholung bezahlen</small></label><label class="v15-pay-option"><input type="radio" name="v15-payment" value="PayPal"> PayPal<small>Online-Zahlung ist noch nicht aktiviert (Demo)</small></label></div><button class="full" onclick="v15FinishOrder()">Bestellung aufgeben →</button>');
@@ -925,7 +925,7 @@ renderMenu=function(){
   const payment=document.querySelector('input[name="v15-payment"]:checked')?.value||'Bargeld';
   if(payment==='PayPal'){alert('PayPal ist noch nicht mit einem Geschäftskonto verbunden. Es wurde nichts abgebucht. Bitte Barzahlung wählen.');return;}
   const pickup=orderEntry.mode==='Abholung';
-  if(!pickup&&distanceKm===null){alert('Für die Lieferung muss zuerst eine Demo-Fahrstrecke festgelegt werden. Eine echte Routenprüfung ist noch nicht aktiv.');return;}
+  if(!pickup&&distanceKm===null)distanceKm=2.7;
   if(!restaurantIsOpen())return alert('Das Restaurant ist derzeit geschlossen. Bitte während der Öffnungszeiten bestellen.');
   const token='AM-'+Array.from(crypto.getRandomValues(new Uint8Array(10)),x=>x.toString(16).padStart(2,'0')).join('').toUpperCase();
   const fee=pickup?0:deliveryFee(distanceKm);if(fee===null)return alert('Außerhalb des Liefergebiets.');if(!pickup&&subtotal()<settings.minOrder)return alert('Mindestbestellwert: '+money(settings.minOrder));const order={token,name:orderEntry.name,phone:orderEntry.phone,address:pickup?'':[orderEntry.street,orderEntry.plz,orderEntry.city].join(', '),km:pickup?0:distanceKm,fee,mode:orderEntry.mode,items:cart.map(i=>({...i})),subtotal:subtotal(),total:subtotal()+fee,payment:'Bargeld',paymentStatus:'Noch nicht bezahlt',status:'Eingegangen',time:pickup?(orderEntry.time||'ASAP'):'',eta:'',created:new Date().toISOString()};
@@ -1257,6 +1257,97 @@ window.addEventListener('storage',asiaAlertRefresh);setInterval(asiaAlertRefresh
   if(args[0]==='Abholung'){const select=document.getElementById('entry-pickup');if(select){const asap=select.querySelector('option[value="ASAP"]');if(asap)asap.textContent='Ab sofort';togglePickupFields();}}
   return result;
  };
+})();
+</script>
+<style id="asia-v31-style">
+#orderEntryOverlay[data-mode="Abholung"] #entry-pickup,#orderEntryOverlay[data-mode="Abholung"] #pickup-date-fields,#orderEntryOverlay[data-mode="Abholung"] label:has(+ #entry-pickup),#orderEntryOverlay[data-mode="Abholung"] #entry-pickup~.muted{display:none!important}
+#asia-v31-pickup-choice{margin:14px 0;padding:14px;border:1px solid #dce5dd;border-radius:12px;background:#f6faf6}
+#asia-v31-pickup-choice select,#asia-v31-pickup-choice input{width:100%;padding:10px;margin:7px 0}
+#asia-v31-pickup-custom[hidden]{display:none!important}
+.asia-v31-order{border:1px solid #dce6de;border-radius:12px;padding:12px;margin:12px 0;background:#fff}
+.asia-v31-order summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.asia-v31-order summary::-webkit-details-marker{display:none}
+.asia-v31-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.asia-v31-actions button{flex:1}
+.asia-v31-count{display:inline-flex;background:#c8102e;color:white;padding:2px 7px;border-radius:99px;margin-left:5px}
+</style>
+<script id="asia-v31-flow">
+(function(){
+ const oldBegin=beginOrder;
+ beginOrder=function(which){
+  const result=oldBegin(which);
+  if(which==='Abholung'){
+   const sel=document.getElementById('entry-pickup');if(sel){sel.value='ASAP';sel.disabled=true;}
+   const fields=document.getElementById('pickup-date-fields');if(fields){fields.hidden=true;fields.style.display='none';fields.querySelectorAll('input').forEach(i=>{i.disabled=true;i.required=false;});}
+   const overlay=document.getElementById('orderEntryOverlay');if(overlay)overlay.querySelectorAll('label').forEach(l=>{if(l.textContent.includes('Wann möchtest du abholen'))l.style.display='none';});
+  }
+  return result;
+ };
+ const oldConfirm=confirmOrderEntry;
+ confirmOrderEntry=function(e){
+  if(document.getElementById('orderEntryOverlay')?.dataset.mode==='Abholung'){
+   const sel=document.getElementById('entry-pickup');if(sel){sel.disabled=false;sel.value='ASAP';}
+   const date=document.getElementById('pickup-date-fields');if(date)date.querySelectorAll('input').forEach(i=>{i.disabled=false;i.required=false;});
+  }
+  return oldConfirm(e);
+ };
+ const oldCheckout=checkout;
+ checkout=function(){
+  if(orderEntry?.mode==='Abholung')orderEntry.time='ASAP';
+  const result=oldCheckout();
+  if(orderEntry?.mode==='Abholung'&&!document.getElementById('asia-v31-pickup-choice')){
+   const summary=document.querySelector('#modal .v15-checkout-summary');
+   if(summary){
+    const block=document.createElement('div');block.id='asia-v31-pickup-choice';
+    block.innerHTML='<label for="asia-v31-pickup-select"><strong>Wann möchtest du abholen?</strong></label><select id="asia-v31-pickup-select" onchange="asiaV31TogglePickup()"><option value="ASAP">Ab sofort</option><option value="custom">Datum und Uhrzeit auswählen</option></select><div id="asia-v31-pickup-custom" hidden><label>Datum</label><input id="asia-v31-date" type="date"><label>Uhrzeit</label><input id="asia-v31-time" type="time" step="900"><p class="muted">Mo geschlossen · Di–Sa 11:00–21:30 · So 12:00–21:30</p></div>';
+    summary.insertAdjacentElement('afterend',block);
+    const date=document.getElementById('asia-v31-date');date.min=new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Berlin'});date.value=date.min;
+   }
+  }
+  return result;
+ };
+ window.asiaV31TogglePickup=function(){const custom=document.getElementById('asia-v31-pickup-select')?.value==='custom';const panel=document.getElementById('asia-v31-pickup-custom');if(panel)panel.hidden=!custom;};
+ function validCustom(date,time){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date||'')||!/^\d{2}:\d{2}$/.test(time||''))return false;
+  const day=new Date(date+'T12:00:00Z').getUTCDay(),mins=Number(time.slice(0,2))*60+Number(time.slice(3));
+  if(day===1||mins<(day===0?720:660)||mins>1290)return false;
+  return new Date(date+'T'+time).getTime()>=Date.now()+Number(settings.prep||20)*60000;
+ }
+ const previousFinish=window.v15FinishOrder;
+ window.v15FinishOrder=function(){
+  if(orderEntry?.mode==='Abholung'){
+   const select=document.getElementById('asia-v31-pickup-select');
+   if(select?.value==='custom'){
+    const date=document.getElementById('asia-v31-date')?.value,time=document.getElementById('asia-v31-time')?.value;
+    if(!validCustom(date,time)){alert('Bitte eine gültige Abholzeit während der Öffnungszeiten wählen.');return;}
+    orderEntry.time=date+'T'+time;
+   }else orderEntry.time='ASAP';
+  }
+  const before=orders.length;
+  const result=previousFinish();
+  if(orders.length>before){setTimeout(()=>{asiaV31RenderOrders();asiaAlertRefresh();},0);}
+  return result;
+ };
+ function formatDate(value){try{return new Date(value).toLocaleString('de-DE',{dateStyle:'short',timeStyle:'short'})}catch{return ''}}
+ window.asiaV31RenderOrders=function(){
+  if(adminTab!=='Bestellungen')return;
+  const body=document.getElementById('adminbody');if(!body)return;
+  const old=document.getElementById('asia-v31-orders');if(old)old.remove();
+  const pending=orders.filter(o=>o.status==='Eingegangen');
+  const panel=document.createElement('section');panel.id='asia-v31-orders';
+  panel.innerHTML='<h3>🔔 Neue Bestellungen <span class="asia-v31-count">'+pending.length+'</span></h3>'+pending.map((o,i)=>'<details class="asia-v31-order" '+(i===0?'open':'')+'><summary><span><strong>'+safe(o.name)+'</strong> · '+safe(o.mode)+'<br><small>'+formatDate(o.created)+'</small></span><span>Bon '+(i+1)+' ▾</span></summary><p>'+safe(o.phone)+'<br>'+safe(o.address||'Abholung')+'</p><p>'+o.items.map(x=>safe(x.qty+' × '+x.name)).join('<br>')+'</p><strong>'+money(o.total)+'</strong><div class="asia-v31-actions"><button onclick="asiaV31Decision('+JSON.stringify(o.token)+',true)">Annehmen</button><button class="secondary" onclick="asiaV31Decision('+JSON.stringify(o.token)+',false)">Ablehnen</button></div></details>').join('');
+  body.prepend(panel);
+  const nav=document.getElementById('adminnav');const tab=[...(nav?.querySelectorAll('button')||[])].find(x=>x.textContent.trim().startsWith('Bestellungen'));if(tab){const badge=tab.querySelector('.asia-v31-count');if(badge)badge.remove();if(pending.length)tab.insertAdjacentHTML('beforeend','<span class="asia-v31-count">'+pending.length+'</span>');}
+ };
+ window.asiaV31Decision=function(token,accept){
+  const o=orders.find(x=>x.token===token);if(!o||o.status!=='Eingegangen')return;
+  if(!accept&&!confirm('Bestellung wirklich ablehnen?'))return;
+  o.status=accept?'Bestätigt':'Abgelehnt';
+  if(accept)o.eta=asiaEstimatedTime(o);
+  save();adminRender();asiaAlertRefresh();
+ };
+ const oldAdmin=adminRender;
+ adminRender=function(...args){const result=oldAdmin.apply(this,args);asiaV31RenderOrders();return result;};
 })();
 </script>
 </body></html>
